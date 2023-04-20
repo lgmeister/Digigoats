@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/npcs/animation/blacksmith.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Digigoats-V3-5/npcs/animation/emotes.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/light_01.png" type="Texture" id=3]
+[ext_resource path="res://Digigoats-V3-5/scripts/characters/npc.gd" type="Script" id=4]
+[ext_resource path="res://Digigoats-V3-5/npcs/repo/rat.tres" type="Resource" id=5]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 18.0
+height = 34.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 54, 35.75 )
+
+[node name="npc" type="KinematicBody2D"]
+z_index = 1
+collision_layer = 8
+collision_mask = 256
+script = ExtResource( 4 )
+NPC = ExtResource( 5 )
+
+[node name="sprite" type="AnimatedSprite" parent="."]
+position = Vector2( 1.38889, -37 )
+z_index = 1
+frames = ExtResource( 1 )
+animation = "New Anim"
+
+[node name="emote" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( -5, -75 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 2 )
+animation = "exclamation"
+frame = 2
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -36 )
+shape = SubResource( 1 )
+
+[node name="emote_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="emote_area"]
+position = Vector2( 0, -31.25 )
+shape = SubResource( 2 )
+
+[node name="Light2D" type="Light2D" parent="."]
+visible = false
+position = Vector2( 2, -16 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 3 )
+color = Color( 1, 0.243137, 0.243137, 1 )
+energy = 1.4
+
+[node name="DialogButton" type="Button" parent="."]
+margin_left = -10.0
+margin_top = -47.0
+margin_right = 12.0
+margin_bottom = 1.0
+flat = true
+
+[connection signal="body_entered" from="emote_area" to="." method="_on_emote_area_body_entered"]
+[connection signal="body_exited" from="emote_area" to="." method="_on_emote_area_body_exited"]
+[connection signal="pressed" from="DialogButton" to="." method="_on_DialogButton_pressed"]

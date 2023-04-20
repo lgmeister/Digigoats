@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/scripts/network/game_server_label.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=2]
+
+[node name="game_server_label" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="ServerPanel" type="Panel" parent="."]
+margin_right = 312.0
+margin_bottom = 14.0
+
+[node name="server_name" type="Label" parent="ServerPanel"]
+margin_left = 4.0
+margin_top = 3.0
+margin_right = 306.0
+margin_bottom = 15.0
+theme = ExtResource( 2 )
+text = "1. Joe Joe's Server"
+
+[node name="player_number" type="Label" parent="ServerPanel"]
+margin_left = 227.0
+margin_top = 3.0
+margin_right = 290.0
+margin_bottom = 15.0
+theme = ExtResource( 2 )
+text = "1/10"
+align = 2
+
+[node name="Button" type="TextureButton" parent="ServerPanel"]
+margin_right = 312.0
+margin_bottom = 14.0
+
+[connection signal="pressed" from="ServerPanel/Button" to="." method="_on_Button_pressed"]

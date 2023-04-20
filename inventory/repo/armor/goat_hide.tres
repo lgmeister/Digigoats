@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_armor_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon611.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Armor"
+Item_Name = "Goat Hide"
+Item_Icon = ExtResource( 2 )
+Item_Amount = 1
+Item_Cost = 10
+Item_Description = "Hide of your enemies!"
+armor_class = 1.0

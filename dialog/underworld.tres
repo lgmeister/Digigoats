@@ -1,0 +1,97 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 26
+syntax_version = 2
+raw_text = "~ Default
+
+Dark Rat: Welcome to the Underworld.
+Dark Rat: It costs 5 $GOAT to open the portal. How would you like to proceed?
+- Enter Fight
+	do open_portal()
+	Dark Rat: [wave amp=25 freq=5]Good luck, Traveller.[/wave] 
+	
+- Nevermind
+	Dark Rat: Perhaps another time, Traveller.
+"
+errors = [  ]
+titles = {
+"Default": "2"
+}
+lines = {
+"0": {
+"next_id": "2",
+"text": "Default",
+"type": "title"
+},
+"2": {
+"character": "Dark Rat",
+"character_replacements": [  ],
+"next_id": "3",
+"replacements": [  ],
+"text": "Welcome to the Underworld.",
+"translation_key": "Welcome to the Underworld.",
+"type": "dialogue"
+},
+"3": {
+"character": "Dark Rat",
+"character_replacements": [  ],
+"next_id": "4",
+"replacements": [  ],
+"text": "It costs 5 $GOAT to open the portal. How would you like to proceed?",
+"translation_key": "It costs 5 $GOAT to open the portal. How would you like to proceed?",
+"type": "dialogue"
+},
+"4": {
+"next_id": "5",
+"next_id_after": "end!",
+"replacements": [  ],
+"responses": PoolStringArray( "4", "8" ),
+"text": "Enter Fight",
+"translation_key": "Enter Fight",
+"type": "response"
+},
+"5": {
+"mutation": {
+"expression": [ {
+"function": "open_portal",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "6",
+"parent_id": "4",
+"type": "mutation"
+},
+"6": {
+"character": "Dark Rat",
+"character_replacements": [  ],
+"next_id": "end!",
+"parent_id": "4",
+"replacements": [  ],
+"text": "[wave amp=25 freq=5]Good luck, Traveller.[/wave]",
+"translation_key": "[wave amp=25 freq=5]Good luck, Traveller.[/wave]",
+"type": "dialogue"
+},
+"8": {
+"next_id": "9",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "Nevermind",
+"translation_key": "Nevermind",
+"type": "response"
+},
+"9": {
+"character": "Dark Rat",
+"character_replacements": [  ],
+"next_id": "end!",
+"parent_id": "8",
+"replacements": [  ],
+"text": "Perhaps another time, Traveller.",
+"translation_key": "Perhaps another time, Traveller.",
+"type": "dialogue"
+}
+}

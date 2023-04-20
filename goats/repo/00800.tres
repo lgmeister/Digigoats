@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/goats/images/00576.png" type="Texture" id=1]
+[ext_resource path="res://Digigoats-V3-5/goats/class/goat_class.gd" type="Script" id=2]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/dagger.tres" type="Resource" id=3]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/fist.tres" type="Resource" id=4]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/misc/mundane_ring.tres" type="Resource" id=5]
+
+[resource]
+script = ExtResource( 2 )
+goat_name = "Reaper"
+image = ExtResource( 1 )
+goat_color = Color( 0.309804, 0.309804, 0.309804, 1 )
+goat_max_health = 11
+goat_current_health = 1
+goat_max_energy = 100
+goat_current_energy = 0
+goat_max_happiness = 100
+goat_current_happiness = 100
+goat_dex = 8.78
+goat_str = 55.83
+goat_wis = 0.05
+goat_exp = 1174.0
+goat_next_exp = 1000
+goat_level = null
+goat_inventory = [ ExtResource( 5 ), ExtResource( 4 ) ]
+goat_weapon = ExtResource( 3 )

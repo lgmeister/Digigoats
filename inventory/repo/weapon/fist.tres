@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_weapon_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/inventory/icon/weapons/fist.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Weapon"
+Item_Name = "Goat Fists"
+Item_Icon = ExtResource( 2 )
+Item_Amount = 1
+Item_Cost = -1
+Item_Description = "Your goat's bare knuckles."
+Attack_Icon = ExtResource( 2 )
+Attack_Modulate = Color( 1, 1, 1, 1 )
+Weapon_Particles = "none"
+Weapon_Style = "ranged"
+Weapon_Damage = 1
+Weapon_Speed = 500
+Time_Between_Shots = 3
+Weapon_Range = 150
+Weapon_Type = "normal"
+Weapon_Scale = Vector2( 1, 1 )
+Hit_Player = false
+Hit_Enemies = true
+Ignore_Terrain = false
+Destroy_Terrain = false

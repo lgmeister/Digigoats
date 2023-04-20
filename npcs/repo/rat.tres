@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/npcs/animation/rat.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Digigoats-V3-5/npcs/classes/class_NPC.gd" type="Script" id=2]
+[ext_resource path="res://Digigoats-V3-5/dialog/underworld.tres" type="Resource" id=3]
+
+[resource]
+script = ExtResource( 2 )
+npc_active = true
+npc_name = "Rat Man"
+npc_shop_name = ""
+npc_type = "Event"
+npc_sprite = ExtResource( 1 )
+npc_light = true
+npc_size = Vector2( 1, 1 )
+npc_sprite_offset = Vector2( 0, 10 )
+npc_emote_offset = Vector2( 0, 5 )
+work_location = Vector2( 1920, 4900 )
+npc_dialog = ExtResource( 3 )
+npc_inventory = [  ]

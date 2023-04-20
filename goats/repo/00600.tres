@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/goats/class/goat_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/goats/images/00703.png" type="Texture" id=2]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/crude_spear.tres" type="Resource" id=3]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/fist.tres" type="Resource" id=4]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/misc/mundane_ring.tres" type="Resource" id=5]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/consumables/hp_potion_small.tres" type="Resource" id=6]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/armor/light_plate.tres" type="Resource" id=7]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/crude_bow.tres" type="Resource" id=8]
+
+[resource]
+script = ExtResource( 1 )
+goat_name = "Godot"
+image = ExtResource( 2 )
+goat_color = Color( 0.113725, 0.603922, 0.0862745, 1 )
+goat_max_health = 1
+goat_current_health = 5
+goat_max_energy = 100
+goat_current_energy = 100
+goat_max_happiness = 100
+goat_current_happiness = 100
+goat_dex = 8.65
+goat_str = 55.74
+goat_wis = 0.05
+goat_exp = 100
+goat_next_exp = 1000
+goat_level = null
+goat_inventory = [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 4 ) ]
+goat_weapon = ExtResource( 3 )
+goat_armor = ExtResource( 7 )

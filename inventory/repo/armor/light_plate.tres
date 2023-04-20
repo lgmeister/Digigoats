@@ -1,0 +1,14 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_armor_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/inventory/icon/armor/icon624.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Armor"
+Item_Name = "Light Plate"
+Item_Icon = ExtResource( 2 )
+Item_Amount = 1
+Item_Cost = 25
+Item_Description = "Some weak metal."
+armor_class = 2.0

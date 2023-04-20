@@ -1,0 +1,321 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 42
+syntax_version = 2
+raw_text = "~ Default
+if bridge == true
+	do get_npc_name()
+
+	{{npc_name}}: This is NOT bridge. If you want me to remove it, answer me this question...
+	{{npc_name}}: What is your favorite color?
+	- Blue
+		{{npc_name}}: Wrong!
+	- Yellow
+		{{npc_name}}: Wrong!
+	- Green
+		{{npc_name}}: Wrong!
+	- Red
+		do bridge_function(\"hide\")
+		{{npc_name}}: [wave amp=25 freq=5]On your way...[/wave] 
+		set bridge = false
+	- Nevermind
+	
+else
+	{{npc_name}}: Shall I revert the bridge?
+	- Yes
+		do bridge_function(\"show\")
+		set bridge = true
+	- Nevermind
+"
+errors = [  ]
+titles = {
+"Default": "1"
+}
+lines = {
+"0": {
+"next_id": "1",
+"text": "Default",
+"type": "title"
+},
+"1": {
+"condition": {
+"expression": [ {
+"type": "variable",
+"value": "bridge"
+}, {
+"type": "comparison",
+"value": "=="
+}, {
+"type": "bool",
+"value": true
+} ]
+},
+"next_conditional_id": "18",
+"next_id": "2",
+"next_id_after": "end!",
+"type": "condition"
+},
+"10": {
+"next_id": "11",
+"next_id_after": "end!",
+"parent_id": "1",
+"replacements": [  ],
+"text": "Green",
+"translation_key": "Green",
+"type": "response"
+},
+"11": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "end!",
+"parent_id": "10",
+"replacements": [  ],
+"text": "Wrong!",
+"translation_key": "Wrong!",
+"type": "dialogue"
+},
+"12": {
+"next_id": "13",
+"next_id_after": "end!",
+"parent_id": "1",
+"replacements": [  ],
+"text": "Red",
+"translation_key": "Red",
+"type": "response"
+},
+"13": {
+"mutation": {
+"expression": [ {
+"function": "bridge_function",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "hide"
+} ] ]
+} ]
+},
+"next_id": "14",
+"parent_id": "12",
+"type": "mutation"
+},
+"14": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "15",
+"parent_id": "12",
+"replacements": [  ],
+"text": "[wave amp=25 freq=5]On your way...[/wave]",
+"translation_key": "[wave amp=25 freq=5]On your way...[/wave]",
+"type": "dialogue"
+},
+"15": {
+"mutation": {
+"expression": [ {
+"type": "variable",
+"value": "bridge"
+}, {
+"type": "assignment",
+"value": "="
+}, {
+"type": "bool",
+"value": false
+} ]
+},
+"next_id": "end!",
+"parent_id": "12",
+"type": "mutation"
+},
+"16": {
+"next_id": "end!",
+"next_id_after": "end!",
+"parent_id": "1",
+"replacements": [  ],
+"text": "Nevermind",
+"translation_key": "Nevermind",
+"type": "response"
+},
+"18": {
+"next_conditional_id": "end!",
+"next_id": "19",
+"next_id_after": "end!",
+"type": "condition"
+},
+"19": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "20",
+"parent_id": "18",
+"replacements": [  ],
+"text": "Shall I revert the bridge?",
+"translation_key": "Shall I revert the bridge?",
+"type": "dialogue"
+},
+"2": {
+"mutation": {
+"expression": [ {
+"function": "get_npc_name",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "4",
+"parent_id": "1",
+"type": "mutation"
+},
+"20": {
+"next_id": "21",
+"next_id_after": "end!",
+"parent_id": "18",
+"replacements": [  ],
+"responses": PoolStringArray( "20", "23" ),
+"text": "Yes",
+"translation_key": "Yes",
+"type": "response"
+},
+"21": {
+"mutation": {
+"expression": [ {
+"function": "bridge_function",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "show"
+} ] ]
+} ]
+},
+"next_id": "22",
+"parent_id": "20",
+"type": "mutation"
+},
+"22": {
+"mutation": {
+"expression": [ {
+"type": "variable",
+"value": "bridge"
+}, {
+"type": "assignment",
+"value": "="
+}, {
+"type": "bool",
+"value": true
+} ]
+},
+"next_id": "end!",
+"parent_id": "20",
+"type": "mutation"
+},
+"23": {
+"next_id": "end!",
+"next_id_after": "end!",
+"parent_id": "18",
+"replacements": [  ],
+"text": "Nevermind",
+"translation_key": "Nevermind",
+"type": "response"
+},
+"4": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "5",
+"parent_id": "1",
+"replacements": [  ],
+"text": "This is NOT bridge. If you want me to remove it, answer me this question...",
+"translation_key": "This is NOT bridge. If you want me to remove it, answer me this question...",
+"type": "dialogue"
+},
+"5": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "6",
+"parent_id": "1",
+"replacements": [  ],
+"text": "What is your favorite color?",
+"translation_key": "What is your favorite color?",
+"type": "dialogue"
+},
+"6": {
+"next_id": "7",
+"next_id_after": "end!",
+"parent_id": "1",
+"replacements": [  ],
+"responses": PoolStringArray( "6", "8", "10", "12", "16" ),
+"text": "Blue",
+"translation_key": "Blue",
+"type": "response"
+},
+"7": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "end!",
+"parent_id": "6",
+"replacements": [  ],
+"text": "Wrong!",
+"translation_key": "Wrong!",
+"type": "dialogue"
+},
+"8": {
+"next_id": "9",
+"next_id_after": "end!",
+"parent_id": "1",
+"replacements": [  ],
+"text": "Yellow",
+"translation_key": "Yellow",
+"type": "response"
+},
+"9": {
+"character": "{{npc_name}}",
+"character_replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "npc_name"
+} ],
+"value_in_text": "{{npc_name}}"
+} ],
+"next_id": "end!",
+"parent_id": "8",
+"replacements": [  ],
+"text": "Wrong!",
+"translation_key": "Wrong!",
+"type": "dialogue"
+}
+}

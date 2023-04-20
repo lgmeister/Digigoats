@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon472.png" type="Texture" id=1]
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_weapon_class.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+Item_Type = "Weapon"
+Item_Name = "Crude Spear"
+Item_Icon = ExtResource( 1 )
+Item_Amount = 1
+Item_Cost = 50
+Item_Description = "A simple spear, for a simple goat."
+Attack_Icon = ExtResource( 1 )
+Attack_Modulate = Color( 1, 1, 1, 1 )
+Weapon_Particles = "none"
+Weapon_Style = "melee-stab"
+Weapon_Damage = 2.0
+Weapon_Speed = 500
+Time_Between_Shots = 3.0
+Weapon_Range = 50
+Weapon_Type = "normal"
+Weapon_Scale = Vector2( 1, 1 )
+Hit_Player = false
+Hit_Enemies = true
+Ignore_Terrain = true
+Destroy_Terrain = false

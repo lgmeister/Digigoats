@@ -1,0 +1,287 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/chat_text.tres" type="Theme" id=1]
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/blocky_med.tres" type="Theme" id=2]
+[ext_resource path="res://Digigoats-V3-5/scripts/network/multiplayer_title.gd" type="Script" id=3]
+[ext_resource path="res://Digigoats-V3-5/fonts/kongtext.regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=5]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex.png" type="Texture" id=6]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex_disabled.png" type="Texture" id=7]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex_pressed.png" type="Texture" id=8]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/frame_2.png" type="Texture" id=9]
+
+[sub_resource type="DynamicFont" id=6]
+size = 14
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 4 )
+
+[sub_resource type="Theme" id=7]
+default_font = SubResource( 6 )
+Label/colors/font_color = Color( 0.639216, 0.929412, 0.560784, 1 )
+
+[sub_resource type="InputEventAction" id=4]
+action = "escape"
+
+[sub_resource type="ShortCut" id=5]
+shortcut = SubResource( 4 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0, 0, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.176471, 0.168627, 0.2, 1 )
+
+[sub_resource type="Animation" id=8]
+resource_name = "user_flash"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frame/Username:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Frame/Username:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+
+[node name="multiplayer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -261.5
+margin_top = -179.5
+margin_right = 261.5
+margin_bottom = 179.5
+rect_pivot_offset = Vector2( 11.5454, -6.02179 )
+mouse_filter = 2
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Username" type="LineEdit" parent="Frame"]
+margin_left = 52.5
+margin_top = 94.5
+margin_right = 213.5
+margin_bottom = 111.5
+theme = ExtResource( 1 )
+custom_colors/font_color = Color( 0.427451, 0.662745, 1, 1 )
+placeholder_alpha = 0.497
+
+[node name="Label" type="Label" parent="Frame/Username"]
+margin_left = -1.0
+margin_top = -11.0
+margin_right = 53.0
+margin_bottom = -4.0
+text = "Username:"
+
+[node name="TopLabel" type="Label" parent="Frame"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -77.0
+margin_top = 64.0
+margin_right = 77.0
+margin_bottom = 79.0
+theme = SubResource( 7 )
+text = "Multiplayer"
+
+[node name="exit_button" type="TextureButton" parent="Frame"]
+margin_left = 26.0
+margin_top = 59.0
+margin_right = 52.0
+margin_bottom = 85.0
+focus_mode = 0
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+shortcut = SubResource( 5 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 8 )
+texture_disabled = ExtResource( 7 )
+expand = true
+
+[node name="TabContainer" type="TabContainer" parent="Frame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.5
+margin_top = -60.5
+margin_right = 216.5
+margin_bottom = 140.5
+theme = ExtResource( 5 )
+
+[node name="Join Game" type="Tabs" parent="Frame/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 20.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="join_grid" type="GridContainer" parent="Frame/TabContainer/Join Game"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 17.0
+margin_bottom = -31.0
+
+[node name="join_ip_address" type="LineEdit" parent="Frame/TabContainer/Join Game"]
+margin_left = 12.0
+margin_top = 154.0
+margin_right = 283.0
+margin_bottom = 171.0
+theme = ExtResource( 5 )
+text = "71.59.130.238"
+align = 1
+placeholder_text = "IP ADDRESS"
+placeholder_alpha = 0.497
+
+[node name="Label" type="Label" parent="Frame/TabContainer/Join Game/join_ip_address"]
+margin_left = -1.0
+margin_top = -11.0
+margin_right = 53.0
+margin_bottom = -4.0
+text = "Custom IP"
+
+[node name="Join_Server" type="Button" parent="Frame/TabContainer/Join Game"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 79.0
+margin_top = 65.5
+margin_right = 209.0
+margin_bottom = 85.5
+text = "Join Game"
+
+[node name="Label" type="Label" parent="Frame/TabContainer/Join Game"]
+margin_left = 11.0
+margin_top = 2.0
+margin_right = 335.0
+margin_bottom = 9.0
+theme = ExtResource( 5 )
+text = "Server Name:                                  Players:"
+
+[node name="Host Game" type="Tabs" parent="Frame/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 25.0
+margin_right = -4.0
+margin_bottom = -4.0
+
+[node name="Create_Server" type="Button" parent="Frame/TabContainer/Host Game"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 80.0
+margin_top = -21.0
+margin_right = 210.0
+margin_bottom = -1.0
+text = "Create Server"
+
+[node name="server_name_edit" type="LineEdit" parent="Frame/TabContainer/Host Game"]
+margin_left = 11.0
+margin_top = 16.0
+margin_right = 277.0
+margin_bottom = 33.0
+
+[node name="Label" type="Label" parent="Frame/TabContainer/Host Game/server_name_edit"]
+margin_top = -10.0
+margin_right = 72.0
+margin_bottom = -3.0
+theme = ExtResource( 5 )
+text = "Server Name:"
+
+[node name="max_players_spin" type="SpinBox" parent="Frame/TabContainer/Host Game"]
+margin_left = 11.0
+margin_top = 48.0
+margin_right = 109.0
+margin_bottom = 65.0
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+
+[node name="Label" type="Label" parent="Frame/TabContainer/Host Game/max_players_spin"]
+margin_top = -10.0
+margin_right = 72.0
+margin_bottom = -3.0
+theme = ExtResource( 5 )
+text = "Max Number of Players:"
+
+[node name="server_password_edit" type="LineEdit" parent="Frame/TabContainer/Host Game"]
+margin_left = 11.0
+margin_top = 80.0
+margin_right = 277.0
+margin_bottom = 97.0
+
+[node name="Label" type="Label" parent="Frame/TabContainer/Host Game/server_password_edit"]
+margin_top = -10.0
+margin_right = 72.0
+margin_bottom = -3.0
+theme = ExtResource( 5 )
+text = "Server Password (Optional):"
+
+[node name="color_pick" type="ColorPickerButton" parent="Frame"]
+margin_left = 217.0
+margin_top = 87.0
+margin_right = 244.0
+margin_bottom = 113.0
+custom_styles/normal = SubResource( 9 )
+color = Color( 0.427451, 0.662745, 1, 1 )
+edit_alpha = false
+
+[node name="loading_screen" type="ColorRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 0.694118 )
+
+[node name="Label" type="Label" parent="loading_screen"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -412.0
+margin_top = -13.5
+margin_right = 412.0
+margin_bottom = 13.5
+theme = ExtResource( 2 )
+text = "Creating Server..."
+align = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/user_flash = SubResource( 8 )
+
+[connection signal="pressed" from="Frame/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="Frame/TabContainer/Join Game/Join_Server" to="." method="_on_Join_Server_pressed"]
+[connection signal="pressed" from="Frame/TabContainer/Host Game/Create_Server" to="." method="_on_Create_Server_pressed"]
+[connection signal="color_changed" from="Frame/color_pick" to="." method="_on_color_pick_color_changed"]

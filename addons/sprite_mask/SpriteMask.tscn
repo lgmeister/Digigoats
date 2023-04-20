@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/addons/sprite_mask/DefaultMask.png" type="Texture" id=1]
+[ext_resource path="res://Digigoats-V3-5/addons/sprite_mask/followMouse.gd" type="Script" id=2]
+[ext_resource path="res://Digigoats-V3-5/addons/sprite_mask/SpriteMaskScene_Main.gd" type="Script" id=3]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 4
+
+[sub_resource type="CanvasItemMaterial" id=2]
+blend_mode = 4
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, -0.16003, 0, 0, Vector2( 1, 0 ), -1.7264, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=5]
+trail_divisor = 4
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 0.1
+scale_curve = SubResource( 4 )
+
+[sub_resource type="ViewportTexture" id=6]
+viewport_path = NodePath("MaskViewport")
+
+[node name="SpriteMaskScene" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="MaskViewport" type="Viewport" parent="."]
+size = Vector2( 1024, 600 )
+transparent_bg = true
+hdr = false
+render_target_v_flip = true
+render_target_update_mode = 3
+
+[node name="Mask" type="Sprite" parent="MaskViewport"]
+material = SubResource( 1 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="TrailMask" type="Particles2D" parent="MaskViewport"]
+material = SubResource( 2 )
+emitting = false
+amount = 100
+lifetime = 0.6
+speed_scale = 0.5
+local_coords = false
+process_material = SubResource( 5 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="LightMask" type="Light2D" parent="."]
+texture = SubResource( 6 )
+offset = Vector2( 512, 300 )
+mode = 3

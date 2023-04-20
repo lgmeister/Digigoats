@@ -1,0 +1,27 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_weapon_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon914.png" type="Texture" id=2]
+[ext_resource path="res://Digigoats-V3-5/inventory/icon/attack/blue_diamond.png" type="Texture" id=3]
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Weapon"
+Item_Name = "Blue Arc"
+Item_Icon = ExtResource( 2 )
+Item_Amount = 1
+Item_Cost = 100
+Item_Description = ""
+Attack_Icon = ExtResource( 3 )
+Attack_Modulate = Color( 1, 1, 1, 1 )
+Weapon_Particles = "magic"
+Weapon_Damage = 1
+Weapon_Speed = 800
+Time_Between_Shots = 1.0
+Weapon_Range = 2000
+Weapon_Type = "full_arc"
+Weapon_Scale = Vector2( 0.5, 0.5 )
+Hit_Player = true
+Hit_Enemies = false
+Ignore_Terrain = false
+Destroy_Terrain = false

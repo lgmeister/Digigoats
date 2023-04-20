@@ -1,0 +1,409 @@
+[gd_scene load_steps=28 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/spark_01.png" type="Texture" id=2]
+[ext_resource path="res://Digigoats-V3-5/visual/character/goat.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=34]
+script/source = "extends KinematicBody2D
+
+export(Resource) var Goat setget _setGoat
+export (PackedScene) var weapon = preload(\"res://scenes/battles/attack.tscn\")
+
+### Goat info###
+onready var sprite = $GoatSprite
+onready var raycast = $RayCast2D
+onready var tween = $Tween
+
+
+var goat_id
+var goat_name
+var goat_image
+var goat_color
+
+var goat_weapon
+
+
+var goat_hp
+var goat_max_hp
+
+var goat_current_health
+var goat_max_health
+
+var goat_current_energy
+var goat_max_energy
+
+var goat_current_happiness
+var goat_max_happiness
+
+var goat_str
+var goat_dex
+var goat_wis
+var goat_exp
+var goat_next_exp
+var goat_level
+
+### Movement ###
+
+var gravity = 2000
+var speed = 200
+var jump_speed = 800
+var velocity = Vector2(0,0)
+var facing = \"right\"
+var temp_angle = Vector2.ZERO
+
+var jumping = 0
+
+onready var animation = $MovementAnimationPlayer
+
+
+### Attacks ###
+var cross_hair = preload(\"res://visual/character/crosshair/convergence-target.png\")
+var attack_ready = true
+var aim_distance = 150
+onready var atk_timer = $Attack_Timer
+
+
+
+
+func _ready():
+	Global.controller_goat = self
+#	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_custom_mouse_cursor(cross_hair)
+	add_to_group(\"player\")
+	goat_id = Global.active_goat
+	self.Goat = load(\"res://goats/repo/%s.tres\" %goat_id)
+	load_goat()
+	self.name = goat_id
+	
+#	HUD.add_health_bar(goat_max_hp,goat_hp)
+
+func get_input():
+	velocity.x = 0	
+	
+	if Input.is_action_pressed(\"ui_right\"):
+		velocity.x += speed
+		facing = \"right\"
+		sprite.playing = true
+		sprite.animation = \"walk_right\"
+	elif Input.is_action_pressed(\"ui_left\"):
+		velocity.x -= speed
+		facing = \"left\"
+		sprite.playing = true
+		sprite.animation = \"walk_left\"
+	
+	else:
+		sprite.playing = false
+		
+	if Input.is_action_pressed(\"left_click\") and attack_ready:
+		attack()
+		
+	
+		
+	
+func _physics_process(delta):
+	get_input()
+	velocity.y += gravity * delta
+	velocity = move_and_slide(velocity, Vector2.UP)
+	
+
+		
+	if Input.is_action_just_pressed(\"ui_accept\"):
+		if raycast.is_colliding():
+			jumping = 0
+		if jumping < 2:
+			jumping += 1
+			velocity.y = -jump_speed
+			if facing == \"right\":
+				animation.play(\"flip\")
+			elif facing == \"left\":
+				animation.play(\"flip backward\")
+	
+		
+
+		
+func _setGoat(newGoat : Resource):
+	Goat = newGoat
+	
+	goat_name = Goat.get_Name()
+	goat_image = Goat.get_Image()
+	goat_color = Goat.get_Color()
+	goat_weapon = Goat.get_Weapon()
+	goat_max_hp = Goat.get_Max_Health()
+	
+	goat_current_health = Goat.get_Current_Health()
+	goat_max_health = Goat.get_Max_Health()
+	goat_max_energy = Goat.get_Max_Energy()
+	goat_current_energy = Goat.get_Current_Energy()
+	goat_max_happiness = Goat.get_Max_Happiness()
+	goat_current_happiness = Goat.get_Current_Happiness()
+	
+	goat_weapon = Goat.get_Weapon()
+	
+	goat_str = Goat.get_Str()
+	goat_dex = Goat.get_Dex()
+	goat_wis = Goat.get_Wis()
+	
+	goat_exp = Goat.get_Exp()
+	goat_next_exp = Goat.get_Next_Exp()
+	
+	
+func load_goat():
+	Global.loaded_goats[goat_id] = {\"id\":goat_id,\"name\":goat_name,\"image\":goat_image,\"color\":goat_color}
+	sprite.modulate = Color(goat_color)
+
+
+func attack():
+	var atk = weapon.instance()
+	atk.position = self.position
+	atk.weapon_choice = goat_weapon
+	attack_ready = false
+	atk_timer.start(.2)
+	atk.fired_from = self
+	HUD.add_child(atk)
+	atk.where_look(get_global_mouse_position())
+	
+func weapon_hit_player(damage):
+	tween.interpolate_property(sprite,\"modulate\",Color(1,0,0),Color(goat_color),.2,Tween.TRANS_LINEAR)
+	tween.start()
+	get_tree().call_group(\"heart\",\"lose_heart\")
+	
+func _on_Attack_Timer_timeout():
+	attack_ready = true
+	
+"
+
+[sub_resource type="Gradient" id=23]
+offsets = PoolRealArray( 0.625698, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Shader" id=29]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform bool Smooth = true;
+uniform bool on = true;
+uniform float width : hint_range(0.0, 64) = 1.0;
+uniform vec4 outline_color : hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform int pixel_size : hint_range(1, 10) = 4;
+uniform float width_speed :hint_range(0.1, 10) = 1;
+
+
+void fragment(){
+	if(on==true){
+		float _width = width + ((sin(TIME*width_speed) + 1.0f) -2.0f) * 10.0f;
+		vec2 unit = (.5/float(pixel_size) ) / vec2(textureSize(TEXTURE, 0));
+		vec4 pixel_color = texture(TEXTURE, UV);
+		if (pixel_color.a == 0.0) {
+			pixel_color = outline_color;
+			pixel_color.a = 0.0;
+			for (float x = -ceil(_width); x <= ceil(_width); x++) {
+				for (float y = -ceil(_width); y <= ceil(_width); y++) {
+					if (texture(TEXTURE, UV + vec2(x*unit.x, y*unit.y)).a == 0.0 || (x==0.0 && y==0.0)) {
+						continue;}
+					if (Smooth) {
+						pixel_color.a += outline_color.a / (pow(x,2)+pow(y,2)) * (1.0-pow(2.0, -_width));
+						if (pixel_color.a > 1.0) {
+							pixel_color.a = 1.0;}} else {pixel_color.a = outline_color.a;}}}}
+		COLOR = pixel_color;
+	}else{COLOR = texture(TEXTURE, UV);}
+	}"
+
+[sub_resource type="ShaderMaterial" id=21]
+resource_local_to_scene = true
+shader = SubResource( 29 )
+shader_param/Smooth = false
+shader_param/on = false
+shader_param/width = 14.0
+shader_param/outline_color = Color( 0.992157, 0.156863, 0.156863, 0.768627 )
+shader_param/pixel_size = 4
+shader_param/width_speed = 0.1
+
+[sub_resource type="AtlasTexture" id=11]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 3 )
+region = Rect2( 256, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 640, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=16]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=17]
+atlas = ExtResource( 3 )
+region = Rect2( 256, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=18]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 896, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=22]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=30]
+atlas = ExtResource( 3 )
+region = Rect2( 256, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=24]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 128, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=25]
+atlas = ExtResource( 3 )
+region = Rect2( 384, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 3 )
+region = Rect2( 256, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=27]
+atlas = ExtResource( 3 )
+region = Rect2( 128, 384, 128, 128 )
+
+[sub_resource type="AtlasTexture" id=28]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 384, 128, 128 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 14 ), SubResource( 14 ), SubResource( 14 ), SubResource( 14 ), SubResource( 14 ), SubResource( 14 ), SubResource( 13 ), SubResource( 12 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ), SubResource( 11 ) ],
+"loop": true,
+"name": "eat_left",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 18 ), SubResource( 18 ), SubResource( 18 ), SubResource( 18 ), SubResource( 18 ), SubResource( 18 ), SubResource( 17 ), SubResource( 16 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ), SubResource( 15 ) ],
+"loop": true,
+"name": "eat_right",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 22 ), SubResource( 30 ), SubResource( 24 ), SubResource( 4 ) ],
+"loop": true,
+"name": "walk_left",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ) ],
+"loop": true,
+"name": "walk_right",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=35]
+height = 18.0001
+
+[sub_resource type="CapsuleShape2D" id=36]
+radius = 11.0
+
+[sub_resource type="Animation" id=32]
+resource_name = "flip"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("GoatSprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.8, 1 ),
+"update": 0,
+"values": [ 0.0, 360.0 ]
+}
+
+[sub_resource type="Animation" id=33]
+resource_name = "flip backward"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("GoatSprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.8, 1 ),
+"update": 0,
+"values": [ 0.0, -360.0 ]
+}
+
+[node name="Character" type="KinematicBody2D"]
+rotation = 6.28319
+z_index = 3
+collision_mask = 0
+script = SubResource( 34 )
+
+[node name="goat_particle" type="CPUParticles2D" parent="."]
+position = Vector2( 0, 2 )
+z_index = -1
+amount = 30
+lifetime = 0.5
+lifetime_randomness = 1.0
+texture = ExtResource( 2 )
+emission_shape = 2
+emission_rect_extents = Vector2( 20, -10 )
+direction = Vector2( 0, -5 )
+spread = 109.4
+gravity = Vector2( 0, -90 )
+initial_velocity = 100.92
+initial_velocity_random = 1.0
+angular_velocity = 264.22
+angular_velocity_random = 0.28
+scale_amount = 0.02
+scale_amount_random = 0.02
+color = Color( 0.0235294, 0.580392, 1, 1 )
+color_ramp = SubResource( 23 )
+hue_variation = 0.06
+hue_variation_random = 1.0
+
+[node name="GoatSprite" type="AnimatedSprite" parent="."]
+material = SubResource( 21 )
+z_index = 3
+frames = SubResource( 9 )
+animation = "walk_right"
+frame = 3
+playing = true
+
+[node name="goat_collision" type="CollisionShape2D" parent="."]
+position = Vector2( -1, 6 )
+rotation = 1.5708
+shape = SubResource( 35 )
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="Hit_Collision" type="CollisionShape2D" parent="HitArea"]
+position = Vector2( -2.125, 4 )
+rotation = 1.5708
+shape = SubResource( 36 )
+
+[node name="MovementAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/flip = SubResource( 32 )
+"anims/flip backward" = SubResource( 33 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0.000116126, 26 )
+collision_mask = 3
+
+[node name="Attack_Timer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="timeout" from="Attack_Timer" to="." method="_on_Attack_Timer_timeout"]

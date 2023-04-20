@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_consumable_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/inventory/icon/consumables/sm_potion.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Consumable"
+Item_Name = "Sm. HP Potion"
+Item_Icon = ExtResource( 2 )
+Item_Amount = 8
+Item_Cost = 20
+Item_Description = "A potion to recover some HP."
+Consumable_Type = "HP"
+Consumable_Positive_Effect = 10
+Consumable_Negative_Type = "None"
+Consumable_Negative_Effect = 0

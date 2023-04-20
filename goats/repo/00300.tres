@@ -1,0 +1,33 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/goats/class/goat_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/goats/images/00714.png" type="Texture" id=2]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/headgear/wizard_hat.tres" type="Resource" id=3]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/dev_staff.tres" type="Resource" id=4]
+[ext_resource path="res://Digigoats-V3-5/scenes/particles/lightning.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/crude_staff.tres" type="Resource" id=6]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/armor/goat_hide.tres" type="Resource" id=7]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/misc/mundane_ring.tres" type="Resource" id=8]
+
+[resource]
+script = ExtResource( 1 )
+goat_name = "Bojangles"
+image = ExtResource( 2 )
+goat_color = Color( 0.415686, 0, 0.670588, 1 )
+goat_max_health = 4
+goat_current_health = 4
+goat_max_energy = 100
+goat_current_energy = 0
+goat_max_happiness = 100
+goat_current_happiness = 100
+goat_dex = 4.17
+goat_str = 4.01
+goat_wis = 0.05
+goat_exp = 1036.0
+goat_next_exp = 1000
+goat_level = null
+goat_inventory = [ ExtResource( 6 ), ExtResource( 8 ) ]
+goat_weapon = ExtResource( 4 )
+goat_headgear = ExtResource( 3 )
+goat_armor = ExtResource( 7 )
+goat_particles = ExtResource( 5 )

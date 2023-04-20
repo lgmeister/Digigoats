@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/monsters/classes/monster_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/monsters/animations/bosses/blue_steel.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/boss_weapon/flame_ball_boss.tres" type="Resource" id=3]
+[ext_resource path="res://Digigoats-V3-5/inventory/repo/boss_weapon/blue_arc.tres" type="Resource" id=4]
+
+[resource]
+script = ExtResource( 1 )
+Monster_Name = "Blue Steel"
+Monster_Texture = ExtResource( 2 )
+Monster_Scale = Vector2( 1, 1 )
+Monster_HP = 100
+Monster_Speed = 40
+Monster_Sequence_Speed = 3
+Monster_Touch_Damage = 3
+Monster_Movement = "seeking"
+Monster_Attacks = [ ExtResource( 4 ), ExtResource( 3 ) ]
+Destroy_Terrain = true
+Boss = true

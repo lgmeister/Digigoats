@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/npcs/classes/class_NPC.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/dialog/wizard.tres" type="Resource" id=2]
+[ext_resource path="res://Digigoats-V3-5/npcs/animation/wizard.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://Digigoats-V3-5/npcs/portraits/28.png" type="Texture" id=4]
+
+[resource]
+script = ExtResource( 1 )
+npc_active = true
+npc_name = "Cinder"
+npc_shop_name = ""
+npc_type = "Event"
+npc_sprite = ExtResource( 3 )
+npc_portrait = ExtResource( 4 )
+npc_light = false
+npc_size = Vector2( 0.6, 0.6 )
+npc_sprite_offset = Vector2( 0, 0 )
+npc_emote_offset = Vector2( 0, 0 )
+work_location = Vector2( 1825, 300 )
+npc_dialog = ExtResource( 2 )
+npc_inventory = [  ]

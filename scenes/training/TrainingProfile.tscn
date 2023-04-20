@@ -1,0 +1,253 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_small_title.tres" type="Theme" id=1]
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=2]
+[ext_resource path="res://Digigoats-V3-5/scripts/training/TrainingProfile.gd" type="Script" id=3]
+[ext_resource path="res://Digigoats-V3-5/goats/images/00703.png" type="Texture" id=7]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/Frame_1_new.png" type="Texture" id=11]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/portrait_frame.png" type="Texture" id=22]
+
+[sub_resource type="StyleBoxFlat" id=35]
+bg_color = Color( 1, 0.654902, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="Animation" id=33]
+length = 0.3
+
+[sub_resource type="Animation" id=31]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Frame:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+
+[sub_resource type="Animation" id=32]
+length = 0.3
+
+[node name="TrainingProfile" type="Node2D"]
+light_mask = 0
+position = Vector2( 512, 328 )
+scale = Vector2( 1.5, 1.5 )
+z_index = 5
+script = ExtResource( 3 )
+
+[node name="Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -216.0
+margin_top = -148.5
+margin_right = 216.0
+margin_bottom = 148.5
+rect_pivot_offset = Vector2( 70, 56.5 )
+mouse_filter = 2
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="move_button" type="Button" parent="Frame"]
+anchor_right = 1.0
+margin_left = 95.0
+margin_top = 56.0
+margin_right = -112.0
+margin_bottom = 82.0
+focus_mode = 0
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+flat = true
+
+[node name="ViewportContainer" type="ViewportContainer" parent="Frame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.619
+anchor_bottom = 0.5
+margin_left = -155.0
+margin_top = -73.5
+margin_right = 200.592
+margin_bottom = 315.5
+rect_scale = Vector2( 0.28, 0.28 )
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="Frame/ViewportContainer"]
+size = Vector2( 407, 389 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+fxaa = true
+debanding = true
+hdr = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="Goat_Pic" type="TextureRect" parent="Frame/ViewportContainer/Viewport"]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = -148.0
+margin_right = 126.0
+margin_bottom = 110.0
+texture = ExtResource( 7 )
+stretch_mode = 6
+
+[node name="Info" type="Control" parent="Frame"]
+margin_left = 69.0
+margin_top = 55.0
+margin_right = 361.0
+margin_bottom = 229.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Name_Label" type="Label" parent="Frame/Info"]
+margin_left = 25.0
+margin_top = 7.0
+margin_right = 271.0
+margin_bottom = 23.0
+grow_horizontal = 2
+theme = ExtResource( 1 )
+text = "Goaty McGee"
+align = 1
+clip_text = true
+
+[node name="goat_frame" type="TextureRect" parent="Frame/Info"]
+margin_left = 10.0
+margin_top = 31.0
+margin_right = 95.0
+margin_bottom = 116.0
+texture = ExtResource( 22 )
+
+[node name="TabContainer" type="TabContainer" parent="Frame/Info"]
+margin_left = 95.0
+margin_top = 28.0
+margin_right = 285.0
+margin_bottom = 165.0
+theme = ExtResource( 2 )
+tab_align = 0
+
+[node name="Stats" type="Tabs" parent="Frame/Info/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 25.0
+margin_right = -4.0
+margin_bottom = -4.0
+theme = ExtResource( 1 )
+tab_align = 0
+
+[node name="Bars" type="Control" parent="Frame/Info/TabContainer/Stats"]
+margin_top = -10.0
+margin_right = 183.0
+margin_bottom = 98.0
+
+[node name="EXP_Bar" type="ProgressBar" parent="Frame/Info/TabContainer/Stats/Bars"]
+margin_left = 1.0
+margin_top = 106.0
+margin_right = 178.0
+margin_bottom = 119.0
+theme = ExtResource( 2 )
+custom_styles/fg = SubResource( 35 )
+custom_styles/bg = SubResource( 8 )
+value = 50.0
+percent_visible = false
+
+[node name="EXP_Amount" type="Label" parent="Frame/Info/TabContainer/Stats/Bars/EXP_Bar"]
+margin_left = 1.0
+margin_top = 3.0
+margin_right = 175.0
+margin_bottom = 10.0
+theme = ExtResource( 2 )
+text = "0/100"
+align = 1
+
+[node name="Level_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
+margin_left = 51.0
+margin_top = 87.0
+margin_right = 123.0
+margin_bottom = 96.0
+theme = ExtResource( 2 )
+text = "Level: 1"
+align = 1
+
+[node name="Class_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
+margin_left = 16.5
+margin_top = 1.0
+margin_right = 160.5
+margin_bottom = 18.0
+grow_horizontal = 2
+theme = ExtResource( 2 )
+text = "Base Attribute Gain: 0.1
+Base Exp Gain: 100"
+align = 1
+
+[node name="Str_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
+margin_left = 26.0
+margin_top = 27.0
+margin_right = 110.0
+margin_bottom = 36.0
+theme = ExtResource( 2 )
+text = "Str: 10 + 0.05"
+
+[node name="Dex_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
+margin_left = 26.0
+margin_top = 40.0
+margin_right = 110.0
+margin_bottom = 49.0
+theme = ExtResource( 2 )
+text = "Dex: 10 + 0.05"
+
+[node name="Wis_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
+margin_left = 26.0
+margin_top = 53.0
+margin_right = 110.0
+margin_bottom = 62.0
+theme = ExtResource( 2 )
+text = "Wis: 10 + 0.05"
+
+[node name="Exp_label" type="Label" parent="Frame/Info/TabContainer/Stats"]
+margin_left = 26.0
+margin_top = 66.0
+margin_right = 98.0
+margin_bottom = 75.0
+theme = ExtResource( 2 )
+text = "Exp: 0  + 50"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/action_down = SubResource( 33 )
+anims/expand = SubResource( 31 )
+anims/inventory_show = SubResource( 32 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Tick_Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Tick_Timer" to="." method="_on_Tick_Timer_timeout"]

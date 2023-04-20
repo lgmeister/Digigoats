@@ -1,0 +1,102 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/chat_text.tres" type="Theme" id=1]
+[ext_resource path="res://Digigoats-V3-5/scripts/training/chat.gd" type="Script" id=2]
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=3]
+
+[sub_resource type="StyleBoxFlat" id=44]
+bg_color = Color( 0.0470588, 0.0470588, 0.0470588, 1 )
+
+[sub_resource type="StyleBoxFlat" id=41]
+bg_color = Color( 0.392157, 0.392157, 0.392157, 1 )
+
+[sub_resource type="StyleBoxFlat" id=42]
+bg_color = Color( 0.25098, 0.25098, 0.25098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=43]
+bg_color = Color( 0.309804, 0.309804, 0.309804, 1 )
+
+[sub_resource type="StyleBoxFlat" id=46]
+bg_color = Color( 0.584314, 0.768627, 1, 0.219608 )
+
+[sub_resource type="StyleBoxFlat" id=45]
+bg_color = Color( 0.584314, 0.768627, 1, 0.219608 )
+
+[sub_resource type="StyleBoxFlat" id=40]
+bg_color = Color( 0.2, 0.2, 0.2, 0.580392 )
+
+[node name="chat" type="Control"]
+anchor_right = 0.299
+anchor_bottom = 0.285
+margin_right = -0.176025
+margin_bottom = -1.52588e-05
+mouse_filter = 2
+script = ExtResource( 2 )
+
+[node name="ChatPanel" type="Panel" parent="."]
+margin_right = 306.0
+margin_bottom = 171.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 44 )
+
+[node name="submit" type="Button" parent="ChatPanel"]
+margin_left = 281.0
+margin_top = 151.0
+margin_right = 299.0
+margin_bottom = 164.0
+focus_mode = 0
+mouse_filter = 1
+theme = ExtResource( 3 )
+custom_styles/hover = SubResource( 41 )
+custom_styles/pressed = SubResource( 42 )
+custom_styles/normal = SubResource( 43 )
+enabled_focus_mode = 0
+text = "->"
+
+[node name="type_box" type="LineEdit" parent="ChatPanel"]
+margin_left = 7.0
+margin_top = 150.0
+margin_right = 277.0
+margin_bottom = 165.0
+mouse_filter = 1
+theme = ExtResource( 3 )
+custom_styles/focus = SubResource( 46 )
+custom_styles/normal = SubResource( 45 )
+
+[node name="chat_text" type="RichTextLabel" parent="ChatPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -145.0
+margin_top = -66.5
+margin_right = 145.0
+margin_bottom = 57.5
+mouse_filter = 2
+theme = ExtResource( 1 )
+bbcode_enabled = true
+scroll_following = true
+
+[node name="top_bar" type="Panel" parent="."]
+anchor_right = 1.0
+margin_bottom = 15.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 40 )
+
+[node name="minimize" type="Button" parent="top_bar"]
+modulate = Color( 1, 1, 1, 0.596078 )
+margin_left = 3.0
+margin_top = 1.0
+margin_right = 21.0
+margin_bottom = 14.0
+focus_mode = 0
+mouse_filter = 1
+theme = ExtResource( 3 )
+custom_styles/hover = SubResource( 41 )
+custom_styles/pressed = SubResource( 42 )
+custom_styles/normal = SubResource( 43 )
+enabled_focus_mode = 0
+text = "-"
+
+[connection signal="pressed" from="ChatPanel/submit" to="." method="_on_submit_pressed"]
+[connection signal="pressed" from="top_bar/minimize" to="." method="_on_minimize_pressed"]

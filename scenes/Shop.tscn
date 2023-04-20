@@ -1,0 +1,479 @@
+[gd_scene load_steps=29 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=1]
+[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_small_title.tres" type="Theme" id=2]
+[ext_resource path="res://Digigoats-V3-5/scripts/Shop.gd" type="Script" id=3]
+[ext_resource path="res://Digigoats-V3-5/inventory/icon/tooltip/infinite.png" type="Texture" id=4]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/portrait_frame.png" type="Texture" id=5]
+[ext_resource path="res://Digigoats-V3-5/goats/images/00703.png" type="Texture" id=6]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/arrow_pressed.png" type="Texture" id=7]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/muscle.png" type="Texture" id=8]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex.png" type="Texture" id=9]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/Frame_1_new.png" type="Texture" id=10]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/muscle_pressed.png" type="Texture" id=11]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/arrow_disabled.png" type="Texture" id=12]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/muscle_disabled.png" type="Texture" id=13]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/arrow.png" type="Texture" id=14]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex_disabled.png" type="Texture" id=15]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/inventory_frame.png" type="Texture" id=16]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex_pressed.png" type="Texture" id=17]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/long_button_blank.png" type="Texture" id=18]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/long_button_blank_disabled.png" type="Texture" id=19]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/frame_2.png" type="Texture" id=20]
+[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/long_button_blank_pressed.png" type="Texture" id=21]
+
+[sub_resource type="StyleBoxFlat" id=34]
+bg_color = Color( 0.203922, 0.188235, 0.160784, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.239216, 0.239216, 0.239216, 1 )
+
+[sub_resource type="InputEventAction" id=38]
+action = "ui_cancel"
+
+[sub_resource type="ShortCut" id=39]
+shortcut = SubResource( 38 )
+
+[sub_resource type="Animation" id=33]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Action_Frame:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.517632, 1 ),
+"update": 0,
+"values": [ Vector2( -156, -120 ), Vector2( -156, -87 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+length = 0.4
+
+[sub_resource type="Animation" id=31]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Action_Frame:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Frame:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Inventory_Frame:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+
+[sub_resource type="Animation" id=32]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Inventory_Frame:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.554785, 1 ),
+"update": 0,
+"values": [ Vector2( -230, -114 ), Vector2( 26, -114 ) ]
+}
+
+[node name="Shop" type="Node2D"]
+light_mask = 0
+scale = Vector2( 1.5, 1.5 )
+z_index = 4
+script = ExtResource( 3 )
+
+[node name="Action_Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -156.0
+margin_top = -120.0
+margin_right = 156.0
+margin_bottom = 89.0
+rect_pivot_offset = Vector2( 11.5454, -6.02179 )
+mouse_filter = 2
+texture = ExtResource( 20 )
+expand = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="train_button" type="TextureButton" parent="Action_Frame"]
+visible = false
+margin_left = 237.0
+margin_top = 168.0
+margin_right = 267.0
+margin_bottom = 198.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 11 )
+texture_disabled = ExtResource( 13 )
+expand = true
+
+[node name="train_popup" type="ItemList" parent="Action_Frame/train_button"]
+visible = false
+margin_left = -84.0
+margin_top = 33.0
+margin_right = 25.0
+margin_bottom = 72.0
+theme = ExtResource( 1 )
+custom_styles/bg = SubResource( 34 )
+items = [ "Train", null, false, "Quick Train (50%)", null, false, "Cancel", null, false ]
+
+[node name="Inventory_Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 26.0
+margin_top = -114.0
+margin_right = 417.0
+margin_bottom = 83.0
+rect_pivot_offset = Vector2( -173.339, 20.6767 )
+mouse_filter = 2
+texture = ExtResource( 16 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="sort_button" type="TextureButton" parent="Inventory_Frame"]
+margin_left = 170.0
+margin_top = 45.0
+margin_right = 214.0
+margin_bottom = 58.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 21 )
+texture_disabled = ExtResource( 19 )
+expand = true
+flip_h = true
+
+[node name="sort_label" type="Label" parent="Inventory_Frame/sort_button"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 27.0
+margin_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+text = "Sort"
+align = 1
+
+[node name="sort_texture" type="TextureRect" parent="Inventory_Frame/sort_button"]
+margin_left = 29.0
+margin_top = 2.0
+margin_right = 40.0
+margin_bottom = 11.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="Level_Label" type="Label" parent="Inventory_Frame"]
+margin_left = 156.0
+margin_top = 32.0
+margin_right = 228.0
+margin_bottom = 41.0
+theme = ExtResource( 1 )
+text = "Inventory"
+align = 1
+
+[node name="Inventory_Grid" type="GridContainer" parent="Inventory_Frame"]
+margin_left = 125.0
+margin_top = 64.0
+margin_right = 259.0
+margin_bottom = 164.0
+custom_constants/vseparation = 2
+custom_constants/hseparation = 2
+columns = 4
+
+[node name="arrow_right" type="TextureButton" parent="Inventory_Frame"]
+margin_left = 210.0
+margin_top = 165.5
+margin_right = 229.0
+margin_bottom = 184.5
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 7 )
+texture_disabled = ExtResource( 12 )
+expand = true
+
+[node name="arrow_left" type="TextureButton" parent="Inventory_Frame"]
+margin_left = 155.0
+margin_top = 165.5
+margin_right = 174.0
+margin_bottom = 184.5
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 7 )
+texture_disabled = ExtResource( 12 )
+expand = true
+flip_h = true
+
+[node name="page_label" type="Label" parent="Inventory_Frame"]
+margin_left = 183.0
+margin_top = 172.0
+margin_right = 201.0
+margin_bottom = 179.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+text = "1/1"
+align = 1
+
+[node name="Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -216.0
+margin_top = -148.5
+margin_right = 216.0
+margin_bottom = 148.5
+rect_pivot_offset = Vector2( 70, 56.5 )
+mouse_filter = 2
+texture = ExtResource( 10 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Frame"]
+margin_left = 80.0
+margin_top = 86.5
+margin_right = 154.0
+margin_bottom = 160.5
+color = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
+
+[node name="exit_button" type="TextureButton" parent="Frame"]
+margin_left = 76.0
+margin_top = 61.0
+margin_right = 95.0
+margin_bottom = 80.0
+focus_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 39 )
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 17 )
+texture_disabled = ExtResource( 15 )
+expand = true
+
+[node name="ViewportContainer" type="ViewportContainer" parent="Frame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.619
+anchor_bottom = 0.5
+margin_left = -155.0
+margin_top = -73.5
+margin_right = 200.592
+margin_bottom = 315.5
+rect_scale = Vector2( 0.28, 0.28 )
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="Frame/ViewportContainer"]
+size = Vector2( 407, 389 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+fxaa = true
+debanding = true
+hdr = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="Shop_pic" type="TextureRect" parent="Frame/ViewportContainer/Viewport"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = -148.0
+margin_right = 126.0
+margin_bottom = 110.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+
+[node name="Info" type="Control" parent="Frame"]
+margin_left = 69.0
+margin_top = 55.0
+margin_right = 361.0
+margin_bottom = 229.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Shop_Label" type="Label" parent="Frame/Info"]
+margin_left = 3.0
+margin_top = 7.0
+margin_right = 290.0
+margin_bottom = 23.0
+grow_horizontal = 2
+theme = ExtResource( 2 )
+text = "Armory"
+align = 1
+clip_text = true
+
+[node name="Name_Label" type="Label" parent="Frame/Info"]
+margin_left = 13.0
+margin_top = 111.0
+margin_right = 85.0
+margin_bottom = 120.0
+theme = ExtResource( 1 )
+text = "Geraldo"
+align = 1
+
+[node name="goat_frame" type="TextureRect" parent="Frame/Info"]
+margin_left = 10.0
+margin_top = 31.0
+margin_right = 95.0
+margin_bottom = 116.0
+texture = ExtResource( 5 )
+
+[node name="Shop_Panel" type="Panel" parent="Frame/Info"]
+margin_left = 95.0
+margin_top = 28.0
+margin_right = 285.0
+margin_bottom = 165.0
+theme = ExtResource( 1 )
+
+[node name="shop_sort_button" type="TextureButton" parent="Frame/Info/Shop_Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -22.0
+margin_top = 3.0
+margin_right = 22.0
+margin_bottom = 16.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 21 )
+texture_disabled = ExtResource( 19 )
+expand = true
+flip_h = true
+
+[node name="sort_label" type="Label" parent="Frame/Info/Shop_Panel/shop_sort_button"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 27.0
+margin_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+text = "Sort"
+align = 1
+
+[node name="sort_texture" type="TextureRect" parent="Frame/Info/Shop_Panel/shop_sort_button"]
+margin_left = 29.0
+margin_top = 2.0
+margin_right = 40.0
+margin_bottom = 11.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="Inventory_Grid" type="GridContainer" parent="Frame/Info/Shop_Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -83.0
+margin_top = -50.5
+margin_right = 87.0
+margin_bottom = 42.5
+custom_constants/vseparation = 2
+custom_constants/hseparation = 2
+columns = 5
+
+[node name="shop_arrow_right" type="TextureButton" parent="Frame/Info/Shop_Panel"]
+margin_left = 113.0
+margin_top = 119.167
+margin_right = 132.0
+margin_bottom = 138.167
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 7 )
+texture_disabled = ExtResource( 12 )
+expand = true
+
+[node name="shop_arrow_left" type="TextureButton" parent="Frame/Info/Shop_Panel"]
+margin_left = 58.0
+margin_top = 119.167
+margin_right = 77.0
+margin_bottom = 138.167
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 7 )
+texture_disabled = ExtResource( 12 )
+expand = true
+flip_h = true
+
+[node name="shop_page_label" type="Label" parent="Frame/Info/Shop_Panel"]
+margin_left = 86.0
+margin_top = 125.0
+margin_right = 104.0
+margin_bottom = 132.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+text = "1/1"
+align = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/action_down = SubResource( 33 )
+anims/attribute_flash = SubResource( 37 )
+anims/expand = SubResource( 31 )
+anims/inventory_show = SubResource( 32 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="pressed" from="Action_Frame/train_button" to="." method="_on_train_button_pressed"]
+[connection signal="item_selected" from="Action_Frame/train_button/train_popup" to="." method="_on_train_popup_item_selected"]
+[connection signal="pressed" from="Inventory_Frame/sort_button" to="." method="_on_sort_button_pressed"]
+[connection signal="pressed" from="Inventory_Frame/arrow_right" to="." method="_on_arrow_right_pressed"]
+[connection signal="pressed" from="Inventory_Frame/arrow_left" to="." method="_on_arrow_left_pressed"]
+[connection signal="pressed" from="Frame/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="Frame/Info/Shop_Panel/shop_sort_button" to="." method="_on_shop_sort_button_pressed"]
+[connection signal="pressed" from="Frame/Info/Shop_Panel/shop_arrow_right" to="." method="_on_shop_arrow_right_pressed"]
+[connection signal="pressed" from="Frame/Info/Shop_Panel/shop_arrow_left" to="." method="_on_shop_arrow_left_pressed"]

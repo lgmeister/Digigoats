@@ -1,0 +1,63 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 34
+syntax_version = 2
+raw_text = "~ Default
+
+Jim: Welcome to my humble armory.
+- Check out the wares.
+	do open_shop()
+- Nevermind"
+errors = [  ]
+titles = {
+"Default": "2"
+}
+lines = {
+"0": {
+"next_id": "2",
+"text": "Default",
+"type": "title"
+},
+"2": {
+"character": "Jim",
+"character_replacements": [  ],
+"next_id": "3",
+"replacements": [  ],
+"text": "Welcome to my humble armory.",
+"translation_key": "Welcome to my humble armory.",
+"type": "dialogue"
+},
+"3": {
+"next_id": "4",
+"next_id_after": "end!",
+"replacements": [  ],
+"responses": PoolStringArray( "3", "5" ),
+"text": "Check out the wares.",
+"translation_key": "Check out the wares.",
+"type": "response"
+},
+"4": {
+"mutation": {
+"expression": [ {
+"function": "open_shop",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "end!",
+"parent_id": "3",
+"type": "mutation"
+},
+"5": {
+"next_id": "",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "Nevermind",
+"translation_key": "Nevermind",
+"type": "response"
+}
+}

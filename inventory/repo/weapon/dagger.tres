@@ -1,0 +1,30 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_weapon_class.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/inventory/icon/weapons/dagger.png" type="Texture" id=2]
+
+[sub_resource type="StreamTexture" id=43]
+load_path = "res://.import/short_sword.png-fe04613dc28dce6996ae107f6b72d681.stex"
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Weapon"
+Item_Name = "Crude Dagger"
+Item_Icon = SubResource( 43 )
+Item_Amount = 1
+Item_Cost = 50
+Item_Description = "It's a fine looking dagger"
+Attack_Icon = ExtResource( 2 )
+Attack_Modulate = Color( 1, 1, 1, 1 )
+Weapon_Particles = "none"
+Weapon_Style = "ranged"
+Weapon_Damage = 2.0
+Weapon_Speed = 600
+Time_Between_Shots = 1.0
+Weapon_Range = 200
+Weapon_Type = "normal"
+Weapon_Scale = Vector2( 1, 1 )
+Hit_Player = false
+Hit_Enemies = true
+Ignore_Terrain = false
+Destroy_Terrain = false

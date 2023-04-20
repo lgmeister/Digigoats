@@ -1,0 +1,157 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 42
+syntax_version = 2
+raw_text = "~ Default
+
+if trainer_met == true
+	Miranda: Are you ready?
+	- Train me!
+		do open_training()
+	- Nevermind
+else
+	Miranda: Hello stranger, I am Miranda.
+	do trainer_met = true
+	- Train me, please!
+		do open_training()
+	- Who are you?
+	
+"
+errors = [  ]
+titles = {
+"Default": "2"
+}
+lines = {
+"0": {
+"next_id": "2",
+"text": "Default",
+"type": "title"
+},
+"10": {
+"next_id": "11",
+"next_id_after": "end!",
+"parent_id": "7",
+"replacements": [  ],
+"responses": PoolStringArray( "10", "12" ),
+"text": "Train me, please!",
+"translation_key": "Train me, please!",
+"type": "response"
+},
+"11": {
+"mutation": {
+"expression": [ {
+"function": "open_training",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "end!",
+"parent_id": "10",
+"type": "mutation"
+},
+"12": {
+"next_id": "end!",
+"next_id_after": "end!",
+"parent_id": "7",
+"replacements": [  ],
+"text": "Who are you?",
+"translation_key": "Who are you?",
+"type": "response"
+},
+"2": {
+"condition": {
+"expression": [ {
+"type": "variable",
+"value": "trainer_met"
+}, {
+"type": "comparison",
+"value": "=="
+}, {
+"type": "bool",
+"value": true
+} ]
+},
+"next_conditional_id": "7",
+"next_id": "3",
+"next_id_after": "end!",
+"type": "condition"
+},
+"3": {
+"character": "Miranda",
+"character_replacements": [  ],
+"next_id": "4",
+"parent_id": "2",
+"replacements": [  ],
+"text": "Are you ready?",
+"translation_key": "Are you ready?",
+"type": "dialogue"
+},
+"4": {
+"next_id": "5",
+"next_id_after": "end!",
+"parent_id": "2",
+"replacements": [  ],
+"responses": PoolStringArray( "4", "6" ),
+"text": "Train me!",
+"translation_key": "Train me!",
+"type": "response"
+},
+"5": {
+"mutation": {
+"expression": [ {
+"function": "open_training",
+"type": "function",
+"value": [  ]
+} ]
+},
+"next_id": "end!",
+"parent_id": "4",
+"type": "mutation"
+},
+"6": {
+"next_id": "end!",
+"next_id_after": "end!",
+"parent_id": "2",
+"replacements": [  ],
+"text": "Nevermind",
+"translation_key": "Nevermind",
+"type": "response"
+},
+"7": {
+"next_conditional_id": "end!",
+"next_id": "8",
+"next_id_after": "end!",
+"type": "condition"
+},
+"8": {
+"character": "Miranda",
+"character_replacements": [  ],
+"next_id": "9",
+"parent_id": "7",
+"replacements": [  ],
+"text": "Hello stranger, I am Miranda.",
+"translation_key": "Hello stranger, I am Miranda.",
+"type": "dialogue"
+},
+"9": {
+"mutation": {
+"expression": [ {
+"type": "variable",
+"value": "trainer_met"
+}, {
+"type": "assignment",
+"value": "="
+}, {
+"type": "bool",
+"value": true
+} ]
+},
+"next_id": "10",
+"parent_id": "7",
+"type": "mutation"
+}
+}

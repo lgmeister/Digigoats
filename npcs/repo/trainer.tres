@@ -1,0 +1,42 @@
+[gd_resource type="Resource" load_steps=9 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/npcs/classes/class_NPC.gd" type="Script" id=1]
+[ext_resource path="res://Digigoats-V3-5/npcs/visual_files/actions2.png" type="Texture" id=2]
+[ext_resource path="res://Digigoats-V3-5/dialog/trainer.tres" type="Resource" id=3]
+[ext_resource path="res://Digigoats-V3-5/npcs/portraits/38.png" type="Texture" id=4]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 2 )
+region = Rect2( 456, 216, 76, 72 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 2 )
+region = Rect2( 532, 216, 76, 72 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 2 )
+region = Rect2( 608, 216, 76, 72 )
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[resource]
+script = ExtResource( 1 )
+npc_active = true
+npc_name = "Miranda"
+npc_shop_name = "Miranda's Training"
+npc_type = "Shop"
+npc_sprite = SubResource( 4 )
+npc_portrait = ExtResource( 4 )
+npc_light = false
+npc_size = Vector2( 0.8, 0.8 )
+npc_sprite_offset = Vector2( 0, 16 )
+npc_emote_offset = Vector2( 0, 4 )
+work_location = Vector2( -1025, -500 )
+npc_dialog = ExtResource( 3 )
+npc_inventory = [  ]

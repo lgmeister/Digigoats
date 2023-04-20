@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Digigoats-V3-5/inventory/classes/item_class.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+Item_Type = "Empty"
+Item_Name = ""
+Item_Amount = 1
+Item_Cost = 0
+Item_Description = ""
