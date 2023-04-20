@@ -1,5 +1,7 @@
 # GLoot
 
+# Test Comment
+
 <p align="center">
   <img src="images/gloot_logo_128x128.png" />
 </p>
