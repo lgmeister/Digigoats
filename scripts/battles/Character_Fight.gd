@@ -7,13 +7,27 @@ export (PackedScene) var weapon = preload("res://scenes/battles/attack.tscn")
 var goat_profile ## actual profile scene
 var fight_scene
 
-### Goat Info ###
+### Goat info###
+onready var sprite = $GoatSprite
+onready var raycast = $RayCast2D
+onready var raycast2 = $RayCast2D2
+onready var raycast3 = $RayCast2D3
+onready var tween = $Tween
+
+onready var goat_light = $Light2D
+
 var goat_id
 var goat_name
+
+#var goat_hp
+#var goat_max_hp
+
 var goat_current_health
 var goat_max_health
+
 var goat_current_energy
 var goat_max_energy
+
 var goat_current_happiness
 var goat_max_happiness
 
@@ -31,18 +45,6 @@ var goat_misc
 
 var goat_inventory
 
-var goat_particles
-var goat_horns
-var goat_image
-var goat_color
-
-### Network Movement ###
-puppet var puppet_position = Vector2() setget puppet_position_set
-#puppet var puppet_velocity = Vector2.ZERO
-#puppet var puppet_rotation = 0
-onready var network_timer = $Network_Timer
-
-var network_active = false
 
 ### Movement ###
 var gravity = 2000
@@ -52,29 +54,17 @@ var velocity = Vector2(0,0)
 var facing = "right"
 var temp_angle = Vector2.ZERO
 
-### Bools ###
-var player_controlled = false
 var jumping = false
 var jump_count = 0
 var flying = false
 var hovering = false ### when the goat is touching mouse and you bounce wwhile flying
 
-### Flying ###
 var max_fuel = 100
 var fuel = 0 ## Zero is a full tank, 100 is out of gas
 
-### Nodes ###
 onready var animation = $MovementAnimationPlayer
 onready var misc_animation = $MiscAnimation
 onready var fuel_bar = $GoatSprite/Fuel_Bar
-onready var sprite = $GoatSprite
-onready var raycast = $RayCast2D
-onready var raycast2 = $RayCast2D2
-onready var raycast3 = $RayCast2D3
-onready var tween = $Tween
-onready var network_tween = $NetworkTween
-
-onready var goat_light = $Light2D
 
 ### Attacks ###
 var cross_hair = preload("res://visual/character/crosshair/convergence-target.png")
@@ -88,6 +78,7 @@ var in_training = false
 var profile_open = false
 var input_allowed = false
 var alive = true
+var network_active = false
 
 ### Aesthetics ###
 onready var headgear = $GoatSprite/headgear
@@ -97,28 +88,39 @@ onready var action_sprite = $GoatSprite/action_sprite
 onready var all_goat_particles = $goat_particles
 onready var boost_particles = $GoatSprite/BoostParticles
 
+
 ### MISC ###
 onready var cursor = $cursor
 onready var goat_cam = $Camera2D
 
+### Network Movement ###
+onready var network_timer = $Network_Timer
+puppet var puppet_position = Vector2() setget puppet_position_set
+puppet var puppet_rotation = 0
+puppet var puppet_velocity = Vector2.ZERO
+
+onready var network_tween = $NetworkTween
+
+
+var goat_particles
+var goat_horns
+var goat_image
+var goat_color
 
 func _ready():
+#	Global.controller_goat = self ### specifically for in main world
 	add_to_group("player")
-	add_to_group("goat")
+	
 	
 
-
+	if in_fight or in_training: Input.set_custom_mouse_cursor(cross_hair)
 	
-	if in_training: 
-		goat_id = Global.training_goat
-		input_allowed = true
-		Input.set_custom_mouse_cursor(cross_hair)
-	elif in_fight: 
-		Input.set_custom_mouse_cursor(cross_hair)
-		goat_id = Global.active_goat.goat_id
-		input_allowed = true
+	if in_training: goat_id = Global.training_goat
+	else:
+		if Global.active_goat != null:
+			goat_id = Global.active_goat.goat_id
 		
-		
+
 	self.name = "goat" + goat_id
 	self.Goat = load("res://goats/repo/%s.tres" %goat_id)
 	
@@ -137,6 +139,7 @@ func _ready():
 
 func get_input():
 	if not input_allowed: return
+	
 	
 	if Input.is_action_just_pressed("profile"):
 		if profile_open: return
@@ -207,6 +210,7 @@ func get_input():
 		else:
 			return
 		
+		
 		if "Roof" in which_raycast.get_collider().name:
 			var roof
 			roof = which_raycast.get_collider()
@@ -268,15 +272,6 @@ func get_input():
 	if Input.is_action_just_released("boost"):
 		out_of_fuel()
 		
-		
-func puppet_position_set(new_value) -> void:
-	puppet_position = new_value
-	
-	network_tween.interpolate_property(self, "global_position", global_position, puppet_position, .05)
-	network_tween.start()
-	
-
-		
 func out_of_fuel():
 #	if flying == false:return
 	flying = false
@@ -306,19 +301,19 @@ func out_of_fuel():
 	boost_particles.orbit_velocity = 0
 	boost_particles.hide()
 	
-func _process(delta):
-	
+func _process(delta):	
 	if not alive: return
 	
-	if network_active:
+	if Global.multiplayer_active:
 		if not is_network_master():
 			if not network_tween.is_active():
-				print("interprolating movement")
 # warning-ignore:return_value_discarded
-#				move_and_slide(puppet_velocity * speed)
-			
-#			rotation = puppet_rotation
+				move_and_slide(puppet_velocity * speed)
+				
+			print(puppet_rotation)
+			rotation = puppet_rotation
 			return
+			
 
 	var which_raycast
 	if fuel > 0 and not flying and not hovering and not Input.is_action_pressed("boost"):
@@ -376,10 +371,12 @@ func _process(delta):
 	
 func _physics_process(delta):
 	if not alive: return
+	
 	if not is_network_master():
 		set_physics_process(false)
 		return
-
+	
+	
 	boost_particles.orbit_velocity = 0
 	get_input()
 	velocity.y += gravity * delta
@@ -452,7 +449,7 @@ func save_goat():
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
 
-	print("goat saved character")
+	print("goat saved character FIGHT")
 	
 # warning-ignore:return_value_discarded
 	ResourceSaver.save("res://goats/repo/%s.tres" %goat_id,self.Goat)
@@ -465,8 +462,7 @@ func load_fuel_bar():
 		
 	
 func load_goat():
-	Global.loaded_goats[goat_id] =\
-	{"id":goat_id,"name":goat_name,"image":goat_image,"color":goat_color}
+	Global.loaded_goats[goat_id] = {"id":goat_id,"name":goat_name,"image":goat_image,"color":goat_color}
 	sprite.self_modulate = Color(goat_color)
 	
 	
@@ -533,6 +529,7 @@ func death():
 	HUD.animation.play("black_screen")
 	yield(HUD.animation,"animation_finished")
 
+	Global.controller_goat.goat_light.hide()
 	GlobalCamera.smoothing_enabled = true
 	HUD.remove_health_bar()
 	
@@ -550,33 +547,35 @@ func action_sprite_func(type):
 	else:
 		action_sprite.hide()
 	
+func activate_goat():
+	if self == Global.active_goat: input_allowed = true
+	else: input_allowed = false
 
 func _on_goat_button_pressed():
-	if in_fight or in_training or not is_network_master(): return
-	
-	input_allowed = true
+	if Global.multiplayer_active:
+		print(is_network_master())
+		if not is_network_master(): return
+		
+	Global.active_goat = self
+	print(Global.active_goat.goat_id)
+	get_tree().call_group("player","activate_goat")
 	misc_animation.stop()
 	misc_animation.play("cursor")
-	get_tree().call_group("player","_input_allowed",goat_id,false)
-	Global.active_goat = self
-	GlobalCamera.following_goat = self
-	
-	
-func _input_allowed(exception,choice):
-	if exception == goat_id: return
-	
-	input_allowed = choice
+
 
 func _start_Network_Timer():
 	network_timer.start(.05)
 	network_active = true
-#	if not network_master: change this to slave
-#		set_collision_layer_bit(0,false)
-#		set_collision_mask_bit(0,false)
+
+func puppet_position_set(new_value) -> void:
+	puppet_position = new_value
+	
+	network_tween.interpolate_property(self, "global_position", global_position, puppet_position, .05)
+	network_tween.start()
 
 
 func _on_Network_Timer_timeout():
 	if is_network_master():
 		rset_unreliable("puppet_position", global_position)
 #		rset_unreliable("puppet_velocity", velocity)
-#		rset_unreliable("puppet_rotation", sprite.rotation)
+		rset_unreliable("puppet_rotation", sprite.rotation)

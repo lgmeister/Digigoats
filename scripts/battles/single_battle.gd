@@ -23,7 +23,6 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	Global.in_battle = true
-	Global.controlling_goat = null
 	
 	temp_deaths = Global.minion_deaths
 	
@@ -124,7 +123,9 @@ func _on_Character_collided(enemy,collision):
 func _on_portal_area_body_entered(body):
 	if "TileMap" in str(body):
 		return
-
+		
+		
+#	Global.active_goat.z_index = 0
 	portal_progress.value = 0
 	portal_progress.show()
 	
@@ -137,6 +138,7 @@ func _on_portal_area_body_entered(body):
 	
 	HUD.animation.play("black_screen")
 	yield(HUD.animation,"animation_finished")
+	Global.controller_goat.goat_light.hide()
 	tile_color.color = Color("c4c4c4")
 	GlobalCamera.smoothing_enabled = true
 	HUD.remove_health_bar()

@@ -30,7 +30,7 @@ onready var tip_bot_label = $tip_bar_bot/Label
 onready var tip_bot_texture = $tip_bar_bot/TextureRect
 
 ### Network ###
-onready var game_info_label = $Network/game_info_label
+onready var game_info_label = $game_info_label
 var chat_scene = load("res://scenes/network/chat.tscn")
 
 ### Bools ###
@@ -69,6 +69,8 @@ func load_chat():
 	var scene_instance = chat_scene.instance()
 	chat = scene_instance
 	add_child(scene_instance)
+	
+
 
 func update_network_info():
 	if Global.multiplayer_active:

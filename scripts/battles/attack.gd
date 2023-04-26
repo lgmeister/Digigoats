@@ -1,6 +1,7 @@
 extends Area2D
 
 export(Resource) var Weapon setget _setWeapon
+#onready var player = get_tree().get_root().get_node("single_battle/%s" %Global.active_goat)
 
 
 var fired_from ### Who fired the weapon?

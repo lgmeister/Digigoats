@@ -12,7 +12,7 @@ onready var tabs = $Frame/Info/TabContainer
 onready var expand = $Frame/expand_button
 onready var contract = $Frame/contract_button
 onready var inventory_button = $Action_Frame/inventory_button
-
+onready var train_button = $Action_Frame/train_button
 
 ### Bars ###
 onready var health_bar = $Frame/Info/TabContainer/Stats/Bars/HP_Bar
@@ -77,6 +77,7 @@ var current_sort_type = 0
 ### MISC ###
 onready var camera = GlobalCamera
 onready var animation = $AnimationPlayer
+onready var train_popup = $Action_Frame/train_button/train_popup
 onready var tween = $Tween
 onready var page_label = $Inventory_Frame/page_label
 
@@ -326,6 +327,23 @@ func _on_fight_button_pressed():
 	get_tree().change_scene("res://scenes/battles/single_battle.tscn")
 
 
+func _on_train_button_pressed():
+	train_popup.unselect_all()
+	train_popup.show()
+
+func _on_train_popup_item_selected(index):
+	train_popup.hide()
+	var choice = train_popup.get_item_text(index)
+	if choice == "Train":
+		Global.active_goat = which_goat_node.goat_id
+		which_goat_node.goat_current_energy -= 25
+# warning-ignore:return_value_discarded
+		get_tree().change_scene("res://scenes/training.tscn")
+	elif choice == "Quick Train (50%)":
+		which_goat_node.goat_current_energy = 0
+		update_bars("slow")
+		
+	
 
 func _on_sort_button_pressed():
 	if current_sort_type == sort_icons.size() - 1:

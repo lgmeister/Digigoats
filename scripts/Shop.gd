@@ -21,7 +21,7 @@ onready var left_shop_arrow = $Frame/Info/Shop_Panel/shop_arrow_left
 onready var right_shop_arrow = $Frame/Info/Shop_Panel/shop_arrow_right
 
 ### Info ###
-#var which_goat_node ## which goat's profile
+var which_goat_node ## which goat's profile
 var which_npc_node
 
 ### Inventory ###
@@ -87,7 +87,7 @@ func load_inventory(shop_filter,filter):
 	var items_on_page = 0
 	var items_on_shop_page = 0
 
-	for load_item in Global.active_goat.goat_inventory:
+	for load_item in which_goat_node.goat_inventory:
 		if filter == "All" or load_item.Item_Type == filter:
 			all_items.append(load_item)
 			
@@ -147,13 +147,13 @@ func load_items(item,grid,origin):
 	var item_instance = item_scene.instance()
 	item_instance.item_origin = origin
 	item_instance.loaded_item = item.resource_path
-	item_instance.which_goat_node = Global.active_goat
+	item_instance.which_goat_node = which_goat_node
 	item_instance.which_shop_node = self
 	grid.add_child(item_instance)							
 	
 
 func _input(event):
-	var frame_to_goat = self.global_position - Global.active_goat.global_position
+	var frame_to_goat = self.global_position - which_goat_node.global_position
 	
 	if event.is_action("ui_page_up"):
 		if self.scale <= Vector2(.3,.3):
@@ -170,12 +170,17 @@ func _input(event):
 
 func _on_exit_button_pressed():
 	Global.shop_open = false
+	Global.controller_goat.input_allowed = true
 	Global.input_allowed = true
-	Global.active_goat.input_allowed = true
-
-	
 	HUD.tooltip_top("hide",null)
 	queue_free()
+
+
+func _on_fight_button_pressed():
+	Global.active_goat = which_goat_node.goat_id
+# warning-ignore:return_value_discarded
+	get_tree().change_scene("res://scenes/battles/single_battle.tscn")
+	pass # Replace with function body.
 
 
 func _on_train_button_pressed():

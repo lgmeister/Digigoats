@@ -31,13 +31,11 @@ onready var bridge_collision = $Underworld/bridge_back/Ground/Collision
 
 var background_speed = Vector2(.15,0)
 
-var rng = RandomNumberGenerator.new()
-
 func _ready():
 	Input.set_custom_mouse_cursor(cursor)
 	title()
 	Http_Request.request("time")
-#	load_goats()
+
 	load_NPCS()
 	
 	if Global.goat_in_training:
@@ -74,10 +72,12 @@ func title():
 	
 func load_goats():
 	for goat in Global.goats_to_load:
-		rng.randomize()
-		var goat_loc = rng.randi_range(200,600)
-		spawn_goat(goat, Vector2(goat_loc,300))
-		print("Goat spawned")
+		var scene_instance = goat_scene.instance()
+		scene_instance.global_position = Vector2(rand_range(200,600),300)
+		scene_instance.goat_id = goat
+		scene_instance.in_fight = false
+		
+		add_child(scene_instance)
 		
 		
 func load_NPCS():
@@ -88,12 +88,7 @@ func load_NPCS():
 		add_child(scene_instance)
 	
 	
-func spawn_goat(file_name,loc):
-	var scene_instance = goat_scene.instance()
-	scene_instance.global_position = loc
-	scene_instance.goat_id = file_name
-	scene_instance.in_fight = false
-	add_child(scene_instance)
+
 	
 
 func _on_fight_area_stop_area_entered(area):

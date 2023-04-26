@@ -6,8 +6,6 @@ var mouse_start_pos
 var screen_start_position
 var dragging = false
 
-var following_goat
-
 
 #### Events ####
 var intro_ani = false
@@ -28,13 +26,11 @@ func _ready():
 	pass
 	
 func _process(_delta):
-	if Global.goat_in_training or Global.in_battle: return
-	
-	if following_goat != null:
-		self.position = following_goat.global_position - Vector2(screen_mid.x,screen_mid.y)
+	if Global.active_goat != null:
+		position = Global.active_goat.global_position - screen_mid * zoom
 	
 func reset():
-#	smoothing_enabled = false
+	smoothing_enabled = false
 	position = Vector2(0,0)	
 	
 	
@@ -85,7 +81,8 @@ func zoom_in():
 	self.zoom.x -= Global.camera_zoom_level
 	self.zoom.y -= Global.camera_zoom_level
 	
-	if Global.controlling_goat == null:
+	
+	if Global.active_goat == null:
 		var mouse_pos = get_global_mouse_position()
 		var local_mouse = get_local_mouse_position()
 		position = mouse_pos * zoom - screen_mid * zoom
