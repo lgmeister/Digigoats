@@ -90,8 +90,6 @@ func _ready():
 	## TEMP FOR TESTING ##
 	goat_current_energy = 100
 	######################
-	
-	load_moving_goat()
 
 	
 func _physics_process(delta):
@@ -221,26 +219,25 @@ func _setGoat(newGoat : Resource):
 	goat_horns = Goat.get_Horns()
 	
 func load_moving_goat():
-#	Global.active_goat = goat_id
-#	Global.controlling_goat = self
-#	player_controlled = true
-#	camera_follow = true
+	Global.active_goat = goat_id
+	Global.controlling_goat = self
+	player_controlled = true
+	camera_follow = true
 	
-#	set_collision_mask_bit(0,false)
-#	set_collision_layer_bit(0,false)
+	set_collision_mask_bit(0,false)
+	set_collision_layer_bit(0,false)
 	
 	var goat_scene = preload("res://scenes/battles/Character_Fight.tscn")
 	var scene_instance = goat_scene.instance()
 	scene_instance.position = self.position
 	scene_instance.in_fight = false
-	scene_instance.goat_id = goat_id
 	main.add_child(scene_instance)
 	
 	if sprite.animation == "walk_right": scene_instance.sprite.animation = "walk_right"
 	else: scene_instance.sprite.animation = "walk_left"
 	
-#	moving_goat = scene_instance
-#	self.hide()
+	moving_goat = scene_instance
+	self.hide()
 	
 #	yield(get_tree().create_timer(.1),"timeout")
 #	camera.smoothing_enabled = false
@@ -324,7 +321,7 @@ func _on_goat_button_pressed():
 	if Global.controlling_goat != null: Global.active_goat.unload_moving_goat()
 	
 	load_moving_goat()
-	Global.active_goat = goat_id
+	Global.active_goat = self
 
 
 func _input(event):

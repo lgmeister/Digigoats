@@ -31,7 +31,7 @@ var armor = 0
 ### Individual Goat ###
 var active_goat
 var training_goat
-var controlling_goat
+
 
 
 ### NPCs ###

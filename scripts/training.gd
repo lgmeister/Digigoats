@@ -52,8 +52,6 @@ func load_goat():
 	var scene_instance = goat_scene.instance()
 	scene_instance.position = Vector2(200,300)
 	scene_instance.in_training = true
-	scene_instance.input_allowed = true
-	scene_instance.fight_scene = self
 	which_goat_node = scene_instance
 	add_child(scene_instance)
 

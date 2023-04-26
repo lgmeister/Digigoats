@@ -18,6 +18,7 @@ func open_portal():
 func open_shop():
 	var shop_scene = preload("res://scenes/Shop.tscn")
 	var scene_instance = shop_scene.instance()
+	scene_instance.which_goat_node = Global.active_goat
 	scene_instance.which_npc_node = Global.current_npc
 	HUD.add_child(scene_instance)
 	

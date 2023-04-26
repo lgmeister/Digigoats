@@ -1,8 +1,12 @@
 extends Control
 
+var join_scene
+
 var clicked = false
 
 onready var server_panel = $ServerPanel
+onready var server_ip = $ServerPanel/serverIP
+onready var player_number = $ServerPanel/player_number
 
 
 func _ready():
@@ -21,8 +25,5 @@ func _on_Button_pressed():
 
 	server_panel.modulate = Color.yellow
 	clicked = true
-		
-	
-	
-
+	join_scene.update_IP(server_ip.text)
 	

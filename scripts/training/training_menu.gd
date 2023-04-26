@@ -74,8 +74,8 @@ func load_goats():
 
 func _on_exit_button_pressed():
 	Global.shop_open = false
-	Global.input_allowed = true
 	Global.active_goat.input_allowed = true
+	Global.input_allowed = true
 	HUD.tooltip_top("hide",null)
 	queue_free()
 
@@ -92,7 +92,7 @@ func _on_TrainingList_item_selected(index):
 func _on_GoatList_item_selected(index):
 	goat_choice = (all_goats[index])
 	
-	for goat in get_tree().get_nodes_in_group("goat"): ### Gets the goat node
+	for goat in get_tree().get_nodes_in_group("player"): ### Gets the goat node
 		if goat_choice == goat.goat_id:
 			which_goat_node = goat
 	
@@ -123,9 +123,6 @@ func _on_train_button_pressed():
 		update_energy()
 		Global.goat_in_training = true
 	# warning-ignore:return_value_discarded
-	
-	
-		
 		get_tree().change_scene("res://scenes/training.tscn")
 		queue_free()
 	else:
