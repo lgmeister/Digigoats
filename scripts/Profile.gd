@@ -93,7 +93,7 @@ func _ready():
 	create_line()
 	update_bars("instant")
 	update_attributes(false)
-	which_goat_node.goat_exp = 100
+#	which_goat_node.goat_exp = 100 
 	
 func load_inventory(filter):
 	clear_inventory()
@@ -281,6 +281,7 @@ func _input(event):
 		self.position += frame_to_goat * Global.camera_zoom_level
 
 func _on_exit_button_pressed():
+	which_goat_node.profile_open = false
 	queue_free()
 
 
@@ -322,9 +323,13 @@ func _on_contract_button_pressed():
 	
 
 func _on_fight_button_pressed():
-	Global.active_goat = which_goat_node.goat_id
-# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://scenes/battles/single_battle.tscn")
+##	Global.active_goat = which_goat_node
+#	Global.MAIN.remove_scene("entry",0)
+	Global.active_goat.input_allowed = false
+	Global.MAIN.load_scene("battle",false)
+	Global.MAIN.hide_scene("entry",0,true)
+
+
 
 
 func _on_train_button_pressed():
