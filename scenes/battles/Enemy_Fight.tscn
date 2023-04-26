@@ -1,19 +1,19 @@
 [gd_scene load_steps=20 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/scripts/battles/Enemy_Fight.gd" type="Script" id=1]
-[ext_resource path="res://Digigoats-V3-5/monsters/animations/bosses/blue_steel.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/assets/shader/dissolve_dust.shader" type="Shader" id=3]
-[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/spark_01.png" type="Texture" id=4]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSDissolveBurn.gd" type="Script" id=5]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/core/SShaderContainer.gd" type="Script" id=6]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSHolographic.gd" type="Script" id=7]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSDissolveTwist.gd" type="Script" id=8]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSDissolveFlash.gd" type="Script" id=9]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSDissolveDust.gd" type="Script" id=10]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSHoloWave.gd" type="Script" id=11]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/assets/noise/noise0.png" type="Texture" id=12]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSTransformMetal.gd" type="Script" id=13]
-[ext_resource path="res://Digigoats-V3-5/addons/godot_sprite_shader/src/sshader/SSTransformBurn.gd" type="Script" id=14]
+[ext_resource path="res://scripts/battles/Enemy_Fight.gd" type="Script" id=1]
+[ext_resource path="res://monsters/animations/bosses/blue_steel.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://visual/effects/particles/spark_01.png" type="Texture" id=3]
+[ext_resource path="res://addons/godot_sprite_shader/assets/shader/dissolve_dust.shader" type="Shader" id=4]
+[ext_resource path="res://addons/godot_sprite_shader/src/core/SShaderContainer.gd" type="Script" id=5]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSDissolveBurn.gd" type="Script" id=6]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSDissolveFlash.gd" type="Script" id=7]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSDissolveTwist.gd" type="Script" id=8]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSDissolveDust.gd" type="Script" id=9]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSHolographic.gd" type="Script" id=10]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSHoloWave.gd" type="Script" id=11]
+[ext_resource path="res://addons/godot_sprite_shader/assets/noise/noise0.png" type="Texture" id=12]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSTransformBurn.gd" type="Script" id=13]
+[ext_resource path="res://addons/godot_sprite_shader/src/sshader/SSTransformMetal.gd" type="Script" id=14]
 
 [sub_resource type="Gradient" id=23]
 offsets = PoolRealArray( 0.625698, 1 )
@@ -56,7 +56,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="ShaderMaterial" id=39]
-shader = ExtResource( 3 )
+shader = ExtResource( 4 )
 shader_param/offset_x = 0.0
 shader_param/offset_y = -0.396
 shader_param/dust_size = 128.0
@@ -79,7 +79,7 @@ z_index = -1
 amount = 30
 lifetime = 0.5
 lifetime_randomness = 1.0
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 emission_shape = 2
 emission_rect_extents = Vector2( 20, -10 )
 direction = Vector2( 0, -5 )
@@ -122,17 +122,17 @@ wait_time = 0.1
 [node name="Movement_Timer" type="Timer" parent="."]
 
 [node name="SShaderContainer" type="Node" parent="."]
-script = ExtResource( 6 )
+script = ExtResource( 5 )
 node_path = NodePath("../ViewportContainer")
 
 [node name="SSDissolveBurn" type="Node" parent="SShaderContainer"]
-script = ExtResource( 5 )
+script = ExtResource( 6 )
 
 [node name="SSDissolveFlash" type="Node" parent="SShaderContainer"]
-script = ExtResource( 9 )
+script = ExtResource( 7 )
 
 [node name="SSDissolveDust" type="Node" parent="SShaderContainer"]
-script = ExtResource( 10 )
+script = ExtResource( 9 )
 is_active = true
 offset_y = -0.396
 
@@ -143,15 +143,15 @@ script = ExtResource( 8 )
 script = ExtResource( 11 )
 
 [node name="SSHolographic" type="Node" parent="SShaderContainer"]
-script = ExtResource( 7 )
+script = ExtResource( 10 )
 tint_color = Color( 0, 1, 0.6, 1 )
 
 [node name="SSTransformMetal" type="Node" parent="SShaderContainer"]
-script = ExtResource( 13 )
+script = ExtResource( 14 )
 speed = -0.34
 
 [node name="SSTransfromBurn" type="Node" parent="SShaderContainer"]
-script = ExtResource( 14 )
+script = ExtResource( 13 )
 burn_value = 0.597
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
@@ -174,6 +174,7 @@ position = Vector2( 50, 55 )
 z_index = 2
 frames = ExtResource( 2 )
 animation = "move_left"
+frame = 1
 playing = true
 
 [node name="DeathTween" type="Tween" parent="."]

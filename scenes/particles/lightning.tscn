@@ -1,7 +1,7 @@
 [gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/spark_01.png" type="Texture" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/character/goat.png" type="Texture" id=2]
+[ext_resource path="res://visual/effects/particles/spark_01.png" type="Texture" id=1]
+[ext_resource path="res://visual/character/goat.png" type="Texture" id=2]
 
 [sub_resource type="Gradient" id=23]
 offsets = PoolRealArray( 0.625698, 1 )

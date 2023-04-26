@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/scripts/battles/single_battle.gd" type="Script" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/battles/background/handpainted_25.png" type="Texture" id=2]
-[ext_resource path="res://Digigoats-V3-5/visual/tilemap/underworld/SET6_Main_bckgrdlev_build.png" type="Texture" id=3]
-[ext_resource path="res://Digigoats-V3-5/visual/tilemap/underworld/SET6_decorative1.png" type="Texture" id=4]
-[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/light_01.png" type="Texture" id=5]
-[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/star_09.png" type="Texture" id=6]
+[ext_resource path="res://scripts/battles/single_battle.gd" type="Script" id=1]
+[ext_resource path="res://visual/battles/background/handpainted_25.png" type="Texture" id=2]
+[ext_resource path="res://visual/tilemap/underworld/SET6_Main_bckgrdlev_build.png" type="Texture" id=3]
+[ext_resource path="res://visual/tilemap/underworld/SET6_decorative1.png" type="Texture" id=4]
+[ext_resource path="res://visual/effects/particles/light_01.png" type="Texture" id=5]
+[ext_resource path="res://visual/effects/particles/star_09.png" type="Texture" id=6]
 
 [sub_resource type="CircleShape2D" id=30]
 radius = 41.0122

@@ -33,7 +33,7 @@ var background_speed = Vector2(.15,0)
 
 func _ready():
 	Input.set_custom_mouse_cursor(cursor)
-	title()
+	title()	
 	Http_Request.request("time")
 
 	load_NPCS()
@@ -65,8 +65,7 @@ func title():
 	if Global.title_finished:
 		HUD.animation.play_backwards("black_screen")
 		return
-	var scene_instance = title_scene.instance()
-	HUD.add_child(scene_instance)
+	Global.MAIN.load_scene("title",true)
 	Global.title_finished = true
 	
 	

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/scripts/Camera_Main.gd" type="Script" id=1]
+[ext_resource path="res://scripts/Camera_Main.gd" type="Script" id=1]
 
 [node name="Camera2D" type="Camera2D"]
 position = Vector2( 0, -3300 )

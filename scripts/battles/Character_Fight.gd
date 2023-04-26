@@ -440,7 +440,10 @@ func _setGoat(newGoat : Resource):
 	goat_current_health = Goat.get_Current_Health()
 	goat_max_health = Goat.get_Max_Health()
 	goat_max_energy = Goat.get_Max_Energy()
-	goat_current_energy = Goat.get_Current_Energy()
+	
+	if Global.DEV_MODE: goat_current_energy = goat_max_energy
+	else: goat_current_energy = Goat.get_Current_Energy()
+	
 	goat_max_happiness = Goat.get_Max_Happiness()
 	goat_current_happiness = Goat.get_Current_Happiness()
 	

@@ -1,11 +1,11 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_small_title.tres" type="Theme" id=1]
-[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=2]
-[ext_resource path="res://Digigoats-V3-5/scripts/training/TrainingProfile.gd" type="Script" id=3]
-[ext_resource path="res://Digigoats-V3-5/goats/images/00703.png" type="Texture" id=7]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/Frame_1_new.png" type="Texture" id=11]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/portrait_frame.png" type="Texture" id=22]
+[ext_resource path="res://fonts/themes/Blocky_small_title.tres" type="Theme" id=1]
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=2]
+[ext_resource path="res://scripts/training/TrainingProfile.gd" type="Script" id=3]
+[ext_resource path="res://goats/images/00703.png" type="Texture" id=7]
+[ext_resource path="res://visual/GUI/Frames/Frame_1_new.png" type="Texture" id=11]
+[ext_resource path="res://visual/GUI/Frames/portrait_frame.png" type="Texture" id=22]
 
 [sub_resource type="StyleBoxFlat" id=35]
 bg_color = Color( 1, 0.654902, 0, 1 )

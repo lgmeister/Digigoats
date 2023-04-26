@@ -1,6 +1,11 @@
 extends Node
 
+var MAIN
+var DEV_MODE = true
+
 const camera_zoom_level = .1
+
+
 
 ### Network ###
 var multiplayer_active = false
