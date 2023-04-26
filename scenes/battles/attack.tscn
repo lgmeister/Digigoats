@@ -18,7 +18,7 @@ _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.334091 ), 0.0, 0.0, 0, 
 
 [node name="attack" type="Area2D"]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 18
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]

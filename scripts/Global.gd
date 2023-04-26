@@ -5,25 +5,23 @@ var DEV_MODE = true
 
 const camera_zoom_level = .1
 
-
-
 ### Network ###
 var multiplayer_active = false
 var game_ip_address
 var game_name
 
 
-### In Game ###
+### In Game Bools ###
 var input_allowed = true
 var in_battle = false
-var battle_scene = false ### Has the battle scene been instanced?
-var title_finished = false ### Has the title screen been used yet?
 var goat_in_training = false
-
-var currancy_1 = 999
-
+var title_finished = false ### Has the title screen been used yet?
 var shop_open = false
 
+### In Game Misc ###
+var battle_scene = false ### Has the battle scene been instanced? IS THIS NEEDED?
+
+var currancy_1 = 999
 var goats_to_load = ["00300","00800"]
 var NPCs_to_load = ["blacksmith","redhead","rat","brindle","cinder","trainer"]
 var loaded_goats = {}
@@ -37,12 +35,9 @@ var armor = 0
 var active_goat
 var training_goat
 
-
-
 ### NPCs ###
 var current_dialog
 var current_npc
-
 
 #### SETTINGS ####
 var music_volume

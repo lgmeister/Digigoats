@@ -122,9 +122,10 @@ func _on_train_button_pressed():
 		which_goat_node.goat_current_energy -= 25
 		update_energy()
 		Global.goat_in_training = true
-	# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/training.tscn")
-		queue_free()
+		var scene = Global.MAIN.load_scene("training")
+		
+		Global.MAIN.add_scene(scene,false)
+		
 	else:
 		animation.play("energy_flash")
 

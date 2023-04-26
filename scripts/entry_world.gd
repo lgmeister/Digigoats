@@ -36,6 +36,9 @@ func _ready():
 	title()	
 	Http_Request.request("time")
 
+	if not Global.multiplayer_active: ## Only load goats if in single player, otherwise network does it
+		load_goats()
+
 	load_NPCS()
 	
 	if Global.goat_in_training:
@@ -65,7 +68,8 @@ func title():
 	if Global.title_finished:
 		HUD.animation.play_backwards("black_screen")
 		return
-	Global.MAIN.load_scene("title",true)
+	var scene = Global.MAIN.load_scene("title")
+	Global.MAIN.add_scene(scene,true)
 	Global.title_finished = true
 	
 	
@@ -75,7 +79,6 @@ func load_goats():
 		scene_instance.global_position = Vector2(rand_range(200,600),300)
 		scene_instance.goat_id = goat
 		scene_instance.in_fight = false
-		
 		add_child(scene_instance)
 		
 		
@@ -85,9 +88,6 @@ func load_NPCS():
 		var scene_instance = npc_scene.instance()
 		scene_instance.NPC_id = npc
 		add_child(scene_instance)
-	
-	
-
 	
 
 func _on_fight_area_stop_area_entered(area):
@@ -158,8 +158,10 @@ func open_fight_portal():
 func _on_fight_portal_body_entered(body):
 	if "goat" in str(body) and portal_open:
 		portal_open = false
-		Global.active_goat = body
-		get_tree().change_scene("res://scenes/battles/single_battle.tscn")
+#		Global.active_goat = body
+		Global.MAIN.remove_scene("entry",0)
+		var scene = Global.MAIN.load_scene("battle",false)
+		Global.MAIN.add_scene(scene,false)
 	
 
 func _on_training_area_body_entered(body):

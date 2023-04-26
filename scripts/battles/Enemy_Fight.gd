@@ -60,7 +60,7 @@ onready var touch_timer = $Touch_Timer ### waittime between getting hit with tou
 
 ############## MISC ###############
 onready var animation = $AnimationPlayer
-onready var arena = get_tree().get_root().get_node("single_battle")
+onready var arena ### The battle area
 
 var rng = RandomNumberGenerator.new()
 
@@ -196,6 +196,7 @@ func attack(type):
 	
 func death():
 	alive = false
+	set_collision_layer_bit(4,false)
 	sprite.playing = false
 	burn.is_active = true
 	var death_time =.5

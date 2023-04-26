@@ -84,7 +84,7 @@ func _on_color_pick_color_changed(color):
 
 
 func _on_X_Button_pressed():
-	queue_free()
+	Global.MAIN.remove_scene("multiplayer_panel",0)
 
 
 func _on_HostServer_pressed():

@@ -32,7 +32,6 @@ func _ready():
 	
 
 func get_lowest_minion(number,_recheck): ### Finding the closest thing in battlescript
-#	var temp_script = BattleScript.get(battle_name).keys()
 	var local_script
 	
 	if BattleScript.get(battle_name).has(number):
@@ -45,16 +44,11 @@ func get_lowest_minion(number,_recheck): ### Finding the closest thing in battle
 		else:
 			if str(local_script[2]) != "boss":
 				HUD.announcement("WAVE " + str(local_script[2]),"short")
-		
 	else:
 		temp_deaths -= 1
 		Global.minion_deaths -= 1
-#		temp_less_mobs += 1
 		get_lowest_minion(temp_deaths,false)
 	
-
-			
-#	if not recheck and number != 0: get_lowest_minion(temp_deaths,true)
 	
 func set_camera():
 	goat_node.goat_cam.current = false
@@ -62,13 +56,16 @@ func set_camera():
 	GlobalCamera.zoom = Vector2(1,1)
 	GlobalCamera.position = Vector2(0,0)
 	
+	
 func load_goat():
 	var scene_instance = goat_scene.instance()
 	scene_instance.in_fight = true
 	scene_instance.position = Vector2(200,300)
 	scene_instance.fight_scene = self
+	scene_instance.input_allowed = true
 	goat_node = scene_instance
 	add_child(scene_instance)
+	
 	
 func load_enemy(monster,number):
 	yield(get_tree().create_timer(1),"timeout") ### Delay between annoucement and spawn
@@ -80,6 +77,7 @@ func load_enemy(monster,number):
 		scene_instance.position = spawn.position + Vector2(random,random)
 		scene_instance.enemy_load = monster
 		scene_instance.player = goat_node
+		scene_instance.arena = self
 		add_child(scene_instance)
 		temptimer.start(.1)
 		yield(temptimer,"timeout")
@@ -138,7 +136,7 @@ func _on_portal_area_body_entered(body):
 	
 	HUD.animation.play("black_screen")
 	yield(HUD.animation,"animation_finished")
-	Global.controller_goat.goat_light.hide()
+	Global.active_goat.goat_light.hide()
 	tile_color.color = Color("c4c4c4")
 	GlobalCamera.smoothing_enabled = true
 	HUD.remove_health_bar()

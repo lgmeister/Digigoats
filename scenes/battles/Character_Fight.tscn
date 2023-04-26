@@ -357,17 +357,17 @@ anims/cursor = SubResource( 40 )
 [node name="RayCast2D" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 0.000116126, 26 )
-collision_mask = 257
+collision_mask = 4355
 
 [node name="RayCast2D2" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( -14, 26 )
-collision_mask = 257
+collision_mask = 4355
 
 [node name="RayCast2D3" type="RayCast2D" parent="."]
 enabled = true
 cast_to = Vector2( 17, 26 )
-collision_mask = 257
+collision_mask = 4355
 
 [node name="Attack_Timer" type="Timer" parent="."]
 wait_time = 0.2

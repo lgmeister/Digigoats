@@ -170,7 +170,7 @@ func _input(event):
 
 func _on_exit_button_pressed():
 	Global.shop_open = false
-	Global.controller_goat.input_allowed = true
+	Global.active_goat.input_allowed = true
 	Global.input_allowed = true
 	HUD.tooltip_top("hide",null)
 	queue_free()
