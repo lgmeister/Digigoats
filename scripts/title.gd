@@ -4,10 +4,6 @@ onready var animation = $AnimationPlayer
 onready var start_button = $Buttons/Start_Button
 
 
-### Scenes ###
-var multi_scene = load("res://scenes/UIUX/Multiplayer.tscn")
-
-
 signal start_game
 
 func _ready():
@@ -39,12 +35,10 @@ func _on_Create_Server_pressed():
 func start_game():
 	start_button.disabled = true
 	emit_signal("start_game")
-	animation.play("Fade_Title")
 	HUD.tooltip_bot("tip","Press Esc to Skip...")
-	yield(animation,"animation_finished")
-	queue_free()
+	Global.MAIN.remove_scene("multiplayer_panel",0)
+	Global.MAIN.remove_scene("title",1)
 	
 func _on_Multi_Button_pressed():
-	var scene = multi_scene.instance()
-	scene.title = self
-	add_child(scene)
+	var scene = Global.MAIN.load_scene("multiplayer_panel",true)
+	Global.MAIN.add_scene(scene,true).title = self

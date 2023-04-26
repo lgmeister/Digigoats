@@ -1,34 +1,11 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/scripts/training/TrainingProfile.gd" type="Script" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/portrait_frame.png" type="Texture" id=2]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/Frame_1_new.png" type="Texture" id=3]
-
-[sub_resource type="StreamTexture" id=37]
-flags = 4
-load_path = "res://.import/00703.png-10a256cb8de88f5dc2a3dbb40af04988.stex"
-
-[sub_resource type="DynamicFontData" id=2]
-font_path = "res://fonts/kongtext.regular.ttf"
-
-[sub_resource type="DynamicFont" id=1]
-size = 14
-outline_size = 2
-outline_color = Color( 0.443137, 0.313726, 0.176471, 1 )
-font_data = SubResource( 2 )
-
-[sub_resource type="Theme" id=38]
-default_font = SubResource( 1 )
-Label/colors/font_color = Color( 0.894118, 0.815686, 0.709804, 1 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 6
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 2 )
-
-[sub_resource type="Theme" id=39]
-default_font = SubResource( 4 )
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=1]
+[ext_resource path="res://fonts/themes/Blocky_small_title.tres" type="Theme" id=2]
+[ext_resource path="res://visual/GUI/Frames/portrait_frame.png" type="Texture" id=3]
+[ext_resource path="res://goats/images/00703.png" type="Texture" id=4]
+[ext_resource path="res://visual/GUI/Frames/Frame_1_new.png" type="Texture" id=5]
+[ext_resource path="res://scripts/training/TrainingProfile.gd" type="Script" id=6]
 
 [sub_resource type="StyleBoxFlat" id=35]
 bg_color = Color( 1, 0.654902, 0, 1 )
@@ -92,7 +69,7 @@ light_mask = 0
 position = Vector2( 512, 328 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 5
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="Frame" type="TextureRect" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -106,7 +83,7 @@ margin_right = 390.667
 margin_bottom = -36.3333
 rect_pivot_offset = Vector2( 70, 56.5 )
 mouse_filter = 2
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 
 [node name="ColorRect" type="ColorRect" parent="Frame"]
 margin_left = 228.0
@@ -163,7 +140,7 @@ margin_left = -132.0
 margin_top = -148.0
 margin_right = 126.0
 margin_bottom = 110.0
-texture = SubResource( 37 )
+texture = ExtResource( 4 )
 stretch_mode = 6
 
 [node name="Info" type="Control" parent="Frame"]
@@ -183,7 +160,7 @@ margin_top = 7.0
 margin_right = 271.0
 margin_bottom = 23.0
 grow_horizontal = 2
-theme = SubResource( 38 )
+theme = ExtResource( 2 )
 text = "Goaty McGee"
 align = 1
 clip_text = true
@@ -194,7 +171,7 @@ margin_left = 10.0
 margin_top = 31.0
 margin_right = 95.0
 margin_bottom = 116.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="TabContainer" type="TabContainer" parent="Frame/Info"]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -202,7 +179,7 @@ margin_left = 95.0
 margin_top = 28.0
 margin_right = 285.0
 margin_bottom = 165.0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 tab_align = 0
 
 [node name="Stats" type="Tabs" parent="Frame/Info/TabContainer"]
@@ -212,7 +189,7 @@ margin_left = 4.0
 margin_top = 25.0
 margin_right = -4.0
 margin_bottom = -4.0
-theme = SubResource( 38 )
+theme = ExtResource( 2 )
 tab_align = 0
 
 [node name="Bars" type="Control" parent="Frame/Info/TabContainer/Stats"]
@@ -225,7 +202,7 @@ margin_left = 79.6667
 margin_top = 88.0
 margin_right = 168.667
 margin_bottom = 99.0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 custom_styles/fg = SubResource( 35 )
 custom_styles/bg = SubResource( 8 )
 value = 50.0
@@ -240,7 +217,7 @@ margin_left = -42.5
 margin_top = -3.5
 margin_right = 42.5
 margin_bottom = 3.5
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "0/100"
 align = 1
 
@@ -250,7 +227,7 @@ margin_top = 20.6666
 margin_right = 174.667
 margin_bottom = 29.6666
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Level: 1"
 align = 2
 
@@ -261,7 +238,7 @@ margin_top = 1.0
 margin_right = 160.5
 margin_bottom = 18.0
 grow_horizontal = 2
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Base Attribute Gain: 0.1
 Base Exp Gain: 100"
 align = 1
@@ -272,7 +249,7 @@ margin_top = 31.6667
 margin_right = 174.0
 margin_bottom = 40.6667
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Str: 10 + 0.05"
 
 [node name="Dex_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
@@ -281,7 +258,7 @@ margin_top = 44.0
 margin_right = 174.0
 margin_bottom = 53.0
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Dex: 10 + 0.05"
 
 [node name="Wis_Label" type="Label" parent="Frame/Info/TabContainer/Stats"]
@@ -290,7 +267,7 @@ margin_top = 56.3333
 margin_right = 174.0
 margin_bottom = 65.3333
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Wis: 10 + 0.05"
 
 [node name="Exp_label" type="Label" parent="Frame/Info/TabContainer/Stats"]
@@ -299,7 +276,7 @@ margin_top = 68.0
 margin_right = 174.0
 margin_bottom = 77.0
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Exp: 0  + 50"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

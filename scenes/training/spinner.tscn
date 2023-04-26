@@ -1,10 +1,10 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/visual/training/wheel/wheel_1.png" type="Texture" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/window_04.png" type="Texture" id=2]
-[ext_resource path="res://Digigoats-V3-5/visual/training/wheel/arrow.png" type="Texture" id=3]
-[ext_resource path="res://Digigoats-V3-5/visual/training/wheel/stop.png" type="Texture" id=4]
-[ext_resource path="res://Digigoats-V3-5/scripts/training/spinner.gd" type="Script" id=5]
+[ext_resource path="res://visual/training/wheel/wheel_1.png" type="Texture" id=1]
+[ext_resource path="res://visual/effects/particles/window_04.png" type="Texture" id=2]
+[ext_resource path="res://visual/training/wheel/arrow.png" type="Texture" id=3]
+[ext_resource path="res://visual/training/wheel/stop.png" type="Texture" id=4]
+[ext_resource path="res://scripts/training/spinner.gd" type="Script" id=5]
 
 [sub_resource type="Animation" id=44]
 resource_name = "fade"
@@ -172,6 +172,7 @@ texture = ExtResource( 3 )
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2( 128.196, -233 )
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 6 )

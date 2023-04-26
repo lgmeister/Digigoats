@@ -1,24 +1,13 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/inventory/repo/weapon/dagger.tres" type="Resource" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon010.png" type="Texture" id=2]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/empty_slot_frame_square.png" type="Texture" id=3]
-[ext_resource path="res://Digigoats-V3-5/scripts/inventory_item.gd" type="Script" id=4]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon231.png" type="Texture" id=5]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/tool_tip_frame_small.png" type="Texture" id=6]
-[ext_resource path="res://Digigoats-V3-5/inventory/icon/tooltip/icon178.png" type="Texture" id=7]
-
-[sub_resource type="DynamicFontData" id=2]
-font_path = "res://fonts/kongtext.regular.ttf"
-
-[sub_resource type="DynamicFont" id=4]
-size = 6
-outline_size = 1
-outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 2 )
-
-[sub_resource type="Theme" id=39]
-default_font = SubResource( 4 )
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=1]
+[ext_resource path="res://visual/GUI/Frames/empty_slot_frame_square.png" type="Texture" id=2]
+[ext_resource path="res://visual/GUI/Frames/tool_tip_frame_small.png" type="Texture" id=4]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon010.png" type="Texture" id=5]
+[ext_resource path="res://inventory/icon/tooltip/icon178.png" type="Texture" id=6]
+[ext_resource path="res://scripts/inventory_item.gd" type="Script" id=7]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon231.png" type="Texture" id=8]
+[ext_resource path="res://inventory/repo/weapon/dagger.tres" type="Resource" id=9]
 
 [sub_resource type="CircleShape2D" id=35]
 
@@ -32,11 +21,11 @@ margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 3 )
+texture_normal = ExtResource( 2 )
 expand = true
 stretch_mode = 5
-script = ExtResource( 4 )
-Item = ExtResource( 1 )
+script = ExtResource( 7 )
+Item = ExtResource( 9 )
 
 [node name="amount_label" type="Label" parent="."]
 margin_left = 3.0
@@ -44,7 +33,7 @@ margin_top = 23.0
 margin_right = 29.0
 margin_bottom = 30.0
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 align = 2
 clip_text = true
 
@@ -71,7 +60,7 @@ margin_left = 3.0
 margin_top = 22.0
 margin_right = 9.0
 margin_bottom = 29.0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 
 [node name="particles" type="CPUParticles2D" parent="."]
 visible = false
@@ -94,7 +83,7 @@ visible = false
 self_modulate = Color( 1, 1, 1, 0.85 )
 position = Vector2( 73, -15 )
 z_index = 3
-texture = ExtResource( 6 )
+texture = ExtResource( 4 )
 
 [node name="title_label" type="Label" parent="tooltip"]
 anchor_left = 0.5
@@ -105,7 +94,7 @@ margin_left = -108.0
 margin_top = -60.5
 margin_right = -54.0
 margin_bottom = -53.5
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "Dagger"
 
 [node name="gold_label" type="Label" parent="tooltip"]
@@ -118,7 +107,7 @@ margin_top = -60.5
 margin_right = -8.0
 margin_bottom = -53.5
 grow_horizontal = 0
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "10"
 align = 2
 
@@ -127,7 +116,7 @@ margin_left = -10.0
 margin_top = -1.0
 margin_right = -1.0
 margin_bottom = 8.0
-texture = ExtResource( 2 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -140,7 +129,7 @@ margin_left = -99.0
 margin_top = -50.5
 margin_right = -87.0
 margin_bottom = -43.5
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "15"
 
 [node name="icon" type="TextureRect" parent="tooltip/label_1"]
@@ -148,7 +137,7 @@ margin_left = -10.0
 margin_top = -1.0
 margin_right = -1.0
 margin_bottom = 8.0
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
@@ -162,7 +151,7 @@ margin_left = -99.0
 margin_top = -40.5
 margin_right = -87.0
 margin_bottom = -33.5
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "15"
 
 [node name="icon" type="TextureRect" parent="tooltip/label_2"]
@@ -170,7 +159,7 @@ margin_left = -10.0
 margin_top = -1.0
 margin_right = -1.0
 margin_bottom = 8.0
-texture = ExtResource( 5 )
+texture = ExtResource( 8 )
 expand = true
 stretch_mode = 6
 
@@ -183,7 +172,7 @@ margin_left = -109.0
 margin_top = -24.5
 margin_right = -5.0
 margin_bottom = -5.5
-theme = SubResource( 39 )
+theme = ExtResource( 1 )
 text = "A regular old dagger. Lame..."
 autowrap = true
 clip_text = true

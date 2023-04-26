@@ -112,14 +112,9 @@ func _ready():
 
 	if in_fight or in_training:
 		Input.set_custom_mouse_cursor(cross_hair)
-		set_collision_layer_bit(0,false)
-		set_collision_layer_bit(4,true)
-		set_collision_mask_bit(0,false)
-		set_collision_mask_bit(4,true)
-		set_collision_mask_bit(12,true)
 	
 	if in_training:
-		goat_id = Global.active_goat.goat_id
+		goat_id = Global.training_goat
 		input_allowed = true
 	else:
 		if Global.active_goat != null:
@@ -152,13 +147,15 @@ func get_input():
 		
 		profile_open = true
 		
-		var profile_instance = Global.MAIN.load_scene("profile")	
+		var profile = preload("res://scenes/Profile.tscn")
+		var profile_instance = profile.instance()
+		
 		profile_instance.global_position = Vector2(200 * GlobalCamera.zoom.x,
-											  -100 * GlobalCamera.zoom.y) + Global.active_goat.global_position
+											  -100 * GlobalCamera.zoom.y)
 		profile_instance.scale = GlobalCamera.zoom
 		profile_instance.which_goat_node = self
 		goat_profile = profile_instance
-		Global.MAIN.add_scene(profile_instance,false)
+		add_child(profile_instance)
 		
 #		GlobalCamera.zoom = Vector2(.3,.3)
 	
@@ -355,9 +352,9 @@ func _process(delta):
 		else: 
 			return
 		
-#		if "Ground" or "Ledges" or "Roof" in which_raycast.get_collider().name:
-		fuel -= 50 * delta
-		fuel_bar.value = fuel
+		if "Ground" or "Ledges" or "Roof" in which_raycast.get_collider().name:
+			fuel -= 50 * delta
+			fuel_bar.value = fuel
 			
 	if flying or hovering:
 		fuel += 50 * delta
@@ -543,7 +540,6 @@ func death():
 	Global.MAIN.hide_scene("entry",0,false)
 	Global.in_battle = false
 	Global.active_goat.input_allowed = true
-	Global.active_goat.global_position = Vector2(rand_range(200,600),300)
 	Global.MAIN.remove_scene("battle",2)
 
 

@@ -93,7 +93,7 @@ func _ready():
 	create_line()
 	update_bars("instant")
 	update_attributes(false)
-	which_goat_node.goat_exp = 100
+#	which_goat_node.goat_exp = 100 
 	
 func load_inventory(filter):
 	clear_inventory()
@@ -260,6 +260,7 @@ func _process(delta):
 	if move_frame:
 		self.position = Vector2(get_global_mouse_position().x-temp_mouse_pos.x-1,\
 		get_global_mouse_position().y + (80*self.scale.x)) - which_goat_node.position\
+		+ Global.active_goat.global_position
 		
 	elif profile_pinned:
 		pass
@@ -281,6 +282,7 @@ func _input(event):
 		self.position += frame_to_goat * Global.camera_zoom_level
 
 func _on_exit_button_pressed():
+	which_goat_node.profile_open = false
 	queue_free()
 
 
@@ -322,9 +324,13 @@ func _on_contract_button_pressed():
 	
 
 func _on_fight_button_pressed():
-	Global.active_goat = which_goat_node.goat_id
-# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://scenes/battles/single_battle.tscn")
+	Global.active_goat = which_goat_node
+	Global.active_goat.input_allowed = false
+	var scene = Global.MAIN.load_scene("battle")
+	Global.MAIN.add_scene(scene,false)
+	Global.MAIN.hide_scene("entry",0,true)
+
+
 
 
 func _on_train_button_pressed():
@@ -335,10 +341,11 @@ func _on_train_popup_item_selected(index):
 	train_popup.hide()
 	var choice = train_popup.get_item_text(index)
 	if choice == "Train":
-		Global.active_goat = which_goat_node.goat_id
+		Global.active_goat = which_goat_node
 		which_goat_node.goat_current_energy -= 25
 # warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/training.tscn")
+		var scene = Global.MAIN.load_scene("training")
+		Global.MAIN.add_scene(scene,false)
 	elif choice == "Quick Train (50%)":
 		which_goat_node.goat_current_energy = 0
 		update_bars("slow")

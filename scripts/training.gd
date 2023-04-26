@@ -32,7 +32,11 @@ onready var tween = $Tween
 var cursor = load("res://visual/GUI/cursors/Arrow_Rounded_Blue.png")
 
 func _ready():
-	GlobalCamera.reset()
+	Global.goat_in_training = true
+	Global.MAIN.hide_scene("entry",0,true)
+#	GlobalCamera.reset()
+	GlobalCamera.position = self.global_position
+	
 	portal.hide()
 	portal.monitoring = false
 	
@@ -49,16 +53,18 @@ func _ready():
 
 func load_goat():
 	var goat_scene = load("res://scenes/battles/Character_Fight.tscn")
-	var scene_instance = goat_scene.instance()
-	scene_instance.position = Vector2(200,300)
-	scene_instance.in_training = true
-	which_goat_node = scene_instance
-	add_child(scene_instance)
+	var scene = goat_scene.instance()
+	scene.position = Vector2(200,300)
+	scene.in_training = true
+	scene.fight_scene = self
+	which_goat_node = scene
+	add_child(scene)
 
 
 func load_training():
 	var training_scene = load("res://scenes/training/spinner.tscn")
 	var scene_instance = training_scene.instance()
+	scene_instance.training_scene = self
 	add_child(scene_instance)
 	spinner = scene_instance
 
@@ -105,6 +111,7 @@ func percent_change(percent,type):
 		
 		portal.show()	
 		animation.play("portal")
+
 
 func _input(event):
 	if event.is_action_pressed("action") and portal_active:

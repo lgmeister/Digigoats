@@ -26,7 +26,7 @@ func _ready():
 	pass
 	
 func _process(_delta):
-	if Global.active_goat != null:
+	if Global.active_goat != null and not Global.goat_in_training and not Global.in_battle:
 		position = Global.active_goat.global_position - screen_mid * zoom
 	
 func reset():
@@ -48,8 +48,7 @@ func _input(event):
 		tween.stop(self)
 		position = Vector2(0,0)
 		intro_ani = false
-	
-	
+
 	
 	### Drag Screen
 	if event.is_action("mouse_middle_click") and not Global.in_battle:

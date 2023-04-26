@@ -1,10 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/npcs/animation/blacksmith.tres" type="SpriteFrames" id=1]
-[ext_resource path="res://Digigoats-V3-5/npcs/animation/emotes.tres" type="SpriteFrames" id=2]
-[ext_resource path="res://Digigoats-V3-5/visual/effects/particles/light_01.png" type="Texture" id=3]
-[ext_resource path="res://Digigoats-V3-5/scripts/characters/npc.gd" type="Script" id=4]
-[ext_resource path="res://Digigoats-V3-5/npcs/repo/rat.tres" type="Resource" id=5]
+[ext_resource path="res://scripts/characters/npc.gd" type="Script" id=1]
+[ext_resource path="res://npcs/animation/emotes.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://npcs/animation/blacksmith.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://npcs/repo/rat.tres" type="Resource" id=4]
+[ext_resource path="res://visual/effects/particles/light_01.png" type="Texture" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
 radius = 18.0
@@ -17,13 +17,13 @@ extents = Vector2( 54, 35.75 )
 z_index = 1
 collision_layer = 8
 collision_mask = 256
-script = ExtResource( 4 )
-NPC = ExtResource( 5 )
+script = ExtResource( 1 )
+NPC = ExtResource( 4 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 1.38889, -37 )
 z_index = 1
-frames = ExtResource( 1 )
+frames = ExtResource( 3 )
 animation = "New Anim"
 
 [node name="emote" type="AnimatedSprite" parent="."]
@@ -32,7 +32,7 @@ position = Vector2( -5, -75 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 2 )
 animation = "exclamation"
-frame = 2
+frame = 1
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -49,7 +49,7 @@ shape = SubResource( 2 )
 visible = false
 position = Vector2( 2, -16 )
 scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 3 )
+texture = ExtResource( 5 )
 color = Color( 1, 0.243137, 0.243137, 1 )
 energy = 1.4
 

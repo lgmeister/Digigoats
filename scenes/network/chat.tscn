@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/fonts/themes/chat_text.tres" type="Theme" id=1]
-[ext_resource path="res://Digigoats-V3-5/scripts/training/chat.gd" type="Script" id=2]
-[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=3]
+[ext_resource path="res://fonts/themes/chat_text.tres" type="Theme" id=1]
+[ext_resource path="res://scripts/network/chat.gd" type="Script" id=2]
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=3]
 
 [sub_resource type="StyleBoxFlat" id=44]
 bg_color = Color( 0.0470588, 0.0470588, 0.0470588, 1 )

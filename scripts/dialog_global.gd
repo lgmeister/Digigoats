@@ -1,6 +1,6 @@
 extends Node
 
-onready var main
+var main
 
 var npc_name
 

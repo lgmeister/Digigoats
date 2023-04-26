@@ -11,10 +11,11 @@ var spinner_type
 var attribute = 1
 var rng = RandomNumberGenerator.new()
 
+var training_scene
 
 func _ready():
 # warning-ignore:return_value_discarded
-	connect("percent_change",get_tree().get_root().get_node("training"),"percent_change")
+	connect("percent_change",training_scene,"percent_change")
 	next_spinner(1)
 
 

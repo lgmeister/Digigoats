@@ -1,46 +1,57 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=50 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/scripts/Profile.gd" type="Script" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/contract.png" type="Texture" id=2]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/contract_disabled.png" type="Texture" id=3]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/backpack_disabled.png" type="Texture" id=4]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/expand_disabled.png" type="Texture" id=5]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/contract_pressed.png" type="Texture" id=6]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/expand.png" type="Texture" id=7]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/backpack.png" type="Texture" id=8]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/backpack_pressed.png" type="Texture" id=9]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/expand_pressed.png" type="Texture" id=10]
-[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_text.tres" type="Theme" id=11]
-[ext_resource path="res://Digigoats-V3-5/fonts/themes/Blocky_small_title.tres" type="Theme" id=12]
-[ext_resource path="res://Digigoats-V3-5/inventory/icon/tooltip/infinite.png" type="Texture" id=13]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/portrait_frame.png" type="Texture" id=14]
-[ext_resource path="res://Digigoats-V3-5/goats/images/00703.png" type="Texture" id=15]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/arrow_pressed.png" type="Texture" id=16]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/fight_disabled.png" type="Texture" id=17]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/info_alone.png" type="Texture" id=18]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex.png" type="Texture" id=19]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/fight.png" type="Texture" id=20]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/Frame_1_new.png" type="Texture" id=21]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/arrow_disabled.png" type="Texture" id=22]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/arrow.png" type="Texture" id=23]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex_disabled.png" type="Texture" id=24]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/inventory_frame.png" type="Texture" id=25]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/ex_pressed.png" type="Texture" id=26]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/fight_pressed.png" type="Texture" id=27]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/long_button_blank.png" type="Texture" id=28]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/long_button_blank_disabled.png" type="Texture" id=29]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/Frames/frame_2.png" type="Texture" id=30]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/buttons/long_button_blank_pressed.png" type="Texture" id=31]
+[ext_resource path="res://visual/GUI/buttons/ex_pressed.png" type="Texture" id=1]
+[ext_resource path="res://visual/GUI/buttons/ex.png" type="Texture" id=2]
+[ext_resource path="res://visual/GUI/Frames/Frame_1_new.png" type="Texture" id=3]
+[ext_resource path="res://visual/GUI/buttons/ex_disabled.png" type="Texture" id=4]
+[ext_resource path="res://inventory/icon/tooltip/infinite.png" type="Texture" id=5]
+[ext_resource path="res://scripts/Profile.gd" type="Script" id=6]
+[ext_resource path="res://goats/images/00703.png" type="Texture" id=7]
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=8]
+[ext_resource path="res://fonts/themes/Blocky_small_title.tres" type="Theme" id=9]
+[ext_resource path="res://visual/GUI/Frames/portrait_frame.png" type="Texture" id=10]
+[ext_resource path="res://visual/GUI/buttons/info_alone.png" type="Texture" id=11]
+[ext_resource path="res://visual/GUI/buttons/muscle_pressed.png" type="Texture" id=12]
+[ext_resource path="res://visual/GUI/buttons/muscle_disabled.png" type="Texture" id=13]
+[ext_resource path="res://visual/GUI/Frames/frame_2.png" type="Texture" id=14]
+[ext_resource path="res://visual/GUI/buttons/muscle.png" type="Texture" id=15]
+[ext_resource path="res://visual/GUI/buttons/fight.png" type="Texture" id=16]
+[ext_resource path="res://visual/GUI/buttons/backpack_disabled.png" type="Texture" id=17]
+[ext_resource path="res://visual/GUI/buttons/fight_disabled.png" type="Texture" id=18]
+[ext_resource path="res://visual/GUI/buttons/fight_pressed.png" type="Texture" id=19]
+[ext_resource path="res://visual/GUI/buttons/backpack.png" type="Texture" id=20]
+[ext_resource path="res://visual/GUI/buttons/backpack_pressed.png" type="Texture" id=21]
+[ext_resource path="res://visual/GUI/buttons/expand_pressed.png" type="Texture" id=22]
+[ext_resource path="res://visual/GUI/buttons/expand.png" type="Texture" id=23]
+[ext_resource path="res://visual/GUI/buttons/expand_disabled.png" type="Texture" id=24]
+[ext_resource path="res://visual/GUI/buttons/contract.png" type="Texture" id=25]
+[ext_resource path="res://visual/GUI/buttons/contract_disabled.png" type="Texture" id=26]
+[ext_resource path="res://visual/GUI/buttons/contract_pressed.png" type="Texture" id=27]
+[ext_resource path="res://visual/GUI/Frames/inventory_frame.png" type="Texture" id=28]
+[ext_resource path="res://visual/GUI/buttons/arrow_pressed.png" type="Texture" id=29]
+[ext_resource path="res://visual/GUI/buttons/arrow_disabled.png" type="Texture" id=34]
+[ext_resource path="res://visual/GUI/buttons/arrow.png" type="Texture" id=35]
+[ext_resource path="res://visual/GUI/buttons/long_button_blank_disabled.png" type="Texture" id=36]
+[ext_resource path="res://visual/GUI/buttons/long_button_blank_pressed.png" type="Texture" id=37]
+[ext_resource path="res://visual/GUI/buttons/long_button_blank.png" type="Texture" id=38]
 
 [sub_resource type="Gradient" id=36]
 offsets = PoolRealArray( 0, 0.459184, 0.989796, 1 )
 colors = PoolColorArray( 1, 0.65625, 0, 1, 1, 0.679688, 0, 0.359504, 1, 0.811273, 0, 0.0798897, 1, 0.819608, 0, 0 )
 
-[sub_resource type="InputEventAction" id=38]
+[sub_resource type="StyleBoxFlat" id=34]
+bg_color = Color( 0.203922, 0.188235, 0.160784, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.239216, 0.239216, 0.239216, 1 )
+
+[sub_resource type="InputEventAction" id=1]
 action = "escape"
 
 [sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 38 )
+shortcut = SubResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 1, 0, 0, 1 )
@@ -127,6 +138,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=37]
+resource_name = "attribute_flash"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Frame/Info/Str_Label:self_modulate")
@@ -222,7 +234,7 @@ tracks/0/keys = {
 [node name="Profile" type="Node2D"]
 light_mask = 0
 z_index = 4
-script = ExtResource( 1 )
+script = ExtResource( 6 )
 
 [node name="Line2D" type="Line2D" parent="."]
 points = PoolVector2Array( 0, 0, 0, 0, 0, 0 )
@@ -241,7 +253,7 @@ margin_right = 156.0
 margin_bottom = 122.0
 rect_pivot_offset = Vector2( 11.5454, -6.02179 )
 mouse_filter = 2
-texture = ExtResource( 30 )
+texture = ExtResource( 14 )
 expand = true
 __meta__ = {
 "_edit_lock_": true
@@ -254,11 +266,33 @@ margin_right = 47.0
 margin_bottom = 198.0
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
-texture_disabled = ExtResource( 4 )
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 21 )
+texture_disabled = ExtResource( 17 )
 expand = true
 stretch_mode = 5
+
+[node name="train_button" type="TextureButton" parent="Action_Frame"]
+margin_left = 237.0
+margin_top = 168.0
+margin_right = 267.0
+margin_bottom = 198.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 12 )
+texture_disabled = ExtResource( 13 )
+expand = true
+
+[node name="train_popup" type="ItemList" parent="Action_Frame/train_button"]
+visible = false
+margin_left = -84.0
+margin_top = 33.0
+margin_right = 25.0
+margin_bottom = 72.0
+theme = ExtResource( 8 )
+custom_styles/bg = SubResource( 34 )
+items = [ "Train", null, false, "Quick Train (50%)", null, false, "Cancel", null, false ]
 
 [node name="fight_button" type="TextureButton" parent="Action_Frame"]
 margin_left = 265.0
@@ -267,9 +301,9 @@ margin_right = 295.0
 margin_bottom = 198.0
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 20 )
-texture_pressed = ExtResource( 27 )
-texture_disabled = ExtResource( 17 )
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 19 )
+texture_disabled = ExtResource( 18 )
 expand = true
 
 [node name="Inventory_Frame" type="TextureRect" parent="."]
@@ -283,7 +317,7 @@ margin_right = 161.0
 margin_bottom = 83.0
 rect_pivot_offset = Vector2( -173.339, 20.6767 )
 mouse_filter = 2
-texture = ExtResource( 25 )
+texture = ExtResource( 28 )
 expand = true
 stretch_mode = 6
 __meta__ = {
@@ -297,9 +331,9 @@ margin_right = 214.0
 margin_bottom = 58.0
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 28 )
-texture_pressed = ExtResource( 31 )
-texture_disabled = ExtResource( 29 )
+texture_normal = ExtResource( 38 )
+texture_pressed = ExtResource( 37 )
+texture_disabled = ExtResource( 36 )
 expand = true
 flip_h = true
 
@@ -310,7 +344,7 @@ margin_right = 27.0
 margin_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Sort"
 align = 1
 
@@ -319,7 +353,7 @@ margin_left = 29.0
 margin_top = 2.0
 margin_right = 40.0
 margin_bottom = 11.0
-texture = ExtResource( 13 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -328,7 +362,7 @@ margin_left = 156.0
 margin_top = 32.0
 margin_right = 228.0
 margin_bottom = 41.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Inventory"
 align = 1
 
@@ -348,9 +382,9 @@ margin_right = 229.0
 margin_bottom = 184.5
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 23 )
-texture_pressed = ExtResource( 16 )
-texture_disabled = ExtResource( 22 )
+texture_normal = ExtResource( 35 )
+texture_pressed = ExtResource( 29 )
+texture_disabled = ExtResource( 34 )
 expand = true
 
 [node name="arrow_left" type="TextureButton" parent="Inventory_Frame"]
@@ -360,9 +394,9 @@ margin_right = 174.0
 margin_bottom = 184.5
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 23 )
-texture_pressed = ExtResource( 16 )
-texture_disabled = ExtResource( 22 )
+texture_normal = ExtResource( 35 )
+texture_pressed = ExtResource( 29 )
+texture_disabled = ExtResource( 34 )
 expand = true
 flip_h = true
 
@@ -373,7 +407,7 @@ margin_right = 201.0
 margin_bottom = 179.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "1/1"
 align = 1
 
@@ -388,7 +422,7 @@ margin_right = 216.0
 margin_bottom = 148.5
 rect_pivot_offset = Vector2( 70, 56.5 )
 mouse_filter = 2
-texture = ExtResource( 21 )
+texture = ExtResource( 3 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -400,9 +434,9 @@ margin_right = 357.0
 margin_bottom = 80.0
 focus_mode = 0
 enabled_focus_mode = 0
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 10 )
-texture_disabled = ExtResource( 5 )
+texture_normal = ExtResource( 23 )
+texture_pressed = ExtResource( 22 )
+texture_disabled = ExtResource( 24 )
 expand = true
 
 [node name="contract_button" type="TextureButton" parent="Frame"]
@@ -413,9 +447,9 @@ margin_top = 61.0
 margin_right = 357.0
 margin_bottom = 80.0
 disabled = true
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 6 )
-texture_disabled = ExtResource( 3 )
+texture_normal = ExtResource( 25 )
+texture_pressed = ExtResource( 27 )
+texture_disabled = ExtResource( 26 )
 expand = true
 
 [node name="exit_button" type="TextureButton" parent="Frame"]
@@ -426,9 +460,9 @@ margin_bottom = 80.0
 focus_mode = 0
 enabled_focus_mode = 0
 shortcut = SubResource( 2 )
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 26 )
-texture_disabled = ExtResource( 24 )
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 1 )
+texture_disabled = ExtResource( 4 )
 expand = true
 
 [node name="move_button" type="Button" parent="Frame"]
@@ -476,7 +510,7 @@ margin_left = -132.0
 margin_top = -148.0
 margin_right = 126.0
 margin_bottom = 110.0
-texture = ExtResource( 15 )
+texture = ExtResource( 7 )
 stretch_mode = 6
 
 [node name="Info" type="Control" parent="Frame"]
@@ -495,7 +529,7 @@ margin_top = 7.0
 margin_right = 231.0
 margin_bottom = 23.0
 grow_horizontal = 2
-theme = ExtResource( 12 )
+theme = ExtResource( 9 )
 text = "Pope John Paul"
 clip_text = true
 
@@ -504,7 +538,7 @@ margin_left = 13.0
 margin_top = 109.0
 margin_right = 85.0
 margin_bottom = 118.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Level: 1"
 align = 1
 
@@ -514,7 +548,7 @@ margin_top = 119.0
 margin_right = 64.0
 margin_bottom = 128.0
 grow_horizontal = 2
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Noob"
 align = 1
 
@@ -524,7 +558,7 @@ margin_left = -10.0
 margin_top = -0.5
 margin_right = -1.0
 margin_bottom = 8.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="Str_Label" type="Label" parent="Frame/Info"]
@@ -533,7 +567,7 @@ margin_top = 135.0
 margin_right = 70.0
 margin_bottom = 144.0
 grow_horizontal = 2
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Str: 10"
 align = 1
 
@@ -543,7 +577,7 @@ margin_left = -11.0
 margin_top = -0.5
 margin_right = -2.0
 margin_bottom = 8.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="Dex_Label" type="Label" parent="Frame/Info"]
@@ -552,7 +586,7 @@ margin_top = 145.0
 margin_right = 70.0
 margin_bottom = 154.0
 grow_horizontal = 2
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Dex: 10"
 align = 1
 
@@ -562,7 +596,7 @@ margin_left = -11.0
 margin_top = -0.5
 margin_right = -2.0
 margin_bottom = 8.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="Wis_Label" type="Label" parent="Frame/Info"]
@@ -571,7 +605,7 @@ margin_top = 155.0
 margin_right = 70.0
 margin_bottom = 164.0
 grow_horizontal = 2
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Wis: 10"
 align = 1
 
@@ -581,7 +615,7 @@ margin_left = -11.0
 margin_top = -0.5
 margin_right = -2.0
 margin_bottom = 8.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="goat_frame" type="TextureRect" parent="Frame/Info"]
@@ -589,24 +623,24 @@ margin_left = 10.0
 margin_top = 31.0
 margin_right = 95.0
 margin_bottom = 116.0
-texture = ExtResource( 14 )
+texture = ExtResource( 10 )
 
 [node name="TabContainer" type="TabContainer" parent="Frame/Info"]
 margin_left = 95.0
 margin_top = 28.0
 margin_right = 285.0
 margin_bottom = 165.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 tab_align = 0
 
 [node name="Stats" type="Tabs" parent="Frame/Info/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
-margin_top = 20.0
+margin_top = 25.0
 margin_right = -4.0
 margin_bottom = -4.0
-theme = ExtResource( 12 )
+theme = ExtResource( 9 )
 tab_align = 0
 
 [node name="Bars" type="Control" parent="Frame/Info/TabContainer/Stats"]
@@ -619,7 +653,7 @@ margin_left = 1.0
 margin_top = 19.0
 margin_right = 178.0
 margin_bottom = 32.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 custom_styles/fg = SubResource( 5 )
 custom_styles/bg = SubResource( 8 )
 value = 100.0
@@ -630,7 +664,7 @@ margin_left = 1.0
 margin_top = -10.0
 margin_right = 175.0
 margin_bottom = -3.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Hit Points"
 align = 1
 
@@ -639,7 +673,7 @@ margin_left = 1.0
 margin_top = 3.0
 margin_right = 175.0
 margin_bottom = 10.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "100/100"
 align = 1
 
@@ -649,7 +683,7 @@ margin_left = 48.0
 margin_top = -10.5
 margin_right = 57.0
 margin_bottom = -1.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="Happiness_Bar" type="ProgressBar" parent="Frame/Info/TabContainer/Stats/Bars"]
@@ -657,7 +691,7 @@ margin_left = 1.0
 margin_top = 48.0
 margin_right = 178.0
 margin_bottom = 61.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 custom_styles/fg = SubResource( 6 )
 custom_styles/bg = SubResource( 9 )
 value = 100.0
@@ -668,7 +702,7 @@ margin_left = 1.0
 margin_top = -10.0
 margin_right = 175.0
 margin_bottom = -3.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Happiness"
 align = 1
 
@@ -677,7 +711,7 @@ margin_left = 1.0
 margin_top = 3.0
 margin_right = 175.0
 margin_bottom = 10.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "100/100"
 align = 1
 
@@ -687,7 +721,7 @@ margin_left = 51.0
 margin_top = -10.5
 margin_right = 60.0
 margin_bottom = -1.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="Energy_Bar" type="ProgressBar" parent="Frame/Info/TabContainer/Stats/Bars"]
@@ -695,7 +729,7 @@ margin_left = 1.0
 margin_top = 77.0
 margin_right = 178.0
 margin_bottom = 90.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 custom_styles/fg = SubResource( 7 )
 custom_styles/bg = SubResource( 10 )
 value = 100.0
@@ -706,7 +740,7 @@ margin_left = 1.0
 margin_top = -10.0
 margin_right = 175.0
 margin_bottom = -3.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Energy"
 align = 1
 
@@ -715,7 +749,7 @@ margin_left = 1.0
 margin_top = 3.0
 margin_right = 175.0
 margin_bottom = 10.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "100/100"
 align = 1
 
@@ -725,7 +759,7 @@ margin_left = 60.0
 margin_top = -10.5
 margin_right = 69.0
 margin_bottom = -1.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="EXP_Bar" type="ProgressBar" parent="Frame/Info/TabContainer/Stats/Bars"]
@@ -733,7 +767,7 @@ margin_left = 1.0
 margin_top = 106.0
 margin_right = 178.0
 margin_bottom = 119.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 custom_styles/fg = SubResource( 35 )
 custom_styles/bg = SubResource( 8 )
 value = 50.0
@@ -744,7 +778,7 @@ margin_left = 1.0
 margin_top = -10.0
 margin_right = 175.0
 margin_bottom = -3.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Experience"
 align = 1
 
@@ -753,7 +787,7 @@ margin_left = 1.0
 margin_top = 3.0
 margin_right = 175.0
 margin_bottom = 10.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "0/100"
 align = 1
 
@@ -763,7 +797,7 @@ margin_left = 48.0
 margin_top = -10.5
 margin_right = 57.0
 margin_bottom = -1.5
-texture_normal = ExtResource( 18 )
+texture_normal = ExtResource( 11 )
 expand = true
 
 [node name="Data" type="Tabs" parent="Frame/Info/TabContainer"]
@@ -774,7 +808,7 @@ margin_left = 4.0
 margin_top = 25.0
 margin_right = -4.0
 margin_bottom = -4.0
-theme = ExtResource( 12 )
+theme = ExtResource( 9 )
 
 [node name="Gear" type="Tabs" parent="Frame/Info/TabContainer"]
 visible = false
@@ -784,7 +818,7 @@ margin_left = 4.0
 margin_top = 25.0
 margin_right = -4.0
 margin_bottom = -4.0
-theme = ExtResource( 12 )
+theme = ExtResource( 9 )
 
 [node name="head_slot" type="Control" parent="Frame/Info/TabContainer/Gear"]
 margin_left = 7.0
@@ -797,7 +831,7 @@ margin_left = -7.0
 margin_top = -9.0
 margin_right = 41.0
 margin_bottom = -2.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Headgear"
 align = 1
 
@@ -812,7 +846,7 @@ margin_left = -7.0
 margin_top = -9.0
 margin_right = 41.0
 margin_bottom = -2.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Weapon"
 align = 1
 
@@ -827,7 +861,7 @@ margin_left = -7.0
 margin_top = -9.0
 margin_right = 41.0
 margin_bottom = -2.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Armor"
 align = 1
 
@@ -842,7 +876,7 @@ margin_left = -7.0
 margin_top = -9.0
 margin_right = 41.0
 margin_bottom = -2.0
-theme = ExtResource( 11 )
+theme = ExtResource( 8 )
 text = "Misc"
 align = 1
 
@@ -855,6 +889,8 @@ anims/inventory_show = SubResource( 32 )
 [node name="Tween" type="Tween" parent="."]
 
 [connection signal="pressed" from="Action_Frame/inventory_button" to="." method="_on_inventory_button_pressed"]
+[connection signal="pressed" from="Action_Frame/train_button" to="." method="_on_train_button_pressed"]
+[connection signal="item_selected" from="Action_Frame/train_button/train_popup" to="." method="_on_train_popup_item_selected"]
 [connection signal="pressed" from="Action_Frame/fight_button" to="." method="_on_fight_button_pressed"]
 [connection signal="pressed" from="Inventory_Frame/sort_button" to="." method="_on_sort_button_pressed"]
 [connection signal="pressed" from="Inventory_Frame/arrow_right" to="." method="_on_arrow_right_pressed"]

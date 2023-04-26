@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon0001.png" type="Texture" id=1]
-[ext_resource path="res://Digigoats-V3-5/visual/GUI/icons/individual_32x32/icon002.png" type="Texture" id=2]
-[ext_resource path="res://Digigoats-V3-5/scripts/battles/health_heart.gd" type="Script" id=3]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon0001.png" type="Texture" id=1]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon002.png" type="Texture" id=3]
+[ext_resource path="res://scripts/battles/health_heart.gd" type="Script" id=4]
 
 [sub_resource type="StreamTexture" id=5]
 load_path = "res://.import/icon001.png-e2484258264c85c9b7a9d7c8d676aa22.stex"
@@ -163,12 +163,12 @@ margin_bottom = -0.200001
 grow_horizontal = 0
 rect_rotation = 360.0
 rect_pivot_offset = Vector2( 16, 17.9932 )
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 
 [node name="none" type="TextureRect" parent="."]
 margin_right = 32.0
 margin_bottom = 32.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="half" type="TextureRect" parent="."]
 margin_right = 32.0
