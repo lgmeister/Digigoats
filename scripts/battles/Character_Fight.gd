@@ -303,6 +303,34 @@ func out_of_fuel():
 	
 func _process(delta):	
 	if not alive: return
+		
+	if not is_network_master():
+		set_physics_process(false)
+		return
+		
+	####PHYSICS ####
+	boost_particles.orbit_velocity = 0
+	get_input()
+	velocity.y += gravity * delta
+	
+	if velocity.x > 0:
+		velocity.x -= speed * 3 * delta
+	elif velocity.x < 0:
+		velocity.x += speed * 3 * delta
+	else:
+		velocity.x = 0
+	
+	if jumping:
+		boost_particles.speed_scale = 4
+		if facing == "right": boost_particles.orbit_velocity = 1
+		else: boost_particles.orbit_velocity = -1
+	else:
+		boost_particles.orbit_velocity = 0
+		boost_particles.speed_scale = 1
+#
+	velocity = move_and_slide(velocity,Vector2.UP,true)
+	#############
+
 	
 	if Global.multiplayer_active:
 		if not is_network_master():
@@ -369,35 +397,35 @@ func _process(delta):
 				aesthetic_weapon.position = Vector2(-1,-2)
 				weapon_strap.position = Vector2(-1,3)
 	
-func _physics_process(delta):
-	if not alive: return
-	
-	if not is_network_master():
-		set_physics_process(false)
-		return
-	
-	
-	boost_particles.orbit_velocity = 0
-	get_input()
-	velocity.y += gravity * delta
-	
-	if velocity.x > 0:
-		velocity.x -= speed * 3 * delta
-	elif velocity.x < 0:
-		velocity.x += speed * 3 * delta
-	else:
-		velocity.x = 0
-	
-	if jumping:
-		boost_particles.speed_scale = 4
-		if facing == "right": boost_particles.orbit_velocity = 1
-		else: boost_particles.orbit_velocity = -1
-	else:
-		boost_particles.orbit_velocity = 0
-		boost_particles.speed_scale = 1
+#func _physics_process(delta):
+#	if not alive: return
 #
-	velocity = move_and_slide(velocity,Vector2.UP,true)
-	
+#	if not is_network_master():
+#		set_physics_process(false)
+#		return
+#
+#
+#	boost_particles.orbit_velocity = 0
+#	get_input()
+#	velocity.y += gravity * delta
+#
+#	if velocity.x > 0:
+#		velocity.x -= speed * 3 * delta
+#	elif velocity.x < 0:
+#		velocity.x += speed * 3 * delta
+#	else:
+#		velocity.x = 0
+#
+#	if jumping:
+#		boost_particles.speed_scale = 4
+#		if facing == "right": boost_particles.orbit_velocity = 1
+#		else: boost_particles.orbit_velocity = -1
+#	else:
+#		boost_particles.orbit_velocity = 0
+#		boost_particles.speed_scale = 1
+##
+#	velocity = move_and_slide(velocity,Vector2.UP,true)
+#
 
 func _setGoat(newGoat : Resource):
 	Goat = newGoat
