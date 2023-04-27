@@ -119,7 +119,7 @@ func _ready():
 		set_collision_mask_bit(12,true)
 	
 	if in_training:
-		goat_id = Global.active_goat.goat_id
+		goat_id = Global.training_goat.goat_id
 		input_allowed = true
 	else:
 		if Global.active_goat != null:
@@ -346,18 +346,14 @@ func _process(delta):
 			rotation = puppet_rotation
 			return
 			
-
-	var which_raycast
 	if fuel > 0 and not flying and not hovering and not Input.is_action_pressed("boost"):
-		if raycast.is_colliding(): which_raycast = raycast
-		elif raycast2.is_colliding(): which_raycast = raycast2
-		elif raycast3.is_colliding(): which_raycast = raycast3
-		else: 
+		if not raycast.is_colliding() and\
+		not raycast2.is_colliding() and\
+		not raycast3.is_colliding(): 
 			return
-		
-#		if "Ground" or "Ledges" or "Roof" in which_raycast.get_collider().name:
-		fuel -= 50 * delta
-		fuel_bar.value = fuel
+		else:
+			fuel -= 50 * delta
+			fuel_bar.value = fuel
 			
 	if flying or hovering:
 		fuel += 50 * delta
