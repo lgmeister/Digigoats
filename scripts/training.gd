@@ -118,12 +118,18 @@ func _input(event):
 		which_goat_node.input_allowed = false
 		HUD.animation.play("black_screen")
 		yield(HUD.animation,"animation_finished")
+		HUD.animation.play_backwards("black_screen")
 
 		GlobalCamera.smoothing_enabled = true
 		HUD.remove_health_bar()
 		HUD.tooltip_bot("hide",null)
-# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/entry_world.tscn")	
+		
+		Global.MAIN.hide_scene("entry",0,false)
+		Global.goat_in_training = false
+		Global.active_goat.input_allowed = true
+		Global.active_goat.global_position = Vector2(rand_range(200,600),300)
+		Global.MAIN.remove_scene("training",2)
+
 
 func load_profile():
 	Input.set_custom_mouse_cursor(cursor)
