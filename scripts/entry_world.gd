@@ -12,9 +12,9 @@ onready var NPCS = $NPCS
 onready var animation = $AnimationPlayer
 
 ### Underground ###
-onready var portal_progress = $Underworld/portal_area/portal_progress
 onready var portal = $Underworld/portal_area
 onready var portal_particles = $Underworld/portal_area/portal_particles
+var warp_portal_active = false
 onready var tween = $Underworld/UnderworldTween
 onready var fight_portal = $Underworld/fight_portal/AnimatedSprite
 onready var portal_blocker = $Underworld/fight_portal_stop/CollisionShape2D
@@ -35,6 +35,7 @@ func _ready():
 	Input.set_custom_mouse_cursor(cursor)
 	title()	
 	Http_Request.request("time")
+	DialogGlobal.main = self
 
 	if not Global.multiplayer_active: ## Only load goats if in single player, otherwise network does it
 		load_goats()
@@ -58,11 +59,19 @@ func _ready():
 		GlobalCamera.following_goat = null
 
 func _process(_delta):
-	
 	### Moving background sky
 	background.position -= background_speed
-	if background.position.x <= -1920:
+	if background.position.x <= -1920: ### Fix this
 		background.position = Vector2(0,0)
+
+func _input(event):
+	if event.is_action_pressed("action"):
+		if warp_portal_active: 
+			warp_portal_active = false
+			tween.tween_property(tile_color,"color",Color.white,.5)
+			Global.active_goat.global_position = Vector2(rand_range(200,600),300)
+			Global.active_goat.goat_light.hide()
+
 	
 func title():
 	if Global.title_finished:
@@ -121,33 +130,16 @@ func _on_out_water_area_area_entered(area):
 func _on_portal_area_body_entered(body):
 	if "TileMap" in str(body):
 		return
-		
-	portal_progress.value = 0
-	portal_progress.show()
-	
-	tween.interpolate_property(portal_progress,"value",portal_progress.value,portal_progress.max_value,1.5)
-	tween.start()
-	tween.interpolate_property(portal,"modulate",Color(1,1,1,1),Color(1,0,0,1),1.5)
-	tween.start()
+	Global.active_goat.action_sprite_func("show")		
+	HUD.tooltip_bot("tip","Press E to Activate...")
+	warp_portal_active = true
+	portal_particles.speed_scale = 2	
 
-	portal_particles.speed_scale = 1.5
-	
-	HUD.animation.play("black_screen")
-	yield(HUD.animation,"animation_finished")
-# warning-ignore:return_value_discarded
-	GlobalCamera.position = Vector2(0,0)
-	tile_color.color = Color("c4c4c4")
-	HUD.animation.play_backwards("black_screen")
-	
-
-func _on_portal_area_body_exited(_body):
-	tween.stop_all()
-	HUD.animation.stop()
-	HUD.black_screen.modulate = Color(0,0,0,0)
-	
-	portal.modulate = Color(1,1,1,1)
+func _on_portal_area_body_exited(_body):	
+	HUD.tooltip_bot("hide",null)
+	Global.active_goat.action_sprite_func("hide")		
+	warp_portal_active = true
 	portal_particles.speed_scale = 1
-	portal_progress.hide()
 	
 func open_fight_portal():
 	fight_portal.play("default")
