@@ -16,26 +16,23 @@ var mini = false ### is this the mini profile or regular?
 
 onready var exp_bar = $Frame/Info/TabContainer/Stats/Bars/EXP_Bar
 onready var exp_bar_label = $Frame/Info/TabContainer/Stats/Bars/EXP_Bar/EXP_Amount
+onready var goat_pic = $"%Goat_Pic"
 
 onready var exp_label = $Frame/Info/TabContainer/Stats/Exp_label
 onready var str_label = $Frame/Info/TabContainer/Stats/Str_Label
 onready var dex_label = $Frame/Info/TabContainer/Stats/Dex_Label
 onready var wis_label = $Frame/Info/TabContainer/Stats/Wis_Label
 onready var level_label = $Frame/Info/TabContainer/Stats/Level_Label
+onready var goat_frame = $Frame/Info/goat_frame
 
 onready var tween = $Tween
 onready var timer = $Tick_Timer
 onready var animation = $AnimationPlayer
 
 func _ready():
+	goat_pic.texture = which_goat_node.goat_image
 	update_labels(false)
 	which_goat_node.goat_exp += ceil(exp_gain)
-#	exp_bar.max_value = which_goat_node.goat_next_exp
-#	exp_bar.value = which_goat_node.goat_exp
-#	exp_bar_label.text = str(which_goat_node.goat_exp) + "/" + str(which_goat_node.goat_next_exp)
-
-#
-#	exp_label.text = "Exp: " + str(which_goat_node.goat_exp) + " + " + str(ceil(exp_gain))
 	
 	str_label.text = "Str: " + str(which_goat_node.goat_str) + " + " + str(str_gain)
 	which_goat_node.goat_str += str_gain
@@ -50,9 +47,8 @@ func _ready():
 	tween.start()
 	
 	save_stats()
-
 	
-	if mini:
+	if mini: ### Quick Training
 		animation.play("fade_in")
 		yield(animation,"animation_finished")
 		queue_free()
