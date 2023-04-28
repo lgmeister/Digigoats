@@ -49,7 +49,6 @@ func _ready():
 	self.Weapon = weapon_choice
 	load_weapon()
 	load_particles(weapon_particles)
-
 	
 func _setWeapon(newWeapon : Resource):
 	Weapon = newWeapon
@@ -100,7 +99,8 @@ func _physics_process(delta):
 func _on_attack_body_entered(body):
 	if body.is_in_group("enemy") and weapon_hit_enemies:
 		if not body.alive: return
-		body.weapon_hit_enemy(weapon_damage)
+		body.weapon_hit_enemy(weapon_damage * fired_from.goat_str)
+
 		queue_free()
 	elif body.is_in_group("player") and weapon_hit_player:
 		if not body.alive: return
