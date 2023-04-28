@@ -4,7 +4,6 @@ onready var screen_middle = get_viewport_rect().size/2
 
 var goat_scene = load("res://scenes/battles/Character_Fight.tscn")
 var title_scene = load("res://scenes/title.tscn")
-var cursor = load("res://visual/GUI/cursors/Arrow_Rounded_Blue.png")
 
 onready var tile_color = $TileCanvasModulate
 onready var background = $ParallaxBackground/ParallaxLayer0/background
@@ -12,10 +11,9 @@ onready var NPCS = $NPCS
 onready var animation = $AnimationPlayer
 
 ### Underground ###
-onready var portal_progress = $Underworld/portal_area/portal_progress
 onready var portal = $Underworld/portal_area
 onready var portal_particles = $Underworld/portal_area/portal_particles
-onready var tween = $Underworld/UnderworldTween
+var warp_portal_active = false
 onready var fight_portal = $Underworld/fight_portal/AnimatedSprite
 onready var portal_blocker = $Underworld/fight_portal_stop/CollisionShape2D
 var portal_open = false
@@ -32,9 +30,11 @@ onready var bridge_collision = $Underworld/bridge_back/Ground/Collision
 var background_speed = Vector2(.15,0)
 
 func _ready():
-	Input.set_custom_mouse_cursor(cursor)
+	HUD.set_cursor("normal")
+	
 	title()	
 	Http_Request.request("time")
+	DialogGlobal.main = self
 
 	if not Global.multiplayer_active: ## Only load goats if in single player, otherwise network does it
 		load_goats()
@@ -58,11 +58,31 @@ func _ready():
 		GlobalCamera.following_goat = null
 
 func _process(_delta):
-	
 	### Moving background sky
 	background.position -= background_speed
-	if background.position.x <= -1920:
+	if background.position.x <= -1920: ### Fix this
 		background.position = Vector2(0,0)
+
+func _input(event):
+	if event.is_action_pressed("action"):
+		if warp_portal_active: 
+			warp_portal_active = false
+			var tween = get_tree().create_tween()
+			tween.tween_property(tile_color,"color",Color.white,.5)
+			Global.active_goat.global_position = Vector2(rand_range(200,600),300)
+			Global.active_goat.goat_light.hide()
+		elif portal_open:
+			portal_open = false
+			var scene = Global.MAIN.load_scene("battle")
+			Global.active_goat.goat_light.hide()
+			Global.MAIN.hide_scene("entry",1,true)
+			Global.MAIN.add_scene(scene,false)
+			portal_blocker.disabled = false
+			fight_portal.play("close")
+			tile_color.color = Color.white
+			DialogGlobal.portal_open = false
+			HUD.tooltip_bot("hide",null)
+		
 	
 func title():
 	if Global.title_finished:
@@ -94,8 +114,8 @@ func _on_fight_area_stop_area_entered(area):
 	if "goat" in str(area.get_owner()):
 		area.get_owner().gravity = 1000
 		area.get_owner().input_allowed = false
-		var tween2 = get_tree().create_tween()
-		tween2.tween_property(tile_color,"color",Color("2d2d2d"),2)
+		var tween = get_tree().create_tween()
+		tween.tween_property(tile_color,"color",Color("2d2d2d"),2)
 
 
 func _on_reset_gravity_area_entered(area):
@@ -121,48 +141,38 @@ func _on_out_water_area_area_entered(area):
 func _on_portal_area_body_entered(body):
 	if "TileMap" in str(body):
 		return
-		
-	portal_progress.value = 0
-	portal_progress.show()
-	
-	tween.interpolate_property(portal_progress,"value",portal_progress.value,portal_progress.max_value,1.5)
-	tween.start()
-	tween.interpolate_property(portal,"modulate",Color(1,1,1,1),Color(1,0,0,1),1.5)
-	tween.start()
+	Global.active_goat.action_sprite_func("show")		
+	HUD.tooltip_bot("tip","Press E to Activate...")
+	warp_portal_active = true
+	portal_particles.speed_scale = 2	
 
-	portal_particles.speed_scale = 1.5
-	
-	HUD.animation.play("black_screen")
-	yield(HUD.animation,"animation_finished")
-# warning-ignore:return_value_discarded
-	GlobalCamera.position = Vector2(0,0)
-	tile_color.color = Color("c4c4c4")
-	HUD.animation.play_backwards("black_screen")
-	
-
-func _on_portal_area_body_exited(_body):
-	tween.stop_all()
-	HUD.animation.stop()
-	HUD.black_screen.modulate = Color(0,0,0,0)
-	
-	portal.modulate = Color(1,1,1,1)
+func _on_portal_area_body_exited(_body):	
+	HUD.tooltip_bot("hide",null)
+	Global.active_goat.action_sprite_func("hide")		
+	warp_portal_active = false
 	portal_particles.speed_scale = 1
-	portal_progress.hide()
 	
 func open_fight_portal():
 	fight_portal.play("default")
 	yield(fight_portal,"animation_finished")
 	fight_portal.play("open")
-	portal_open = true
+	
+	
+	
 
 func _on_fight_portal_body_entered(body):
-	if "goat" in str(body) and portal_open:
-		portal_open = false
-#		Global.active_goat = body
-		Global.MAIN.remove_scene("entry",0)
-		var scene = Global.MAIN.load_scene("battle",false)
-		Global.MAIN.add_scene(scene,false)
-	
+	portal_open = true
+	if "goat" in str(body):
+		Global.active_goat.action_sprite_func("show")		
+		HUD.tooltip_bot("tip","Press E to Activate...")
+		portal_open = true
+		
+		
+func _on_fight_portal_body_exited(_body):
+	HUD.tooltip_bot("hide",null)
+	Global.active_goat.action_sprite_func("hide")
+	portal_open = false
+
 
 func _on_training_area_body_entered(body):
 	if "goat" in str(body):
@@ -171,3 +181,6 @@ func _on_training_area_body_entered(body):
 func _on_training_area_body_exited(body):
 	if "goat" in str(body):
 		animation.play("fog_out")
+
+
+
