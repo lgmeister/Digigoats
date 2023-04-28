@@ -67,7 +67,6 @@ onready var misc_animation = $MiscAnimation
 onready var fuel_bar = $GoatSprite/Fuel_Bar
 
 ### Attacks ###
-var cross_hair = preload("res://visual/character/crosshair/convergence-target.png")
 var attack_ready = true
 var aim_distance = 150
 onready var atk_timer = $Attack_Timer
@@ -111,10 +110,14 @@ func _ready():
 	add_to_group("player")
 
 	if in_fight or in_training:
-		Input.set_custom_mouse_cursor(cross_hair)
+		set_collision_layer_bit(0,false)
+		set_collision_layer_bit(4,true)
+		set_collision_mask_bit(0,false)
+		set_collision_mask_bit(4,true)
+		set_collision_mask_bit(12,true)
 	
 	if in_training:
-		goat_id = Global.training_goat
+		goat_id = Global.training_goat.goat_id
 		input_allowed = true
 	else:
 		if Global.active_goat != null:
@@ -140,27 +143,24 @@ func _ready():
 func get_input():
 	if not input_allowed: return
 	
-	
 	if Input.is_action_just_pressed("profile"):
 		if profile_open: return
 		if Global.in_battle: return
 		
 		profile_open = true
 		
-		var profile = preload("res://scenes/Profile.tscn")
-		var profile_instance = profile.instance()
-		
-		profile_instance.global_position = Vector2(200 * GlobalCamera.zoom.x,
-											  -100 * GlobalCamera.zoom.y)
-		profile_instance.scale = GlobalCamera.zoom
-		profile_instance.which_goat_node = self
-		goat_profile = profile_instance
-		add_child(profile_instance)
+		var scene = Global.MAIN.load_scene("profile")	
+		scene.global_position = Vector2(200 * GlobalCamera.zoom.x,
+			- 100 * GlobalCamera.zoom.y) + Global.active_goat.global_position
+		scene.scale = GlobalCamera.zoom
+		scene.which_goat_node = self
+		goat_profile = scene
+		Global.MAIN.add_scene(scene,false)
 		
 #		GlobalCamera.zoom = Vector2(.3,.3)
 	
 	if Input.is_action_pressed("ui_right") and not Input.is_action_pressed("boost"):
-		velocity.x = speed
+		velocity.x = speed * (goat_dex/20 + .95) ### Speed * Goat Dexterity
 		facing = "right"
 		sprite.playing = true
 		sprite.animation = "walk_right"
@@ -169,7 +169,7 @@ func get_input():
 		headgear.flip_h = true
 		weapon_strap.flip_h = false
 	elif Input.is_action_pressed("ui_left") and not Input.is_action_pressed("boost"):
-		velocity.x = -speed
+		velocity.x = -(speed * (goat_dex/20 + .95))
 		facing = "left"
 		sprite.playing = true
 		sprite.animation = "walk_left"
@@ -332,7 +332,6 @@ func _process(delta):
 	velocity = move_and_slide(velocity,Vector2.UP,true)
 	#############
 
-	
 	if Global.multiplayer_active:
 		if not is_network_master():
 			if not network_tween.is_active():
@@ -343,16 +342,12 @@ func _process(delta):
 			rotation = puppet_rotation
 			return
 			
-
-	var which_raycast
 	if fuel > 0 and not flying and not hovering and not Input.is_action_pressed("boost"):
-		if raycast.is_colliding(): which_raycast = raycast
-		elif raycast2.is_colliding(): which_raycast = raycast2
-		elif raycast3.is_colliding(): which_raycast = raycast3
-		else: 
+		if not raycast.is_colliding() and\
+		not raycast2.is_colliding() and\
+		not raycast3.is_colliding(): 
 			return
-		
-		if "Ground" or "Ledges" or "Roof" in which_raycast.get_collider().name:
+		else:
 			fuel -= 50 * delta
 			fuel_bar.value = fuel
 			
@@ -413,8 +408,13 @@ func _setGoat(newGoat : Resource):
 	goat_max_health = Goat.get_Max_Health()
 	goat_max_energy = Goat.get_Max_Energy()
 	
-	if Global.DEV_MODE: goat_current_energy = goat_max_energy
-	else: goat_current_energy = Goat.get_Current_Energy()
+	
+	###### DEVELOPER MODE ######
+	if Global.DEV_MODE:
+		goat_current_energy = goat_max_energy
+	else:
+		goat_current_energy = Goat.get_Current_Energy()
+	###### DEVELOPER MODE ######
 	
 	goat_max_happiness = Goat.get_Max_Happiness()
 	goat_current_happiness = Goat.get_Current_Happiness()
@@ -426,15 +426,20 @@ func _setGoat(newGoat : Resource):
 	
 	goat_str = Goat.get_Str()
 	goat_dex = Goat.get_Dex()
+	
+	
 	goat_wis = Goat.get_Wis()
 	
+	goat_level = Goat.get_Level()
 	goat_exp = Goat.get_Exp()
+	print(goat_exp, " experience coming in ")
 	goat_next_exp = Goat.get_Next_Exp()
 
 	goat_particles = Goat.get_Particles()
 	goat_horns = Goat.get_Horns()
 	
 	goat_inventory = Goat.get_Inventory()
+	
 
 func save_goat():
 	Goat.goat_weapon = goat_weapon
@@ -451,8 +456,8 @@ func save_goat():
 	Goat.goat_exp = goat_exp
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
-
-	print("goat saved character FIGHT")
+	
+	print(goat_id, " saved with ", goat_exp," experience")
 	
 # warning-ignore:return_value_discarded
 	ResourceSaver.save("res://goats/repo/%s.tres" %goat_id,self.Goat)
@@ -529,17 +534,18 @@ func death():
 	animation.play("death")
 	HUD.announcement("Defeat","long")
 	yield(HUD.animation,"animation_finished")
+	get_tree().call_group("attack","queue_free")
+	Global.MAIN.hide_scene("entry",0,false)
 	HUD.animation.play("black_screen")
 	yield(HUD.animation,"animation_finished")
 	HUD.animation.play_backwards("black_screen")
-
+	HUD.set_cursor("normal")
 	GlobalCamera.smoothing_enabled = true
 	HUD.remove_health_bar()
 	
-	get_tree().call_group("attack","queue_free")
-	Global.MAIN.hide_scene("entry",0,false)
 	Global.in_battle = false
 	Global.active_goat.input_allowed = true
+	Global.active_goat.global_position = Vector2(rand_range(200,600),300)
 	Global.MAIN.remove_scene("battle",2)
 
 
@@ -588,3 +594,6 @@ func _on_Network_Timer_timeout():
 		rset_unreliable("puppet_position", global_position)
 #		rset_unreliable("puppet_velocity", velocity)
 		rset_unreliable("puppet_rotation", sprite.rotation)
+		
+func update_stats():
+	pass
