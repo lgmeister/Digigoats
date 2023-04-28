@@ -144,8 +144,7 @@ func get_input():
 	if not input_allowed: return
 	
 	if Input.is_action_just_pressed("profile"):
-		if profile_open: return
-		if Global.in_battle: return
+		if profile_open or Global.in_battle or Global.goat_in_training: return
 		
 		profile_open = true
 		
@@ -535,7 +534,8 @@ func death():
 	HUD.announcement("Defeat","long")
 	yield(HUD.animation,"animation_finished")
 	get_tree().call_group("attack","queue_free")
-	Global.MAIN.hide_scene("entry",0,false)
+	Global.MAIN.remove_scene("battle",4)
+	Global.MAIN.hide_scene("entry",4,false)
 	HUD.animation.play("black_screen")
 	yield(HUD.animation,"animation_finished")
 	HUD.animation.play_backwards("black_screen")
@@ -546,7 +546,7 @@ func death():
 	Global.in_battle = false
 	Global.active_goat.input_allowed = true
 	Global.active_goat.global_position = Vector2(rand_range(200,600),300)
-	Global.MAIN.remove_scene("battle",2)
+	
 
 
 
