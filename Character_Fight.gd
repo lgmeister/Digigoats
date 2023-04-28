@@ -7,20 +7,22 @@ export (PackedScene) var weapon = preload("res://scenes/battles/attack.tscn")
 var goat_profile ## actual profile scene
 var fight_scene
 
-### Goat info###
+### Nodes ###
 onready var sprite = $GoatSprite
 onready var raycast = $RayCast2D
 onready var raycast2 = $RayCast2D2
 onready var raycast3 = $RayCast2D3
-onready var tween = $Tween
+onready var raycast_left = $RayCast_left
+onready var raycast_right = $RayCast_right
 
+onready var tween = $Tween
 onready var goat_light = $Light2D
 
+onready var passive_movement_timer = $PassiveMovementTimer
+
+### Goat info###
 var goat_id
 var goat_name
-
-#var goat_hp
-#var goat_max_hp
 
 var goat_current_health
 var goat_max_health
@@ -45,7 +47,6 @@ var goat_misc
 
 var goat_inventory
 
-
 ### Movement ###
 var gravity = 2000
 var speed = 200
@@ -54,6 +55,7 @@ var velocity = Vector2(0,0)
 var facing = "right"
 var temp_angle = Vector2.ZERO
 
+var hold_movement = 0 ### Automatically hold the direction and speed (for passive movement)
 var jumping = false
 var jump_count = 0
 var flying = false
@@ -67,7 +69,6 @@ onready var misc_animation = $MiscAnimation
 onready var fuel_bar = $GoatSprite/Fuel_Bar
 
 ### Attacks ###
-var cross_hair = preload("res://visual/character/crosshair/convergence-target.png")
 var attack_ready = true
 var aim_distance = 150
 onready var atk_timer = $Attack_Timer
@@ -80,6 +81,7 @@ var input_allowed = false
 var alive = true
 var network_active = false
 
+
 ### Aesthetics ###
 onready var headgear = $GoatSprite/headgear
 onready var aesthetic_weapon = $GoatSprite/weapon
@@ -88,10 +90,15 @@ onready var action_sprite = $GoatSprite/action_sprite
 onready var all_goat_particles = $goat_particles
 onready var boost_particles = $GoatSprite/BoostParticles
 
+var goat_particles
+var goat_horns
+var goat_image
+var goat_color
 
 ### MISC ###
 onready var cursor = $cursor
 onready var goat_cam = $Camera2D
+var rng = RandomNumberGenerator.new()
 
 ### Network Movement ###
 onready var network_timer = $Network_Timer
@@ -102,19 +109,20 @@ puppet var puppet_velocity = Vector2.ZERO
 onready var network_tween = $NetworkTween
 
 
-var goat_particles
-var goat_horns
-var goat_image
-var goat_color
 
 func _ready():
+	passive_movement_timer.start(rand_range(0,4))
 	add_to_group("player")
 
 	if in_fight or in_training:
-		Input.set_custom_mouse_cursor(cross_hair)
+		set_collision_layer_bit(0,false)
+		set_collision_layer_bit(4,true)
+		set_collision_mask_bit(0,false)
+		set_collision_mask_bit(4,true)
+		set_collision_mask_bit(12,true)
 	
 	if in_training:
-		goat_id = Global.training_goat
+		goat_id = Global.training_goat.goat_id
 		input_allowed = true
 	else:
 		if Global.active_goat != null:
@@ -140,43 +148,25 @@ func _ready():
 func get_input():
 	if not input_allowed: return
 	
-	
 	if Input.is_action_just_pressed("profile"):
-		if profile_open: return
-		if Global.in_battle: return
+		if profile_open or Global.in_battle or Global.goat_in_training: return
 		
 		profile_open = true
 		
-		var profile = preload("res://scenes/Profile.tscn")
-		var profile_instance = profile.instance()
-		
-		profile_instance.global_position = Vector2(200 * GlobalCamera.zoom.x,
-											  -100 * GlobalCamera.zoom.y)
-		profile_instance.scale = GlobalCamera.zoom
-		profile_instance.which_goat_node = self
-		goat_profile = profile_instance
-		add_child(profile_instance)
+		var scene = Global.MAIN.load_scene("profile")	
+		scene.global_position = Vector2(200 * GlobalCamera.zoom.x,
+			- 100 * GlobalCamera.zoom.y) + Global.active_goat.global_position
+		scene.scale = GlobalCamera.zoom
+		scene.which_goat_node = self
+		goat_profile = scene
+		Global.MAIN.add_scene(scene,false)
 		
 #		GlobalCamera.zoom = Vector2(.3,.3)
 	
 	if Input.is_action_pressed("ui_right") and not Input.is_action_pressed("boost"):
-		velocity.x = speed
-		facing = "right"
-		sprite.playing = true
-		sprite.animation = "walk_right"
-		fuel_bar.rect_scale = Vector2(1,1)
-		headgear.position = Vector2(14,-22)
-		headgear.flip_h = true
-		weapon_strap.flip_h = false
+		move_right()
 	elif Input.is_action_pressed("ui_left") and not Input.is_action_pressed("boost"):
-		velocity.x = -speed
-		facing = "left"
-		sprite.playing = true
-		sprite.animation = "walk_left"
-		fuel_bar.rect_scale = Vector2(-1,1)
-		headgear.position = Vector2(-14,-22)
-		headgear.flip_h = false
-		weapon_strap.flip_h = true		
+		move_left()
 	else:
 		sprite.playing = false
 		
@@ -239,6 +229,7 @@ func get_input():
 		
 		hovering = false
 		flying = true
+		
 		var angle: float = self.global_position.angle_to_point(mouse)
 		var boost_vector = Vector2(cos(angle), sin(angle))
 		
@@ -272,6 +263,26 @@ func get_input():
 	if Input.is_action_just_released("boost"):
 		out_of_fuel()
 		
+func move_right():
+	velocity.x = speed * (goat_dex/20 + .95) ### Speed * Goat Dexterity
+	facing = "right"
+	sprite.playing = true
+	sprite.animation = "walk_right"
+	fuel_bar.rect_scale = Vector2(1,1)
+	headgear.position = Vector2(14,-22)
+	headgear.flip_h = true
+	weapon_strap.flip_h = false
+	
+func move_left():
+	velocity.x = -(speed * (goat_dex/20 + .95))
+	facing = "left"
+	sprite.playing = true
+	sprite.animation = "walk_left"
+	fuel_bar.rect_scale = Vector2(-1,1)
+	headgear.position = Vector2(-14,-22)
+	headgear.flip_h = false
+	weapon_strap.flip_h = true		
+	
 func out_of_fuel():
 #	if flying == false:return
 	flying = false
@@ -314,6 +325,19 @@ func _process(delta):
 	get_input()
 	velocity.y += gravity * delta
 	
+	
+	if hold_movement == 1 and self != Global.active_goat:
+		set_collision_mask_bit(0,false)
+		velocity.x = -50
+		check_collision()
+	elif hold_movement == 2 and self != Global.active_goat:
+		set_collision_mask_bit(0,false)
+		velocity.x = 50
+		check_collision()
+	else:
+		set_collision_mask_bit(0,true)
+	
+	
 	if velocity.x > 0:
 		velocity.x -= speed * 3 * delta
 	elif velocity.x < 0:
@@ -323,8 +347,8 @@ func _process(delta):
 	
 	if jumping:
 		boost_particles.speed_scale = 4
-		if facing == "right": boost_particles.orbit_velocity = 1
-		else: boost_particles.orbit_velocity = -1
+		if facing == "right" and jump_count == 2: boost_particles.orbit_velocity = 1
+		elif facing == "left" and jump_count == 2: boost_particles.orbit_velocity = 1
 	else:
 		boost_particles.orbit_velocity = 0
 		boost_particles.speed_scale = 1
@@ -332,7 +356,6 @@ func _process(delta):
 	velocity = move_and_slide(velocity,Vector2.UP,true)
 	#############
 
-	
 	if Global.multiplayer_active:
 		if not is_network_master():
 			if not network_tween.is_active():
@@ -343,16 +366,12 @@ func _process(delta):
 			rotation = puppet_rotation
 			return
 			
-
-	var which_raycast
 	if fuel > 0 and not flying and not hovering and not Input.is_action_pressed("boost"):
-		if raycast.is_colliding(): which_raycast = raycast
-		elif raycast2.is_colliding(): which_raycast = raycast2
-		elif raycast3.is_colliding(): which_raycast = raycast3
-		else: 
+		if not raycast.is_colliding() and\
+		not raycast2.is_colliding() and\
+		not raycast3.is_colliding(): 
 			return
-		
-		if "Ground" or "Ledges" or "Roof" in which_raycast.get_collider().name:
+		else:
 			fuel -= 50 * delta
 			fuel_bar.value = fuel
 			
@@ -362,6 +381,7 @@ func _process(delta):
 	if fuel < 0: fuel = 0
 	if fuel > max_fuel: fuel = max_fuel
 	
+#### ANIMATION ####	
 	if sprite.animation == "walk_right":
 		headgear.flip_h = true
 		aesthetic_weapon.rotation_degrees = -110
@@ -397,7 +417,42 @@ func _process(delta):
 				headgear.position = Vector2(-14,-21)
 				aesthetic_weapon.position = Vector2(-1,-2)
 				weapon_strap.position = Vector2(-1,3)
-	
+				
+	elif sprite.animation == "eat_right":
+		headgear.flip_h = true
+		aesthetic_weapon.rotation_degrees = -110
+		aesthetic_weapon.position = Vector2(-1,-3)
+		weapon_strap.position = Vector2(-1,2)
+		if sprite.frame == 0 or sprite.frame >= 12:
+			headgear.position = Vector2(14,-21)
+			headgear.rotation_degrees = 0
+		elif sprite.frame == 1 or sprite.frame == 11:
+			headgear.position = Vector2(21,-8)
+			headgear.rotation_degrees = 10
+		elif sprite.frame == 2 or sprite.frame == 10:
+			headgear.position = Vector2(28,-1)
+			headgear.rotation_degrees = 37.5
+		else:
+			headgear.position = Vector2(32,4)
+			headgear.rotation_degrees = 60
+			
+	elif sprite.animation == "eat_left":
+		headgear.flip_h = false
+		aesthetic_weapon.rotation_degrees = 19
+		aesthetic_weapon.position = Vector2(-1,-3)
+		weapon_strap.position = Vector2(-1,2)
+		if sprite.frame == 0 or sprite.frame >= 12:
+			headgear.position = Vector2(-14,-21)
+			headgear.rotation_degrees = 0
+		elif sprite.frame == 1 or sprite.frame == 11:
+			headgear.position = Vector2(-21,-8)
+			headgear.rotation_degrees = -10
+		elif sprite.frame == 2 or sprite.frame == 10:
+			headgear.position = Vector2(-28,-1)
+			headgear.rotation_degrees = -37.5
+		else:
+			headgear.position = Vector2(-32,4)
+			headgear.rotation_degrees = -60
 
 func _setGoat(newGoat : Resource):
 	Goat = newGoat
@@ -413,8 +468,13 @@ func _setGoat(newGoat : Resource):
 	goat_max_health = Goat.get_Max_Health()
 	goat_max_energy = Goat.get_Max_Energy()
 	
-	if Global.DEV_MODE: goat_current_energy = goat_max_energy
-	else: goat_current_energy = Goat.get_Current_Energy()
+	
+	###### DEVELOPER MODE ######
+	if Global.DEV_MODE:
+		goat_current_energy = goat_max_energy
+	else:
+		goat_current_energy = Goat.get_Current_Energy()
+	###### DEVELOPER MODE ######
 	
 	goat_max_happiness = Goat.get_Max_Happiness()
 	goat_current_happiness = Goat.get_Current_Happiness()
@@ -426,15 +486,20 @@ func _setGoat(newGoat : Resource):
 	
 	goat_str = Goat.get_Str()
 	goat_dex = Goat.get_Dex()
+	
+	
 	goat_wis = Goat.get_Wis()
 	
+	goat_level = Goat.get_Level()
 	goat_exp = Goat.get_Exp()
+	print(goat_exp, " experience coming in ")
 	goat_next_exp = Goat.get_Next_Exp()
 
 	goat_particles = Goat.get_Particles()
 	goat_horns = Goat.get_Horns()
 	
 	goat_inventory = Goat.get_Inventory()
+	
 
 func save_goat():
 	Goat.goat_weapon = goat_weapon
@@ -451,8 +516,8 @@ func save_goat():
 	Goat.goat_exp = goat_exp
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
-
-	print("goat saved character FIGHT")
+	
+	print(goat_id, " saved with ", goat_exp," experience")
 	
 # warning-ignore:return_value_discarded
 	ResourceSaver.save("res://goats/repo/%s.tres" %goat_id,self.Goat)
@@ -529,22 +594,52 @@ func death():
 	animation.play("death")
 	HUD.announcement("Defeat","long")
 	yield(HUD.animation,"animation_finished")
+	get_tree().call_group("attack","queue_free")
+	Global.MAIN.remove_scene("battle",4)
+	Global.MAIN.hide_scene("entry",4,false)
 	HUD.animation.play("black_screen")
 	yield(HUD.animation,"animation_finished")
 	HUD.animation.play_backwards("black_screen")
-
+	HUD.set_cursor("normal")
 	GlobalCamera.smoothing_enabled = true
 	HUD.remove_health_bar()
 	
-	get_tree().call_group("attack","queue_free")
-	Global.MAIN.hide_scene("entry",0,false)
 	Global.in_battle = false
 	Global.active_goat.input_allowed = true
-	Global.MAIN.remove_scene("battle",2)
-
-
-
+	Global.active_goat.global_position = Vector2(rand_range(200,600),300)
 	
+	
+func check_collision():
+	var random = rng.randi_range(0,2)
+	
+	if raycast_left.is_colliding():
+		if random == 0: ### Jump
+			sprite.play("walk_left")
+			velocity.y = -jump_speed
+			hold_movement = 1
+		else:
+			sprite.play("walk_right")
+			hold_movement = 2
+			
+		raycast_left.enabled = false
+		passive_movement_timer.start(2)
+		yield(get_tree().create_timer(4),"timeout")
+		raycast_left.enabled = true
+		
+	if raycast_right.is_colliding():
+		if random == 0: #JUMP
+			sprite.play("walk_right")
+			velocity.y = -jump_speed
+			hold_movement = 2
+		else:
+			sprite.play("walk_left")
+			hold_movement = 1
+			
+		raycast_right.enabled = false
+		passive_movement_timer.start(2)
+		yield(get_tree().create_timer(4),"timeout")
+		raycast_right.enabled = true
+
 	
 func _on_Attack_Timer_timeout():
 	attack_ready = true
@@ -588,3 +683,27 @@ func _on_Network_Timer_timeout():
 		rset_unreliable("puppet_position", global_position)
 #		rset_unreliable("puppet_velocity", velocity)
 		rset_unreliable("puppet_rotation", sprite.rotation)
+		
+func update_stats():
+	pass
+
+
+func _on_PassiveMovementTimer_timeout():
+	rng.randomize()
+	var choice = rng.randi_range(0,3)
+	
+	if choice == 0:
+		sprite.play("walk_right")
+		hold_movement = 2
+	elif choice == 1:
+		sprite.play("walk_left")	
+		hold_movement = 1
+	elif choice == 2:
+		sprite.play("eat_left")	
+		hold_movement = 0
+	elif choice == 3:
+		sprite.play("eat_right")	
+		hold_movement = 0
+		
+	
+	passive_movement_timer.start(rand_range(1,5))
