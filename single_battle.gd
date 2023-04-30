@@ -3,6 +3,8 @@ extends Node2D
 var goat_scene = preload("res://scenes/battles/Character_Fight.tscn")
 var enemy_scene = preload("res://scenes/battles/Enemy_Fight.tscn")
 
+
+#### Nodes ###
 onready var temptimer = $TempTimer
 onready var spawn = $SpawnPoint
 onready var tile_color = $Tilemaps/CanvasModulate
@@ -10,9 +12,11 @@ onready var portal_progress = $portal_area/portal_progress
 onready var portal = $portal_area
 onready var portal_particles = $portal_area/portal_particles
 onready var tween = $Tween
-var portal_open = false
 
-var battle_name = "battle_1"
+### Bools
+var portal_active = false
+
+var battle_name = "battle_2"
 
 var goat_node
 
@@ -23,12 +27,32 @@ var rng = RandomNumberGenerator.new()
 
 func _ready():
 	Global.in_battle = true
+	HUD.set_cursor("crosshair")
 	
 	temp_deaths = Global.minion_deaths
 	
 	load_goat()
 	set_camera()	
 	get_lowest_minion(Global.minion_deaths,false)
+	
+func _input(event):	
+	if event.is_action_pressed("action") and portal_active:
+		portal_active = false
+		goat_node.input_allowed = false
+		HUD.announcement("","short")
+		HUD.animation.play("black_screen")
+		yield(HUD.animation,"animation_finished")
+		HUD.animation.play_backwards("black_screen")
+
+		GlobalCamera.smoothing_enabled = true
+		HUD.remove_health_bar()
+		HUD.tooltip_bot("hide",null)
+		
+		Global.MAIN.hide_scene("entry",0,false)
+		Global.in_battle = false
+		Global.active_goat.input_allowed = true
+		Global.active_goat.global_position = Vector2(rand_range(200,600),300)
+		Global.MAIN.remove_scene("battle",1)
 	
 
 func get_lowest_minion(number,_recheck): ### Finding the closest thing in battlescript
@@ -119,41 +143,22 @@ func _on_Character_collided(enemy,collision):
 
 
 func _on_portal_area_body_entered(body):
-	if "TileMap" in str(body):
-		return
-		
-		
-#	Global.active_goat.z_index = 0
-	portal_progress.value = 0
-	portal_progress.show()
-	
-	tween.interpolate_property(portal_progress,"value",portal_progress.value,portal_progress.max_value,1.5)
-	tween.start()
-	tween.interpolate_property(portal,"modulate",Color(1,1,1,1),Color(1,0,0,1),1.5)
-	tween.start()
+	if "goat" in str(body):
+		goat_node.action_sprite_func("show")		
+		HUD.tooltip_bot("tip","Press E to Activate...")
+		portal_active = true
+		portal_particles.speed_scale = 2
 
-	portal_particles.speed_scale = 1.5
-	
-	HUD.animation.play("black_screen")
-	yield(HUD.animation,"animation_finished")
-	Global.active_goat.goat_light.hide()
-	tile_color.color = Color("c4c4c4")
-	GlobalCamera.smoothing_enabled = true
-	HUD.remove_health_bar()
-# warning-ignore:return_value_discarded
-	get_tree().change_scene("res://scenes/entry_world.tscn")
-	
 
 func _on_portal_area_body_exited(_body):
-	tween.stop_all()
-	HUD.animation.stop()
-	HUD.black_screen.modulate = Color(0,0,0,0)
-	
-	portal.modulate = Color(1,1,1,1)
+	HUD.tooltip_bot("hide",null)
+	goat_node.action_sprite_func("hide")		
+	portal_active = false
 	portal_particles.speed_scale = 1
-	portal_progress.hide()
+	
 	
 func fight_finished():
 	portal.show()
 	portal.monitoring = true
+	
 	
