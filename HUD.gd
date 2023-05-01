@@ -204,8 +204,17 @@ func tooltip_top(type,value):
 		return
 	elif type == "shake":
 		animation.play("money_shake")
-	tip_top_label.text = str(value)
-	tip_top.show()
+	elif type == "money_add":
+		tip_top_label.text = str(value)
+		tip_top.show()
+		animation.play("money_add")
+		yield(animation,"animation_finished")
+		
+	if type == "money_add":
+		tip_top_label.text = str(Global.currancy_1)
+	else:
+		tip_top_label.text = str(value)
+		tip_top.show()
 	
 	
 func tooltip_bot(type,value):
