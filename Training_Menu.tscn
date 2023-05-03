@@ -1,0 +1,537 @@
+[gd_scene load_steps=30 format=2]
+
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=1]
+[ext_resource path="res://fonts/themes/Blocky_small_title.tres" type="Theme" id=2]
+[ext_resource path="res://scripts/training/training_menu.gd" type="Script" id=3]
+[ext_resource path="res://visual/training/wheel/wheel_1.png" type="Texture" id=4]
+[ext_resource path="res://visual/GUI/buttons/long_button_blank.png" type="Texture" id=5]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon176.png" type="Texture" id=7]
+[ext_resource path="res://visual/GUI/Frames/inventory_frame.png" type="Texture" id=9]
+[ext_resource path="res://visual/GUI/buttons/long_button_blank_disabled.png" type="Texture" id=10]
+[ext_resource path="res://visual/GUI/Frames/Frame_1_new.png" type="Texture" id=11]
+[ext_resource path="res://visual/GUI/buttons/ex_pressed.png" type="Texture" id=12]
+[ext_resource path="res://visual/GUI/buttons/long_button_blank_pressed.png" type="Texture" id=13]
+[ext_resource path="res://visual/GUI/buttons/info_alone.png" type="Texture" id=14]
+[ext_resource path="res://visual/GUI/Frames/frame_2.png" type="Texture" id=15]
+[ext_resource path="res://visual/GUI/Frames/portrait_frame.png" type="Texture" id=18]
+[ext_resource path="res://visual/GUI/buttons/ex.png" type="Texture" id=20]
+[ext_resource path="res://visual/GUI/buttons/ex_disabled.png" type="Texture" id=21]
+[ext_resource path="res://goats/images/00703.png" type="Texture" id=23]
+
+[sub_resource type="StyleBoxFlat" id=41]
+bg_color = Color( 0, 1, 0.196078, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id=42]
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id=44]
+bg_color = Color( 1, 0.654902, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id=45]
+bg_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="InputEventAction" id=38]
+action = "ui_cancel"
+
+[sub_resource type="ShortCut" id=39]
+shortcut = SubResource( 38 )
+
+[sub_resource type="Animation" id=33]
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Action_Frame:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.517632, 1 ),
+"update": 0,
+"values": [ Vector2( -156, -120 ), Vector2( -156, -87 ) ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "attribute_flash"
+length = 0.4
+
+[sub_resource type="Animation" id=32]
+resource_name = "char_show"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Inventory_Frame:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -230, -114 ), Vector2( 26, -114 ) ]
+}
+
+[sub_resource type="Animation" id=43]
+resource_name = "energy_flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Inventory_Frame/Energy_Bar:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=31]
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Action_Frame:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Frame:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Inventory_Frame:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "goat_flash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Inventory_Frame/GoatList:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Training_Menu" type="Node2D"]
+light_mask = 0
+scale = Vector2( 1.5, 1.5 )
+z_index = 4
+script = ExtResource( 3 )
+
+[node name="Action_Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -156.0
+margin_top = -120.0
+margin_right = 156.0
+margin_bottom = 89.0
+rect_pivot_offset = Vector2( 11.5454, -6.02179 )
+mouse_filter = 2
+texture = ExtResource( 15 )
+expand = true
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="train_button" type="TextureButton" parent="Action_Frame"]
+margin_left = 216.667
+margin_top = 170.833
+margin_right = 291.667
+margin_bottom = 193.833
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 13 )
+texture_disabled = ExtResource( 10 )
+expand = true
+flip_h = true
+
+[node name="sort_label" type="Label" parent="Action_Frame/train_button"]
+margin_left = 14.0
+margin_top = 7.66667
+margin_right = 44.0
+margin_bottom = 14.6667
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+text = "Train"
+align = 1
+
+[node name="sort_texture" type="TextureRect" parent="Action_Frame/train_button"]
+margin_left = 49.0
+margin_top = 2.66667
+margin_right = 67.0
+margin_bottom = 20.6667
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
+[node name="quick_train_button" type="TextureButton" parent="Action_Frame"]
+margin_left = 20.0
+margin_top = 171.0
+margin_right = 105.0
+margin_bottom = 194.0
+focus_mode = 0
+enabled_focus_mode = 0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 13 )
+texture_disabled = ExtResource( 10 )
+expand = true
+flip_h = true
+
+[node name="sort_label" type="Label" parent="Action_Frame/quick_train_button"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -33.6667
+margin_top = -3.5
+margin_right = 32.3333
+margin_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 1 )
+text = "Quick Train"
+align = 1
+
+[node name="Inventory_Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 26.0
+margin_top = -114.0
+margin_right = 417.0
+margin_bottom = 83.0
+rect_pivot_offset = Vector2( -173.339, 20.6767 )
+mouse_filter = 2
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="GoatList" type="ItemList" parent="Inventory_Frame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -70.5
+margin_top = -66.5
+margin_right = 63.5
+margin_bottom = 47.5
+focus_mode = 0
+theme = ExtResource( 1 )
+fixed_icon_size = Vector2( 20, 20 )
+
+[node name="Energy_Bar" type="ProgressBar" parent="Inventory_Frame"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -65.5
+margin_top = -23.0
+margin_right = 58.5
+margin_bottom = -15.0
+theme = ExtResource( 1 )
+custom_styles/fg = SubResource( 41 )
+custom_styles/bg = SubResource( 42 )
+percent_visible = false
+
+[node name="Label" type="Label" parent="Inventory_Frame/Energy_Bar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -37.0
+margin_top = -10.8334
+margin_right = 37.0
+margin_bottom = -3.83333
+theme = ExtResource( 1 )
+text = "Energy"
+align = 1
+
+[node name="Energy_Amount" type="Label" parent="Inventory_Frame/Energy_Bar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -47.0
+margin_top = -3.5
+margin_right = 47.0
+margin_bottom = 3.5
+theme = ExtResource( 1 )
+text = "100/100"
+align = 1
+
+[node name="energy_info" type="TextureButton" parent="Inventory_Frame/Energy_Bar"]
+modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 33.3333
+margin_top = -9.16666
+margin_right = 42.3333
+margin_bottom = -0.166664
+texture_normal = ExtResource( 14 )
+expand = true
+
+[node name="EXP_Bar" type="ProgressBar" parent="Inventory_Frame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -65.5
+margin_top = 58.667
+margin_right = 58.5
+margin_bottom = 66.667
+theme = ExtResource( 1 )
+custom_styles/fg = SubResource( 44 )
+custom_styles/bg = SubResource( 45 )
+percent_visible = false
+
+[node name="Label" type="Label" parent="Inventory_Frame/EXP_Bar"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -39.0
+margin_top = -8.0
+margin_right = 39.0
+margin_bottom = -1.0
+theme = ExtResource( 1 )
+text = "Experience"
+align = 1
+
+[node name="EXP_Amount" type="Label" parent="Inventory_Frame/EXP_Bar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -57.0
+margin_top = -3.5
+margin_right = 57.0
+margin_bottom = 3.5
+theme = ExtResource( 1 )
+text = "0/100 - Lvl 2"
+align = 1
+
+[node name="exp_info" type="TextureButton" parent="Inventory_Frame/EXP_Bar"]
+modulate = Color( 1, 1, 1, 0.392157 )
+margin_left = 23.3333
+margin_top = -9.16667
+margin_right = 32.3333
+margin_bottom = -0.166666
+texture_normal = ExtResource( 14 )
+expand = true
+
+[node name="Frame" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -216.0
+margin_top = -148.5
+margin_right = 216.0
+margin_bottom = 148.5
+rect_pivot_offset = Vector2( 70, 56.5 )
+mouse_filter = 2
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="ColorRect" type="ColorRect" parent="Frame"]
+margin_left = 80.0
+margin_top = 86.5
+margin_right = 154.0
+margin_bottom = 160.5
+color = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
+
+[node name="exit_button" type="TextureButton" parent="Frame"]
+margin_left = 76.0
+margin_top = 61.0
+margin_right = 95.0
+margin_bottom = 80.0
+focus_mode = 0
+enabled_focus_mode = 0
+shortcut = SubResource( 39 )
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 12 )
+texture_disabled = ExtResource( 21 )
+expand = true
+
+[node name="ViewportContainer" type="ViewportContainer" parent="Frame"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.619
+anchor_bottom = 0.5
+margin_left = -155.0
+margin_top = -73.5
+margin_right = 200.592
+margin_bottom = 315.5
+rect_scale = Vector2( 0.28, 0.28 )
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="Frame/ViewportContainer"]
+size = Vector2( 407, 389 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+fxaa = true
+debanding = true
+hdr = false
+disable_3d = true
+usage = 0
+render_target_update_mode = 3
+
+[node name="Shop_pic" type="TextureRect" parent="Frame/ViewportContainer/Viewport"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -132.0
+margin_top = -148.0
+margin_right = 126.0
+margin_bottom = 110.0
+texture = ExtResource( 23 )
+expand = true
+stretch_mode = 6
+
+[node name="Info" type="Control" parent="Frame"]
+margin_left = 69.0
+margin_top = 55.0
+margin_right = 361.0
+margin_bottom = 229.0
+mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Shop_Label" type="Label" parent="Frame/Info"]
+margin_left = 27.0
+margin_top = 7.0
+margin_right = 285.0
+margin_bottom = 23.0
+grow_horizontal = 2
+theme = ExtResource( 2 )
+text = "Armory"
+align = 1
+clip_text = true
+
+[node name="Name_Label" type="Label" parent="Frame/Info"]
+margin_left = 13.0
+margin_top = 111.0
+margin_right = 85.0
+margin_bottom = 120.0
+theme = ExtResource( 1 )
+text = "Geraldo"
+align = 1
+
+[node name="shop_portrait" type="TextureRect" parent="Frame/Info"]
+margin_left = 10.0
+margin_top = 31.0
+margin_right = 95.0
+margin_bottom = 116.0
+texture = ExtResource( 18 )
+
+[node name="Shop_Panel" type="Panel" parent="Frame/Info"]
+margin_left = 95.0
+margin_top = 28.0
+margin_right = 285.0
+margin_bottom = 165.0
+theme = ExtResource( 1 )
+
+[node name="TrainingList" type="ItemList" parent="Frame/Info/Shop_Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -91.0
+margin_top = -63.8333
+margin_right = 91.0
+margin_bottom = 18.1667
+focus_mode = 0
+items = [ "Spinning Wheel", ExtResource( 4 ), false ]
+fixed_icon_size = Vector2( 20, 20 )
+
+[node name="Label" type="Label" parent="Frame/Info/Shop_Panel"]
+margin_left = 7.0
+margin_top = 93.0
+margin_right = 184.0
+margin_bottom = 128.0
+text = "Training Description Here!"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/action_down = SubResource( 33 )
+anims/attribute_flash = SubResource( 37 )
+anims/char_show = SubResource( 32 )
+anims/energy_flash = SubResource( 43 )
+anims/expand = SubResource( 31 )
+anims/goat_flash = SubResource( 40 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="pressed" from="Action_Frame/train_button" to="." method="_on_train_button_pressed"]
+[connection signal="pressed" from="Action_Frame/quick_train_button" to="." method="_on_quick_train_button_pressed"]
+[connection signal="item_selected" from="Inventory_Frame/GoatList" to="." method="_on_GoatList_item_selected"]
+[connection signal="mouse_entered" from="Inventory_Frame/Energy_Bar/energy_info" to="." method="_on_energy_info_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory_Frame/Energy_Bar/energy_info" to="." method="_on_energy_info_mouse_exited"]
+[connection signal="mouse_entered" from="Inventory_Frame/EXP_Bar/exp_info" to="." method="_on_exp_info_mouse_entered"]
+[connection signal="mouse_exited" from="Inventory_Frame/EXP_Bar/exp_info" to="." method="_on_exp_info_mouse_exited"]
+[connection signal="pressed" from="Frame/exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="item_selected" from="Frame/Info/Shop_Panel/TrainingList" to="." method="_on_TrainingList_item_selected"]
