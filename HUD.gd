@@ -48,19 +48,42 @@ var chat
 var file_popup_node
 var goat_popup_node
 
-
+var goat_nodes = [] ### All the local player's goats' nodes 
 
 func _ready():
 	file_popup_node = file_button.get_popup()
 	file_popup_node.connect("id_pressed",self,"_on_file_button_choice")
 	goat_popup_node = goat_button.get_popup()
 	goat_popup_node.connect("id_pressed",self,"_on_goat_popup_item_selected")
+	
 
 
 func _input(event):
-	if event.is_action_pressed("escape") and tooltip_active:
-		tooltip_bot("hide",null)
-		
+	if event is InputEventKey:
+		if event.is_action_pressed("escape") and tooltip_active:
+			tooltip_bot("hide",null)
+			
+	## Quick Choose Goat ##
+		elif event.is_action_pressed("quick_1"): 
+			if goat_nodes.size() >= 1: goat_nodes[0].select_goat()
+		elif event.is_action_pressed("quick_2"): 
+			if goat_nodes.size() >= 2: goat_nodes[1].select_goat()
+		elif event.is_action_pressed("quick_3"): 
+			if goat_nodes.size() >= 3: goat_nodes[2].select_goat()
+		elif event.is_action_pressed("quick_4"): 
+			if goat_nodes.size() >= 4: goat_nodes[3].select_goat()
+		elif event.is_action_pressed("quick_5"): 
+			if goat_nodes.size() >= 5: goat_nodes[4].select_goat()
+		elif event.is_action_pressed("quick_6"): 
+			if goat_nodes.size() >= 6: goat_nodes[5].select_goat()
+		elif event.is_action_pressed("quick_7"): 
+			if goat_nodes.size() >= 7: goat_nodes[6].select_goat()
+		elif event.is_action_pressed("quick_8"): 
+			if goat_nodes.size() >= 8: goat_nodes[7].select_goat()
+		elif event.is_action_pressed("quick_9"): 
+			if goat_nodes.size() >= 9: goat_nodes[8].select_goat()
+		elif event.is_action_pressed("quick_0"): 
+			if goat_nodes.size() >= 10: goat_nodes[9].select_goat()
 		
 	if event is InputEventMouseMotion:	
 		if event.position.y >= pop_bounds and not bottom_HUD and not middle_button and not Global.in_battle:
@@ -131,6 +154,8 @@ func _on_goat_popup_item_selected(index):
 
 	goat_popup_node.hide()
 	menu_open = false
+	
+
 
 func boss_bar(direction,title):
 	if direction == "in":
