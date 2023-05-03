@@ -7,6 +7,8 @@ var heart_scene = preload("res://scenes/battles/health_heart.tscn")
 onready var bottom_hud = $bottom_hud
 onready var animation = $AnimationPlayer
 onready var boss_animation = $BossAnimation
+onready var tool_tip_animation = $ToolTipAnimation
+
 
 onready var file_button = $bottom_hud/file_button
 onready var goat_button = $bottom_hud/goat_button
@@ -141,6 +143,7 @@ func boss_bar(direction,title):
 #	if title != null: announcement(title,"long")
 		
 func announcement(title,length):
+	announcement_label.text = ""
 	if length == "long":
 		animation.playback_speed = 1
 	elif length == "medium":
@@ -203,12 +206,12 @@ func tooltip_top(type,value):
 		tip_top.hide()
 		return
 	elif type == "shake":
-		animation.play("money_shake")
+		tool_tip_animation.play("money_shake")
 	elif type == "money_add":
 		tip_top_label.text = str(value)
 		tip_top.show()
-		animation.play("money_add")
-		yield(animation,"animation_finished")
+		tool_tip_animation.play("money_add")
+		yield(tool_tip_animation,"animation_finished")
 		
 	if type == "money_add":
 		tip_top_label.text = str(Global.currancy_1)
@@ -228,8 +231,8 @@ func tooltip_bot(type,value):
 	tip_bot_label.text = str(value)
 	tip_bot.show()
 	tooltip_active = true
-	animation.play("tip_bot")
-	yield(animation,"animation_finished")
+	tool_tip_animation.play("tip_bot")
+	yield(tool_tip_animation,"animation_finished")
 	tooltip_active = false
 	
 func set_cursor(type):
