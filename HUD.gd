@@ -3,12 +3,14 @@ extends CanvasLayer
 var pop_bounds = 560 ### When does HUD come up based on where cursor iss
 
 var heart_scene = preload("res://scenes/battles/health_heart.tscn")
+var goat_grid_button = preload("res://scenes/UIUX/GoatButtonHUD.tscn")
 
 
 onready var bottom_hud = $bottom_hud
 onready var animation = $AnimationPlayer
 onready var boss_animation = $BossAnimation
 onready var tool_tip_animation = $ToolTipAnimation
+onready var goat_grid = $GoatGrid
 
 
 onready var file_button = $bottom_hud/file_button
@@ -64,7 +66,8 @@ func _input(event):
 			tooltip_bot("hide",null)
 			
 	## Quick Choose Goat ##
-		elif event.is_action_pressed("quick_1"): 
+	if not Global.in_battle and not Global.goat_in_training and Global.title_finished:
+		if event.is_action_pressed("quick_1"): 
 			if goat_nodes.size() >= 1: goat_nodes[0].select_goat()
 		elif event.is_action_pressed("quick_2"): 
 			if goat_nodes.size() >= 2: goat_nodes[1].select_goat()
@@ -96,7 +99,11 @@ func load_chat():
 	chat = scene_instance
 	add_child(scene_instance)
 	
-
+func load_goat_grid(node):
+	var scene = goat_grid_button.instance()
+	scene.goat_node = node
+	scene.goat_number = goat_grid.get_child_count() + 1
+	goat_grid.add_child(scene)
 
 func update_network_info():
 	if Global.multiplayer_active:
