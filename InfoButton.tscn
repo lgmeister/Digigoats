@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://fonts/themes/chat_text.tres" type="Theme" id=1]
+[ext_resource path="res://visual/GUI/buttons/info_alone.png" type="Texture" id=2]
+[ext_resource path="res://scripts/UIUX/InfoButton.gd" type="Script" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0, 0, 0, 0.560784 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+expand_margin_left = 6.0
+expand_margin_right = 16.0
+expand_margin_top = 6.0
+expand_margin_bottom = 6.0
+
+[node name="InfoButton" type="Control"]
+script = ExtResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = 6.0
+margin_right = 129.0
+margin_bottom = 17.0
+mouse_filter = 0
+theme = ExtResource( 1 )
+custom_styles/normal = SubResource( 1 )
+text = "Info goes here"
+autowrap = true
+
+[node name="TextureRect" type="TextureRect" parent="Label"]
+modulate = Color( 0.666667, 0.666667, 0.666667, 1 )
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -1.0
+margin_top = -6.5
+margin_right = 13.0
+margin_bottom = 6.5
+mouse_filter = 2
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6

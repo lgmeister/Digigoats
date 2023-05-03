@@ -1,0 +1,727 @@
+[gd_scene load_steps=36 format=2]
+
+[ext_resource path="res://scripts/HUD.gd" type="Script" id=2]
+[ext_resource path="res://visual/GUI/buttons/settings.png" type="Texture" id=3]
+[ext_resource path="res://visual/GUI/buttons/file.png" type="Texture" id=4]
+[ext_resource path="res://visual/GUI/HUD.png" type="Texture" id=6]
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=7]
+[ext_resource path="res://visual/GUI/buttons/goat.png" type="Texture" id=8]
+[ext_resource path="res://visual/GUI/progress_bars/boss_bar_empty.png" type="Texture" id=11]
+[ext_resource path="res://visual/GUI/progress_bars/boss_bar.png" type="Texture" id=12]
+[ext_resource path="res://fonts/themes/Blocky_small_title.tres" type="Theme" id=13]
+[ext_resource path="res://fonts/themes/XL_Title.tres" type="Theme" id=14]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon010.png" type="Texture" id=15]
+[ext_resource path="res://visual/GUI/Frames/empty_slot_frame_square.png" type="Texture" id=16]
+[ext_resource path="res://visual/GUI/icons/individual_32x32/icon374.png" type="Texture" id=17]
+[ext_resource path="res://fonts/themes/chat_text.tres" type="Theme" id=18]
+
+[sub_resource type="Animation" id=3]
+resource_name = "annoucement"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("CenterAnnouncementLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 3, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CenterAnnouncementLabel:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.8 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "black_screen"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("BlackScreen:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "boss_bar_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss_Bar:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 281.5, -48 ), Vector2( 281.5, 20 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "boss_bar_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss_Bar:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 281.5, 0 ), Vector2( 281.5, -48 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "money_add"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_top:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("tip_bar_top:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("tip_bar_top:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.054902, 1, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0.054902, 1, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "money_shake"
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_top:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("tip_bar_top:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("tip_bar_top:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "tip_bot"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_bot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 2.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.552941 ), Color( 1, 1, 1, 0.552941 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "annoucement"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("CenterAnnouncementLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 3, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CenterAnnouncementLabel:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.8 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "black_screen"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("BlackScreen:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "boss_bar_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss_Bar:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 281.5, -48 ), Vector2( 281.5, 20 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "boss_bar_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss_Bar:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 281.5, 0 ), Vector2( 281.5, -48 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "money_add"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_top:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("tip_bar_top:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("tip_bar_top:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.054902, 1, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 0.054902, 1, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "money_shake"
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_top:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("tip_bar_top:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("tip_bar_top:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "tip_bot"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_bot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 2.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.552941 ), Color( 1, 1, 1, 0.552941 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "annoucement"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("CenterAnnouncementLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 3, 4.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CenterAnnouncementLabel:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0.8, 0.8 ), Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "black_screen"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("BlackScreen:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "boss_bar_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss_Bar:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 281.5, -48 ), Vector2( 281.5, 20 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "boss_bar_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Boss_Bar:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 281.5, 0 ), Vector2( 281.5, -48 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "money_shake"
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_top:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ), Vector2( 22, 16 ), Vector2( 16, 16 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("tip_bar_top:rect_scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("tip_bar_top:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "tip_bot"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("tip_bar_bot:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 2.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.552941 ), Color( 1, 1, 1, 0.552941 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 16 )
+region_rect = Rect2( 0, 0, 63.6202, 64 )
+margin_left = 3.0
+margin_right = 3.0
+margin_top = 3.0
+margin_bottom = 3.0
+expand_margin_left = 2.0
+expand_margin_right = 2.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="BlackScreen" type="ColorRect" parent="."]
+modulate = Color( 0, 0, 0, 0 )
+margin_left = -197.0
+margin_top = -169.0
+margin_right = 1206.0
+margin_bottom = 814.0
+mouse_filter = 2
+color = Color( 0, 0, 0, 1 )
+
+[node name="CenterAnnouncementLabel" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 512, 300 )
+theme = ExtResource( 14 )
+text = "Victory"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="SmallLowAnnoucement" type="Label" parent="."]
+visible = false
+margin_left = 8.0
+margin_top = 580.0
+margin_right = 529.0
+margin_bottom = 595.0
+theme = ExtResource( 13 )
+text = "Press Esc to Skip Intro..."
+
+[node name="Boss_Bar" type="TextureProgress" parent="."]
+modulate = Color( 1, 1, 1, 0.784314 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -230.5
+margin_top = -48.0
+margin_right = 230.5
+margin_bottom = -8.0
+step = 0.01
+value = 100.0
+texture_under = ExtResource( 11 )
+texture_progress = ExtResource( 12 )
+texture_progress_offset = Vector2( 4, 2 )
+
+[node name="Label" type="Label" parent="Boss_Bar"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -201.5
+margin_top = -14.0
+margin_right = 201.5
+margin_bottom = 11.0
+theme = ExtResource( 13 )
+text = "Boss Name Here!"
+align = 1
+valign = 1
+
+[node name="bottom_hud" type="TextureRect" parent="."]
+self_modulate = Color( 1, 1, 1, 0.427451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="file_button" type="MenuButton" parent="bottom_hud"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -47.0
+margin_top = -39.0
+margin_bottom = 8.0
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+icon = ExtResource( 4 )
+icon_align = 1
+expand_icon = true
+
+[node name="goat_button" type="MenuButton" parent="bottom_hud"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -82.0
+margin_top = -39.0
+margin_right = -35.0
+margin_bottom = 9.0
+shortcut_in_tooltip = false
+enabled_focus_mode = 0
+icon = ExtResource( 8 )
+expand_icon = true
+
+[node name="settings_button" type="TextureButton" parent="bottom_hud"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -32.0
+margin_right = 40.0
+texture_normal = ExtResource( 3 )
+expand = true
+
+[node name="time_label" type="Label" parent="bottom_hud"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -21.0
+margin_top = -11.0
+margin_right = 21.0
+margin_bottom = -4.0
+theme = ExtResource( 7 )
+text = "hghfhgf"
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/annoucement = SubResource( 3 )
+anims/black_screen = SubResource( 4 )
+anims/boss_bar_in = SubResource( 1 )
+anims/boss_bar_out = SubResource( 2 )
+anims/money_add = SubResource( 14 )
+anims/money_shake = SubResource( 7 )
+anims/tip_bot = SubResource( 6 )
+
+[node name="ToolTipAnimation" type="AnimationPlayer" parent="."]
+anims/annoucement = SubResource( 15 )
+anims/black_screen = SubResource( 16 )
+anims/boss_bar_in = SubResource( 17 )
+anims/boss_bar_out = SubResource( 18 )
+anims/money_add = SubResource( 19 )
+anims/money_shake = SubResource( 20 )
+anims/tip_bot = SubResource( 21 )
+
+[node name="BossAnimation" type="AnimationPlayer" parent="."]
+anims/annoucement = SubResource( 8 )
+anims/black_screen = SubResource( 9 )
+anims/boss_bar_in = SubResource( 10 )
+anims/boss_bar_out = SubResource( 11 )
+anims/money_shake = SubResource( 12 )
+anims/tip_bot = SubResource( 13 )
+
+[node name="health" type="GridContainer" parent="."]
+margin_left = 2.0
+margin_top = -4.0
+margin_right = 241.0
+margin_bottom = 146.0
+mouse_filter = 2
+custom_constants/vseparation = 19
+custom_constants/hseparation = 23
+columns = 10
+
+[node name="GenPop" type="CanvasLayer" parent="."]
+
+[node name="GeneralPopupMenu" type="PopupMenu" parent="GenPop"]
+margin_right = 50.0
+margin_bottom = 22.0
+theme = ExtResource( 13 )
+custom_styles/panel = SubResource( 5 )
+
+[node name="tip_bar_top" type="Control" parent="."]
+visible = false
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 56.0
+margin_bottom = 56.0
+
+[node name="Label" type="Label" parent="tip_bar_top"]
+margin_left = 22.0
+margin_top = 5.0
+margin_right = 136.0
+margin_bottom = 20.0
+theme = ExtResource( 13 )
+text = "999"
+
+[node name="TextureRect" type="TextureRect" parent="tip_bar_top"]
+margin_right = 22.0
+margin_bottom = 23.0
+texture = ExtResource( 15 )
+expand = true
+stretch_mode = 6
+
+[node name="tip_bar_bot" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+margin_left = 16.0
+margin_top = 552.0
+margin_right = 56.0
+margin_bottom = 592.0
+
+[node name="Label" type="Label" parent="tip_bar_bot"]
+margin_left = 30.0
+margin_top = 5.0
+margin_right = 268.0
+margin_bottom = 20.0
+theme = ExtResource( 13 )
+text = "Tooltip Goes Here"
+
+[node name="TextureRect" type="TextureRect" parent="tip_bar_bot"]
+margin_right = 22.0
+margin_bottom = 23.0
+texture = ExtResource( 17 )
+expand = true
+stretch_mode = 6
+
+[node name="game_info_label" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -178.0
+margin_bottom = 72.0
+theme = ExtResource( 18 )
+text = "Game Info
+"
+align = 2
+
+[connection signal="pressed" from="bottom_hud/file_button" to="." method="_on_file_button_pressed"]
+[connection signal="pressed" from="bottom_hud/goat_button" to="." method="_on_goat_button_pressed"]

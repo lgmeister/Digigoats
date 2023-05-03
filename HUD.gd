@@ -4,6 +4,7 @@ var pop_bounds = 560 ### When does HUD come up based on where cursor iss
 
 var heart_scene = preload("res://scenes/battles/health_heart.tscn")
 
+
 onready var bottom_hud = $bottom_hud
 onready var animation = $AnimationPlayer
 onready var boss_animation = $BossAnimation
@@ -240,3 +241,4 @@ func set_cursor(type):
 	var cross_cursor = load("res://visual/character/crosshair/convergence-target.png")
 	if type == "normal": Input.set_custom_mouse_cursor(normal_cursor)
 	elif type == "crosshair": Input.set_custom_mouse_cursor(cross_cursor)
+	
