@@ -1,11 +1,6 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://scripts/HUD.gd" type="Script" id=2]
-[ext_resource path="res://visual/GUI/buttons/settings.png" type="Texture" id=3]
-[ext_resource path="res://visual/GUI/buttons/file.png" type="Texture" id=4]
-[ext_resource path="res://visual/GUI/HUD.png" type="Texture" id=6]
-[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=7]
-[ext_resource path="res://visual/GUI/buttons/goat.png" type="Texture" id=8]
 [ext_resource path="res://visual/GUI/progress_bars/boss_bar_empty.png" type="Texture" id=11]
 [ext_resource path="res://visual/GUI/progress_bars/boss_bar.png" type="Texture" id=12]
 [ext_resource path="res://fonts/themes/Blocky_small_title.tres" type="Theme" id=13]
@@ -570,67 +565,6 @@ text = "Boss Name Here!"
 align = 1
 valign = 1
 
-[node name="bottom_hud" type="TextureRect" parent="."]
-self_modulate = Color( 1, 1, 1, 0.427451 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = 40.0
-margin_bottom = 40.0
-mouse_filter = 2
-texture = ExtResource( 6 )
-__meta__ = {
-"_edit_lock_": true
-}
-
-[node name="file_button" type="MenuButton" parent="bottom_hud"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -47.0
-margin_top = -39.0
-margin_bottom = 8.0
-shortcut_in_tooltip = false
-enabled_focus_mode = 0
-icon = ExtResource( 4 )
-icon_align = 1
-expand_icon = true
-
-[node name="goat_button" type="MenuButton" parent="bottom_hud"]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -82.0
-margin_top = -39.0
-margin_right = -35.0
-margin_bottom = 9.0
-shortcut_in_tooltip = false
-enabled_focus_mode = 0
-icon = ExtResource( 8 )
-expand_icon = true
-
-[node name="settings_button" type="TextureButton" parent="bottom_hud"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = -32.0
-margin_right = 40.0
-texture_normal = ExtResource( 3 )
-expand = true
-
-[node name="time_label" type="Label" parent="bottom_hud"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -21.0
-margin_top = -11.0
-margin_right = 21.0
-margin_bottom = -4.0
-theme = ExtResource( 7 )
-text = "hghfhgf"
-
 [node name="Tween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -731,5 +665,14 @@ text = "Game Info
 "
 align = 2
 
-[connection signal="pressed" from="bottom_hud/file_button" to="." method="_on_file_button_pressed"]
-[connection signal="pressed" from="bottom_hud/goat_button" to="." method="_on_goat_button_pressed"]
+[node name="TimeLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 321.0
+margin_top = 26.0
+margin_right = 499.0
+margin_bottom = 98.0
+theme = ExtResource( 13 )
+text = "Game Info
+"
+align = 2

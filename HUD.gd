@@ -1,21 +1,16 @@
 extends CanvasLayer
 
-var pop_bounds = 560 ### When does HUD come up based on where cursor iss
 
 var heart_scene = preload("res://scenes/battles/health_heart.tscn")
 var goat_grid_button = preload("res://scenes/UIUX/GoatButtonHUD.tscn")
+var main
 
-
-onready var bottom_hud = $bottom_hud
 onready var animation = $AnimationPlayer
 onready var boss_animation = $BossAnimation
 onready var tool_tip_animation = $ToolTipAnimation
 onready var goat_grid = $GoatGrid
+onready var time_label = $TimeLabel
 
-
-onready var file_button = $bottom_hud/file_button
-onready var goat_button = $bottom_hud/goat_button
-onready var time_label = $bottom_hud/time_label
 onready var boss_label = $Boss_Bar/Label
 onready var boss_bar_top = $Boss_Bar
 onready var announcement_label = $CenterAnnouncementLabel
@@ -53,10 +48,7 @@ var goat_popup_node
 var goat_nodes = [] ### All the local player's goats' nodes 
 
 func _ready():
-	file_popup_node = file_button.get_popup()
-	file_popup_node.connect("id_pressed",self,"_on_file_button_choice")
-	goat_popup_node = goat_button.get_popup()
-	goat_popup_node.connect("id_pressed",self,"_on_goat_popup_item_selected")
+	pass
 	
 
 
@@ -68,7 +60,7 @@ func _input(event):
 	## Quick Choose Goat ##
 	if not Global.in_battle and not Global.goat_in_training and Global.title_finished:
 		if event.is_action_pressed("quick_1"): 
-			if goat_nodes.size() >= 1: goat_nodes[0].select_goat()
+			if goat_nodes.size() >= 1:goat_nodes[0].select_goat()
 		elif event.is_action_pressed("quick_2"): 
 			if goat_nodes.size() >= 2: goat_nodes[1].select_goat()
 		elif event.is_action_pressed("quick_3"): 
@@ -88,11 +80,11 @@ func _input(event):
 		elif event.is_action_pressed("quick_0"): 
 			if goat_nodes.size() >= 10: goat_nodes[9].select_goat()
 		
-	if event is InputEventMouseMotion:	
-		if event.position.y >= pop_bounds and not bottom_HUD and not middle_button and not Global.in_battle:
-			slide_in()
-		if event.position.y < pop_bounds and bottom_HUD:
-			slide_out()
+#	if event is InputEventMouseMotion:	
+#		if event.position.y >= pop_bounds and not bottom_HUD and not middle_button and not Global.in_battle:
+#			slide_in()
+#		if event.position.y < pop_bounds and bottom_HUD:
+#			slide_out()
 
 func load_chat():
 	var scene_instance = chat_scene.instance()
@@ -104,64 +96,15 @@ func load_goat_grid(node):
 	scene.goat_node = node
 	scene.goat_number = goat_grid.get_child_count() + 1
 	goat_grid.add_child(scene)
+	
+func show_goat_grid(choice):
+	if choice: goat_grid.show()
+	else: goat_grid.hide()
 
 func update_network_info():
 	if Global.multiplayer_active:
 		game_info_label.show()
 		game_info_label.text = "Game Name: Random Name\nGame IP Address: %s" %Global.game_ip_address
-			
-func slide_in(): ### Bottom HUD ####
-	bottom_HUD = true
-	tween.interpolate_property(bottom_hud,"rect_position",Vector2(0,40),Vector2(0,0),.3,Tween.TRANS_QUART)
-	tween.start()
-	
-func slide_out(): ### Bottom HUD ####
-	if menu_open:
-		return
-	bottom_HUD = false
-	tween.interpolate_property(bottom_hud,"rect_position",Vector2(0,0),Vector2(0,40),.3,Tween.TRANS_QUART)
-	tween.start()
-	
-
-func _on_file_button_pressed():
-	menu_open = true
-	file_popup_node.rect_position = Vector2(file_button.rect_position.x-24,file_button.rect_position.y-60)
-	file_popup_node.clear()
-	file_popup_node.add_item("Exit")
-	file_popup_node.add_item("Settings")
-	
-func _on_file_button_choice(id):
-	menu_open = false
-	print(file_popup_node.get_item_text(id))
-
-
-
-func _on_goat_button_pressed():
-	menu_open = true
-	goat_popup_node.rect_position = Vector2(goat_button.rect_position.x,goat_button.rect_position.y-500)
-	goat_popup_node.rect_scale = Vector2(.2,.2) 
-	goat_popup_node.clear()
-	
-	goat_populate()
-
-func goat_populate(): ### populate goat_menu with each goat
-	for goat in Global.loaded_goats:
-		
-		goat_popup_node.add_icon_item\
-		(Global.loaded_goats[goat]["image"],
-		Global.loaded_goats[goat]["id"] + " - " + \
-		Global.loaded_goats[goat]["name"])
-		
-func _on_goat_popup_item_selected(index):
-	var goat_number = goat_popup_node.get_item_text(index).left(5) ### Maybe change this to an array variable
-	for goat in get_tree().get_nodes_in_group("player"):
-		if goat.goat_id == goat_number:
-			goat.select_goat()
-			
-
-	goat_popup_node.hide()
-	menu_open = false
-	
 
 
 func boss_bar(direction,title):
