@@ -6,6 +6,7 @@ export (PackedScene) var weapon = preload("res://scenes/battles/attack.tscn")
 ### Scenes ###
 var goat_profile ## actual profile scene
 var fight_scene
+var main
 
 ### Nodes ###
 onready var sprite = $GoatSprite
@@ -76,6 +77,10 @@ onready var atk_timer = $Attack_Timer
 ## Bools ##
 var in_fight = false ### false if put into main world
 var in_training = false 
+
+var in_training_area = false
+var in_underground_area = false
+
 var profile_open = false
 var input_allowed = false
 var alive = true
@@ -108,11 +113,17 @@ puppet var puppet_velocity = Vector2.ZERO
 
 onready var network_tween = $NetworkTween
 
+### Energy ###
+var energy_rate = 720 ### 720 min to get to full 100 energy (12 hours)
+var next_energy_time = {}
+var max_energy_time = {}
+
 
 
 func _ready():
 	passive_movement_timer.start(rand_range(0,4))
 	add_to_group("player")
+
 
 	if in_fight or in_training:
 		set_collision_layer_bit(0,false)
@@ -120,6 +131,9 @@ func _ready():
 		set_collision_mask_bit(0,false)
 		set_collision_mask_bit(4,true)
 		set_collision_mask_bit(12,true)
+	else:
+		set_collision_layer_bit(0,true)
+		
 	
 	if in_training:
 		goat_id = Global.training_goat.goat_id
@@ -133,17 +147,30 @@ func _ready():
 	self.Goat = load("res://goats/repo/%s.tres" %goat_id)
 	
 	load_goat()
+	
 	load_fuel_bar()
 	load_headgear()
 	load_weapon()
+
 	
 	if in_fight:
 		HUD.add_health_bar(goat_max_health,goat_current_health)
 		if goat_armor != null: HUD.add_armor_bar(int(goat_armor.armor_class))
 		
-	if not in_fight or not in_training:
+	if not in_fight and not in_training:
 		cursor.self_modulate = Color(goat_color)
 		misc_animation.play("cursor")
+		HUD.load_goat_grid(self)
+	else:
+		cursor.hide()
+		
+	
+	### TEST ONLY ####
+	yield(get_tree().create_timer(2),"timeout")
+	calc_max_energy()
+	
+	######
+		
 
 func get_input():
 	if not input_allowed: return
@@ -178,9 +205,14 @@ func get_input():
 		if sprite.frame < sprite.frames.get_frame_count(sprite.animation) - 1: sprite.frame += 1
 		else: sprite.frame = 0
 		
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_pressed("jump"):
 		jumping = true
-		if raycast.is_colliding() or flying:
+	else:
+		jumping = false
+		
+	if Input.is_action_just_pressed("jump"):
+#		jumping = true
+		if raycast.is_colliding():
 			jump_count = 0
 		if jump_count < 2:
 			jump_count += 1
@@ -319,23 +351,38 @@ func _process(delta):
 		if not is_network_master():
 			set_physics_process(false)
 			return
+	
+	### Energy ###		
+	if not in_fight and not in_training:
+		pass		
+		
+	### Aesthetics ###
+#	if not raycast3.is_colliding():
+#		if facing == "left": sprite.rotation_degrees = 20
+#		else: sprite.rotation_degrees = -20
+#	elif not raycast2.is_colliding():
+#		if facing == "left": sprite.rotation_degrees = 20
+#		else: sprite.rotation_degrees = -20
+#	else:
+#		sprite.rotation_degrees = 0
 		
 	####PHYSICS ####
-	boost_particles.orbit_velocity = 0
+	if not jumping:
+		boost_particles.orbit_velocity = 0
 	get_input()
 	velocity.y += gravity * delta
 	
-	
-	if hold_movement == 1 and self != Global.active_goat:
-		set_collision_mask_bit(0,false)
-		velocity.x = -50
-		check_collision()
-	elif hold_movement == 2 and self != Global.active_goat:
-		set_collision_mask_bit(0,false)
-		velocity.x = 50
-		check_collision()
-	else:
-		set_collision_mask_bit(0,true)
+	if not in_fight and not in_training:
+		if hold_movement == 1 and self != Global.active_goat:
+			set_collision_mask_bit(0,false)
+			velocity.x = -50
+			check_collision()
+		elif hold_movement == 2 and self != Global.active_goat:
+			set_collision_mask_bit(0,false)
+			velocity.x = 50
+			check_collision()
+		else:
+			set_collision_mask_bit(0,true)
 	
 	
 	if velocity.x > 0:
@@ -348,7 +395,7 @@ func _process(delta):
 	if jumping:
 		boost_particles.speed_scale = 4
 		if facing == "right" and jump_count == 2: boost_particles.orbit_velocity = 1
-		elif facing == "left" and jump_count == 2: boost_particles.orbit_velocity = 1
+		elif facing == "left" and jump_count == 2: boost_particles.orbit_velocity = -1
 	else:
 		boost_particles.orbit_velocity = 0
 		boost_particles.speed_scale = 1
@@ -461,19 +508,16 @@ func _setGoat(newGoat : Resource):
 	goat_image = Goat.get_Image()
 	goat_color = Goat.get_Color()
 	goat_weapon = Goat.get_Weapon()
-#	goat_max_hp = Goat.get_Max_Health()
-#	goat_hp = Goat.get_Health()
-	
 	goat_current_health = Goat.get_Current_Health()
 	goat_max_health = Goat.get_Max_Health()
 	goat_max_energy = Goat.get_Max_Energy()
 	
 	
 	###### DEVELOPER MODE ######
-	if Global.DEV_MODE:
-		goat_current_energy = goat_max_energy
-	else:
-		goat_current_energy = Goat.get_Current_Energy()
+#	if Global.DEV_MODE:
+#		goat_current_energy = goat_max_energy
+
+	goat_current_energy = Goat.get_Current_Energy()
 	###### DEVELOPER MODE ######
 	
 	goat_max_happiness = Goat.get_Max_Happiness()
@@ -486,13 +530,10 @@ func _setGoat(newGoat : Resource):
 	
 	goat_str = Goat.get_Str()
 	goat_dex = Goat.get_Dex()
-	
-	
 	goat_wis = Goat.get_Wis()
 	
 	goat_level = Goat.get_Level()
 	goat_exp = Goat.get_Exp()
-	print(goat_exp, " experience coming in ")
 	goat_next_exp = Goat.get_Next_Exp()
 
 	goat_particles = Goat.get_Particles()
@@ -530,8 +571,16 @@ func load_fuel_bar():
 		
 	
 func load_goat():
-	Global.loaded_goats[goat_id] = {"id":goat_id,"name":goat_name,"image":goat_image,"color":goat_color}
+	Global.loaded_goats[goat_id] = {
+		"id":goat_id,
+		"name":goat_name,
+		"image":goat_image,
+		"color":goat_color,
+		"node":self
+		}
 	sprite.self_modulate = Color(goat_color)
+	
+	HUD.goat_nodes.append(self)
 	
 	
 func load_headgear():
@@ -651,20 +700,38 @@ func action_sprite_func(type):
 		action_sprite.hide()
 	
 func activate_goat():
-	if self == Global.active_goat: input_allowed = true
-	else: input_allowed = false
+	if self == Global.active_goat:
+		input_allowed = true
+	else:
+		input_allowed = false
+		passive_movement_timer.start(rand_range(1,5))
 
 func _on_goat_button_pressed():
 	if Global.multiplayer_active:
-		print(is_network_master())
 		if not is_network_master(): return
 		if Global.in_battle: return
-		
+	select_goat()
+
+
+func select_goat():
 	Global.active_goat = self
 	get_tree().call_group("player","activate_goat")
+	get_tree().call_group("hud_goat","unselect",self)
 	misc_animation.stop()
 	misc_animation.play("cursor")
-
+	
+	if in_training_area:
+		main.animation.play("fog",-1,3)
+		main.tile_color.color = Color.white		
+	elif in_underground_area:
+		main.tile_color.color = Color("2d2d2d")
+		main.animation.play("fog_out")
+		main.animation.seek(1,true)
+	else:
+		main.animation.play("fog_out")
+		main.animation.seek(1,true)
+		main.tile_color.color = Color.white		
+	
 
 func _start_Network_Timer():
 	network_timer.start(.05)
@@ -679,7 +746,6 @@ func puppet_position_set(new_value) -> void:
 
 func _on_Network_Timer_timeout():
 	if is_network_master():
-	
 		rset_unreliable("puppet_position", global_position)
 #		rset_unreliable("puppet_velocity", velocity)
 		rset_unreliable("puppet_rotation", sprite.rotation)
@@ -689,9 +755,14 @@ func update_stats():
 
 
 func _on_PassiveMovementTimer_timeout():
+	if self == Global.active_goat or Global.in_battle or Global.goat_in_training: return
+	
+	if in_training_area or in_underground_area: 
+		hold_movement = 0
+		return
+		
 	rng.randomize()
 	var choice = rng.randi_range(0,3)
-	
 	if choice == 0:
 		sprite.play("walk_right")
 		hold_movement = 2
@@ -704,6 +775,78 @@ func _on_PassiveMovementTimer_timeout():
 	elif choice == 3:
 		sprite.play("eat_right")	
 		hold_movement = 0
-		
-	
 	passive_movement_timer.start(rand_range(1,5))
+
+
+func calc_max_energy():
+	if not HUD.clock_running: return
+	
+	var energy_percent = float(goat_current_energy)/float(goat_max_energy)
+	var time_left = energy_rate-energy_percent*energy_rate
+	var hours = floor(time_left/60)
+	var minutes = floor(time_left - (hours * 60))
+	var seconds = (time_left - (hours * 60) - minutes) * 60
+	 
+	
+	var time_second = HUD.second + seconds
+	var time_minute = HUD.minute + minutes
+	var time_hour = HUD.hour + hours
+	var time_day = HUD.day_of_year
+	
+
+	if time_second >= 60:
+		time_second -= 60
+		time_minute += 1
+	if time_minute >= 60:
+		time_minute -= 60
+		time_hour += 1
+	if time_hour >= 24:
+		time_hour -= 24
+		time_day += 1
+	
+	max_energy_time = {"day":time_day,"hour":time_hour,"minute":time_minute,"second":time_second}	
+	
+	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
+	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
+	print("Remaining Date/Time is: ", "Hour:", hours, " Minute:", minutes, " Second:", seconds )
+	
+	## When is the next energy? ##
+	var next_min = floor(energy_rate/100.0) 
+	var next_second = (energy_rate/100.00 - next_min) * 60
+	print("Energy Takes: ", next_min, " Minutes and ", next_second, " Seconds")
+
+	
+func check_energy_add():
+	var time_second = max_energy_time["second"] - HUD.second
+	var time_minute = max_energy_time["minute"] - HUD.minute
+	var time_hour = max_energy_time["hour"] - HUD.hour
+	var time_day = max_energy_time["day"] - HUD.day_of_year
+	
+
+	if time_day > 0:
+		time_day -= 1
+		time_hour += 24
+	if time_second < 0:
+		time_minute -=1
+		time_second += 60
+	if time_minute < 0:
+		time_hour -= 1
+		time_minute += 60
+
+	
+	print("----------------------------------------")
+	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
+	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
+	print("Remaining Date/Time is: ", "Hour:", time_hour, " Minute:", time_minute, " Second:", time_second )
+	
+	
+	var local_time_left = (time_hour*60) + time_minute + (time_second/float(60))
+	goat_current_energy = 100-(local_time_left/energy_rate*100)
+	print(energy_rate, "/" , local_time_left)
+	print("current energy ", goat_current_energy)
+	
+
+func _on_energy_timer_finishsed():
+	print("timer is done")
+	goat_current_energy += 1
+	

@@ -1,6 +1,5 @@
 extends CanvasLayer
 
-
 var heart_scene = preload("res://scenes/battles/health_heart.tscn")
 var goat_grid_button = preload("res://scenes/UIUX/GoatButtonHUD.tscn")
 var main
@@ -19,6 +18,9 @@ onready var black_screen = $BlackScreen
 onready var general_pop = $GenPop/GeneralPopupMenu ### used for whatever. Item right click etc
 onready var tween = $Tween
 
+onready var idle_timer = $IdleTimer
+
+
 ### Tips ###
 onready var tip_top = $tip_bar_top
 onready var tip_bot = $tip_bar_bot
@@ -31,6 +33,15 @@ onready var tip_bot_texture = $tip_bar_bot/TextureRect
 onready var game_info_label = $game_info_label
 var chat_scene = load("res://scenes/network/chat.tscn")
 
+### Clock ###
+var clock_running = false
+var stopwatch = 0
+
+var day_of_year = 0
+var hour = 0
+var minute = 0
+var second = 0
+
 ### Bools ###
 var tooltip_active = false ### Bottom only
 var boss_bar_active = false ## health bar in?
@@ -42,15 +53,36 @@ var middle_button = false
 var chat
 
 ### Nodes ###
-var file_popup_node
-var goat_popup_node
-
 var goat_nodes = [] ### All the local player's goats' nodes 
 
-func _ready():
-	pass
-	
 
+
+func _ready():
+	Http_Request.request("time")
+	
+func _process(delta):
+	if not clock_running:
+		time_label.text = "No Internet Connection or Time API down"
+		return
+		
+	stopwatch += delta
+	second = stopwatch
+		
+	if second > 59:
+		second = 0
+		minute += 1
+		stopwatch = -1 
+#		Http_Request.request("time") ## Check every min if clock is accurate (too much??)
+		get_tree().call_group("player","check_energy_add")
+	if minute > 59:
+		minute = 0
+		hour += 1
+	if hour > 23:
+		hour = 0
+	else:
+		second += 1
+		time_label.text = "%02d:%02d:%02d"  % [hour,minute,second]
+		
 
 func _input(event):
 	if event is InputEventKey:
