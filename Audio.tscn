@@ -13,3 +13,5 @@ volume_db = -14.561
 [node name="SFX" type="AudioStreamPlayer" parent="."]
 
 [node name="Movement" type="AudioStreamPlayer" parent="."]
+
+[connection signal="finished" from="Music" to="." method="_on_Music_finished"]

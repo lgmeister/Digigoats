@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/main/MusicPlayer.gd" type="Script" id=1]
 [ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=2]
@@ -6,6 +6,12 @@
 [ext_resource path="res://visual/GUI/buttons/arrow.png" type="Texture" id=4]
 [ext_resource path="res://visual/GUI/buttons/arrow_pressed.png" type="Texture" id=5]
 [ext_resource path="res://addons/sprite_mask/icon.png" type="Texture" id=6]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0.729412, 0, 1 )
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
 
 [sub_resource type="Animation" id=1]
 resource_name = "retract"
@@ -56,7 +62,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 74, 8 ), Vector2( 42, 8 ) ]
+"values": [ Vector2( 66, 8 ), Vector2( 39, 8 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Panel/SongProgress:rect_position")
@@ -154,6 +160,30 @@ tracks/11/keys = {
 "update": 0,
 "values": [ Vector2( 0, 538 ), Vector2( 0, 567 ) ]
 }
+tracks/12/type = "value"
+tracks/12/path = NodePath("Panel/SongTime:modulate")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Panel/SongLength:modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="MusicPlayer" type="Control"]
 anchor_right = 1.0
@@ -186,12 +216,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -66.5
+margin_left = -69.5
 margin_top = -8.0
-margin_right = 93.5003
+margin_right = 101.5
 margin_bottom = -1.0
 theme = ExtResource( 2 )
 text = "Name of song"
+
+[node name="SongTime" type="Label" parent="Panel"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -60.5
+margin_top = -4.0
+margin_right = -7.5
+margin_bottom = 3.0
+theme = ExtResource( 2 )
+text = "0:00"
+
+[node name="SongLength" type="Label" parent="Panel"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 35.5
+margin_top = -4.0
+margin_right = 107.5
+margin_bottom = 3.0
+theme = ExtResource( 2 )
+text = "1:23"
+align = 2
 
 [node name="PlayButton" type="TextureButton" parent="Panel"]
 modulate = Color( 1, 1, 1, 0 )
@@ -200,9 +257,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = 4.5
-margin_top = -2.5
-margin_right = 34.5
-margin_bottom = 27.5
+margin_top = 4.5
+margin_right = 24.5
+margin_bottom = 24.5
 mouse_filter = 1
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
@@ -216,10 +273,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 57.5
-margin_top = -2.5
-margin_right = 87.5
-margin_bottom = 27.5
+margin_left = 33.5
+margin_top = 4.5
+margin_right = 53.5
+margin_bottom = 24.5
 mouse_filter = 1
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
@@ -233,10 +290,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -46.5
-margin_top = -2.5
-margin_right = -16.5
-margin_bottom = 27.5
+margin_left = -22.5
+margin_top = 4.5
+margin_right = -2.5
+margin_bottom = 24.5
 mouse_filter = 1
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
@@ -252,8 +309,14 @@ margin_right = 210.0
 margin_bottom = 32.0
 rect_scale = Vector2( 1, 0.5 )
 mouse_filter = 1
+custom_styles/fg = SubResource( 2 )
+custom_styles/bg = SubResource( 3 )
 value = 50.0
 percent_visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/retract = SubResource( 1 )
+
+[connection signal="pressed" from="Panel/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="Panel/NextSongButton" to="." method="_on_NextSongButton_pressed"]
+[connection signal="pressed" from="Panel/PreSongButton" to="." method="_on_PreSongButton_pressed"]
