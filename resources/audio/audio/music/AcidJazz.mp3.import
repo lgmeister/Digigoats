@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/AcidJazz.mp3-2b1dde3aa9c80612ce5a3d9ce10d5aa3.mp3str"
+
+[deps]
+
+source_file="res://resources/audio/music/AcidJazz.mp3"
+dest_files=[ "res://.import/AcidJazz.mp3-2b1dde3aa9c80612ce5a3d9ce10d5aa3.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
