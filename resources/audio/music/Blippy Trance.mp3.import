@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Blippy Trance.mp3-60cf9ab246424d372280a7a3b145f0bb.mp3str"
+
+[deps]
+
+source_file="res://resources/audio/music/Blippy Trance.mp3"
+dest_files=[ "res://.import/Blippy Trance.mp3-60cf9ab246424d372280a7a3b145f0bb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Ancient Mystery Waltz Allegro.mp3-990b339c4bfda6bde0318f649eca406d.mp3str"
+
+[deps]
+
+source_file="res://resources/audio/music/Ancient Mystery Waltz Allegro.mp3"
+dest_files=[ "res://.import/Ancient Mystery Waltz Allegro.mp3-990b339c4bfda6bde0318f649eca406d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
