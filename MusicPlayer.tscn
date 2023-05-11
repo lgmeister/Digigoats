@@ -1,0 +1,259 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/main/MusicPlayer.gd" type="Script" id=1]
+[ext_resource path="res://fonts/themes/Blocky_text.tres" type="Theme" id=2]
+[ext_resource path="res://visual/GUI/buttons/arrow_disabled.png" type="Texture" id=3]
+[ext_resource path="res://visual/GUI/buttons/arrow.png" type="Texture" id=4]
+[ext_resource path="res://visual/GUI/buttons/arrow_pressed.png" type="Texture" id=5]
+[ext_resource path="res://addons/sprite_mask/icon.png" type="Texture" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "retract"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:margin_top")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -62.0, -32.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel/SongImage:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 8, 6 ), Vector2( 8, 4 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Panel/SongImage:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 47, 47 ), Vector2( 24, 24 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Panel/SongTitle:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 74, 8 ), Vector2( 42, 8 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Panel/SongProgress:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 66, 18 ), Vector2( 39, 18 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Panel:margin_right")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 255.0, 217.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Panel/PlayButton:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Panel/NextSongButton:modulate")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Panel/PreSongButton:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Panel:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.560784 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath(".:rect_size")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 255, 62 ), Vector2( 217, 33 ) ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath(".:rect_position")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 538 ), Vector2( 0, 567 ) ]
+}
+
+[node name="MusicPlayer" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 567.0
+margin_right = -807.0
+script = ExtResource( 1 )
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0.560784 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -32.0
+margin_right = 217.0
+mouse_filter = 1
+
+[node name="SongImage" type="TextureRect" parent="Panel"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 8.0
+margin_top = -12.0
+margin_right = 32.0
+margin_bottom = 12.0
+mouse_filter = 2
+texture = ExtResource( 6 )
+expand = true
+
+[node name="SongTitle" type="Label" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -66.5
+margin_top = -8.0
+margin_right = 93.5003
+margin_bottom = -1.0
+theme = ExtResource( 2 )
+text = "Name of song"
+
+[node name="PlayButton" type="TextureButton" parent="Panel"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 4.5
+margin_top = -2.5
+margin_right = 34.5
+margin_bottom = 27.5
+mouse_filter = 1
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="NextSongButton" type="TextureButton" parent="Panel"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 57.5
+margin_top = -2.5
+margin_right = 87.5
+margin_bottom = 27.5
+mouse_filter = 1
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="PreSongButton" type="TextureButton" parent="Panel"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -46.5
+margin_top = -2.5
+margin_right = -16.5
+margin_bottom = 27.5
+mouse_filter = 1
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+flip_h = true
+
+[node name="SongProgress" type="ProgressBar" parent="Panel"]
+margin_left = 39.0
+margin_top = 18.0
+margin_right = 210.0
+margin_bottom = 32.0
+rect_scale = Vector2( 1, 0.5 )
+mouse_filter = 1
+value = 50.0
+percent_visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/retract = SubResource( 1 )
