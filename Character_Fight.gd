@@ -3,9 +3,11 @@ extends KinematicBody2D
 export(Resource) var Goat setget _setGoat
 export (PackedScene) var weapon = preload("res://scenes/battles/attack.tscn")
 
+
 ### Scenes ###
 var goat_profile ## actual profile scene
 var fight_scene
+var dirt_particle_scene = load("res://scenes/particles/dirt.tscn")
 var main
 
 ### Nodes ###
@@ -65,6 +67,8 @@ var hovering = false ### when the goat is touching mouse and you bounce wwhile f
 var max_fuel = 100
 var fuel = 0 ## Zero is a full tank, 100 is out of gas
 
+var fall_velocity = 0 ### How fast you are falling to determine landing hardness
+
 onready var animation = $MovementAnimationPlayer
 onready var misc_animation = $MiscAnimation
 onready var fuel_bar = $GoatSprite/Fuel_Bar
@@ -85,6 +89,7 @@ var profile_open = false
 var input_allowed = false
 var alive = true
 var network_active = false
+var on_ground = true
 
 
 ### Aesthetics ###
@@ -94,6 +99,10 @@ onready var weapon_strap = $GoatSprite/weapon_strap
 onready var action_sprite = $GoatSprite/action_sprite
 onready var all_goat_particles = $goat_particles
 onready var boost_particles = $GoatSprite/BoostParticles
+onready var particle_walk_r = $goat_particles/ParticleWalkR
+onready var particle_walk_l = $goat_particles/ParticleWalkL
+
+
 
 var goat_particles
 var goat_horns
@@ -115,7 +124,7 @@ onready var network_tween = $NetworkTween
 
 ### Energy ###
 var energy_rate = 720 ### 720 min to get to full 100 energy (12 hours)
-var next_energy_time = {}
+var next_energy_time = 0
 var max_energy_time = {}
 
 
@@ -190,12 +199,17 @@ func get_input():
 		
 #		GlobalCamera.zoom = Vector2(.3,.3)
 	
+	
 	if Input.is_action_pressed("ui_right") and not Input.is_action_pressed("boost"):
 		move_right()
 	elif Input.is_action_pressed("ui_left") and not Input.is_action_pressed("boost"):
 		move_left()
 	else:
 		sprite.playing = false
+		particle_walk_l.emitting = false
+		particle_walk_r.emitting = false
+#		particle_walk_r.hide()
+#		particle_walk_l.hide()
 		
 	if Input.is_action_pressed("left_click") and attack_ready:
 		attack()
@@ -211,15 +225,19 @@ func get_input():
 		jumping = false
 		
 	if Input.is_action_just_pressed("jump"):
+		
 #		jumping = true
 		if raycast.is_colliding():
 			jump_count = 0
 		if jump_count < 2:
+			AUDIO.play("jump")
 			jump_count += 1
 			velocity.y = -jump_speed
 			if facing == "right" and jump_count == 2:
+				AUDIO.play("spin")
 				animation.play("flip")
 			elif facing == "left" and jump_count == 2:
+				AUDIO.play("spin")
 				animation.play("flip backward")
 			yield(animation,"animation_finished")
 			jumping = false
@@ -252,6 +270,8 @@ func get_input():
 			boost_particles.hide()
 			out_of_fuel()
 			return
+			
+		if AUDIO.boosting == false: AUDIO.play("boost")
 		
 		var mouse = get_global_mouse_position()
 		if mouse.distance_to(self.position) < 40: 
@@ -305,6 +325,17 @@ func move_right():
 	headgear.flip_h = true
 	weapon_strap.flip_h = false
 	
+	if on_ground:
+		particle_walk_r.emitting = true
+#		particle_walk_r.show()
+		particle_walk_l.emitting = false
+#		particle_walk_l.hide()	
+	else:
+#		particle_walk_r.hide()
+#		particle_walk_l.hide()
+		particle_walk_l.emitting = false
+		particle_walk_r.emitting = false
+	
 func move_left():
 	velocity.x = -(speed * (goat_dex/20 + .95))
 	facing = "left"
@@ -313,10 +344,22 @@ func move_left():
 	fuel_bar.rect_scale = Vector2(-1,1)
 	headgear.position = Vector2(-14,-22)
 	headgear.flip_h = false
-	weapon_strap.flip_h = true		
+	weapon_strap.flip_h = true
 	
+	if on_ground:
+#		particle_walk_r.hide()
+		particle_walk_r.emitting = false
+#		particle_walk_l.show()
+		particle_walk_l.emitting = true
+	else:
+#		particle_walk_r.hide()
+#		particle_walk_l.hide()
+		particle_walk_l.emitting = false
+		particle_walk_r.emitting = false
+		
 func out_of_fuel():
 #	if flying == false:return
+	if is_instance_valid(AUDIO.boost_node): AUDIO.boost_node.stop()
 	flying = false
 	hovering = false
 	var mouse = get_global_mouse_position()
@@ -346,6 +389,7 @@ func out_of_fuel():
 	
 func _process(delta):	
 	if not alive: return
+
 	
 	if Global.multiplayer_active: ### If this is another player
 		if not is_network_master():
@@ -355,6 +399,20 @@ func _process(delta):
 	### Energy ###		
 	if not in_fight and not in_training:
 		pass		
+		
+	if raycast.is_colliding():
+		if "Ground" or "Dirt" in str(raycast.get_collider()) and on_ground == false:
+			on_ground = true
+			if fall_velocity >= 800:
+				AUDIO.play("thud")
+				var scene = dirt_particle_scene.instance()
+				add_child(scene)
+				scene.emitting = true
+			fall_velocity = 0
+	else:
+		if velocity.y > fall_velocity:
+			fall_velocity = velocity.y
+		on_ground = false
 		
 	### Aesthetics ###
 #	if not raycast3.is_colliding():
@@ -622,9 +680,10 @@ func weapon_hit_player(damage):
 		if Global.armor != 0:
 			get_tree().call_group("armor","lose_heart")
 			Global.armor -= 1
+			AUDIO.play("armor_hit")
 		elif Global.armor == 0:
 			get_tree().call_group("heart","lose_heart")
-	
+			AUDIO.play("hurt")
 
 	if goat_current_health <= 0 and alive:
 		death()
@@ -719,6 +778,7 @@ func select_goat():
 	get_tree().call_group("hud_goat","unselect",self)
 	misc_animation.stop()
 	misc_animation.play("cursor")
+	AUDIO.play("bubble_select")
 	
 	if in_training_area:
 		main.animation.play("fog",-1,3)
@@ -804,19 +864,16 @@ func calc_max_energy():
 		time_hour -= 24
 		time_day += 1
 	
+	### Take this out later ###
 	max_energy_time = {"day":time_day,"hour":time_hour,"minute":time_minute,"second":time_second}	
-	
-	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
-	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
-	print("Remaining Date/Time is: ", "Hour:", hours, " Minute:", minutes, " Second:", seconds )
-	
-	## When is the next energy? ##
-	var next_min = floor(energy_rate/100.0) 
-	var next_second = (energy_rate/100.00 - next_min) * 60
-	print("Energy Takes: ", next_min, " Minutes and ", next_second, " Seconds")
 
+	check_energy_add()
 	
 func check_energy_add():
+	if max_energy_time == {}: 
+		push_error("Check_energy_add went wrong in character_fight.gd")
+		return
+	
 	var time_second = max_energy_time["second"] - HUD.second
 	var time_minute = max_energy_time["minute"] - HUD.minute
 	var time_hour = max_energy_time["hour"] - HUD.hour
@@ -838,15 +895,27 @@ func check_energy_add():
 	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
 	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
 	print("Remaining Date/Time is: ", "Hour:", time_hour, " Minute:", time_minute, " Second:", time_second )
-	
-	
+
+
 	var local_time_left = (time_hour*60) + time_minute + (time_second/float(60))
-	goat_current_energy = 100-(local_time_left/energy_rate*100)
-	print(energy_rate, "/" , local_time_left)
+	if local_time_left < 0: local_time_left = 0
+	
+#	goat_current_energy = floor(100-(local_time_left/energy_rate*100))
+#	var next_energy_percent = 100-(local_time_left/energy_rate*100) - floor(100-(local_time_left/energy_rate*100))
+#	print(next_energy_percent, " ", energy_rate )
+#	next_energy_time = next_energy_percent * energy_rate
+	
+	if goat_current_energy > goat_max_energy:
+		goat_current_energy = goat_max_energy
+		
+	
+#	print(energy_rate, "/" , local_time_left)
 	print("current energy ", goat_current_energy)
+#	print("next energy in: ", next_energy_time)
 	
 
 func _on_energy_timer_finishsed():
 	print("timer is done")
 	goat_current_energy += 1
 	
+
