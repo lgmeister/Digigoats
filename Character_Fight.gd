@@ -227,7 +227,7 @@ func get_input():
 	if Input.is_action_just_pressed("jump"):
 		
 #		jumping = true
-		if raycast.is_colliding():
+		if raycast.is_colliding() or raycast2.is_colliding() or raycast3.is_colliding():
 			jump_count = 0
 		if jump_count < 2:
 			AUDIO.play("jump")
@@ -290,8 +290,8 @@ func get_input():
 		sprite.frame = 0
 		boost_particles.show()
 		self.look_at(mouse)
-		velocity.x = -boost_vector.x * speed * 2
-		velocity.y = -boost_vector.y * speed * 2
+		velocity.x = -boost_vector.x * speed * 2 * happiness_factor()
+		velocity.y = -boost_vector.y * speed * 2 * happiness_factor()
 		
 		if mouse.x - position.x < 0:
 			facing = "left"
@@ -316,7 +316,8 @@ func get_input():
 		out_of_fuel()
 		
 func move_right():
-	velocity.x = speed * (goat_dex/20 + .95) ### Speed * Goat Dexterity
+	velocity.x = speed * (goat_dex/20 + .95) * happiness_factor() ### Speed * Goat Dexterity
+
 	facing = "right"
 	sprite.playing = true
 	sprite.animation = "walk_right"
@@ -337,7 +338,8 @@ func move_right():
 		particle_walk_r.emitting = false
 	
 func move_left():
-	velocity.x = -(speed * (goat_dex/20 + .95))
+	velocity.x = -(speed * (goat_dex/20 + .95) * happiness_factor())
+
 	facing = "left"
 	sprite.playing = true
 	sprite.animation = "walk_left"
@@ -400,8 +402,11 @@ func _process(delta):
 	if not in_fight and not in_training:
 		pass		
 		
-	if raycast.is_colliding():
-		if "Ground" or "Dirt" in str(raycast.get_collider()) and on_ground == false:
+	if raycast.is_colliding() or raycast2.is_colliding() or raycast3.is_colliding():
+		if "Ground" or "Dirt" in str(raycast.get_collider())\
+		or "Ground" or "Dirt" in str(raycast2.get_collider())\
+		or "Ground" or "Dirt" in str(raycast3.get_collider())\
+		and on_ground == false:
 			on_ground = true
 			if fall_velocity >= 800:
 				AUDIO.play("thud")
@@ -918,4 +923,15 @@ func _on_energy_timer_finishsed():
 	print("timer is done")
 	goat_current_energy += 1
 	
+func warp_out():
+	animation.play("warp_out")
+	AUDIO.play("warp_out")
+	action_sprite_func("hide")
+	
+func happiness_factor():
+	var happiness = 1
+	if goat_current_happiness < 70:
+		happiness = goat_current_happiness/float(70)
+		if happiness <= .3: happiness = .3	
+		return happiness
 
