@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/earring.csv-ff43c25581122d622adb8672f93219a0.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_one/earring.csv"
+dest_files=[ "res://.import/earring.csv-ff43c25581122d622adb8672f93219a0.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

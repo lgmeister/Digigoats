@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/rarity_zero.csv-f4e4ddd6e837be1ab7bd7e609fc0c10d.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_zero/rarity_zero.csv"
+dest_files=[ "res://.import/rarity_zero.csv-f4e4ddd6e837be1ab7bd7e609fc0c10d.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

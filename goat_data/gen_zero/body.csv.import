@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/body.csv-3221982176d5522589440d984183bd97.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_zero/body.csv"
+dest_files=[ "res://.import/body.csv-3221982176d5522589440d984183bd97.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

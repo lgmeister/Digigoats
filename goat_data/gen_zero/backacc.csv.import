@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/backacc.csv-e7004063b82479f6722bf2db89513d9c.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_zero/backacc.csv"
+dest_files=[ "res://.import/backacc.csv-e7004063b82479f6722bf2db89513d9c.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

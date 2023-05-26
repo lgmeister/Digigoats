@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/rarity_order.csv-222f877139635e7f9ea4e49763645c32.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_one/rarity_order.csv"
+dest_files=[ "res://.import/rarity_order.csv-222f877139635e7f9ea4e49763645c32.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

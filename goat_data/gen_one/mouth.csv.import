@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/mouth.csv-627319313cc6ddc144fd47e2afdc5b17.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_one/mouth.csv"
+dest_files=[ "res://.import/mouth.csv-627319313cc6ddc144fd47e2afdc5b17.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

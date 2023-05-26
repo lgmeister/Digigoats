@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/background.csv-ca98b994ee7e4ed78b4c44a14e1dd7e3.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_one/background.csv"
+dest_files=[ "res://.import/background.csv-ca98b994ee7e4ed78b4c44a14e1dd7e3.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

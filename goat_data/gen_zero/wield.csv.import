@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/wield.csv-edfee8b6b72c1f800acb7cc34b6c3a42.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_zero/wield.csv"
+dest_files=[ "res://.import/wield.csv-edfee8b6b72c1f800acb7cc34b6c3a42.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true

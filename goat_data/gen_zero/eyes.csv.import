@@ -1,0 +1,17 @@
+[remap]
+
+importer="com.timothyqiu.godot-csv-importer"
+type="Resource"
+path="res://.import/eyes.csv-6e29da481c85b8a499fe995cc43456aa.res"
+
+[deps]
+
+source_file="res://resources/goat_data/gen_zero/eyes.csv"
+dest_files=[ "res://.import/eyes.csv-6e29da481c85b8a499fe995cc43456aa.res" ]
+
+[params]
+
+delimiter=0
+headers=true
+detect_numbers=false
+force_float=true
