@@ -1,23 +1,26 @@
 extends Control
 
+
+## Nodes ##
 onready var loading = $Loading
 onready var loading_label = $Loading/Label
-onready var security_text = $Security/SecurityLabel
-onready var eye_button = $Security/EyeButton
-onready var security = $Security
-onready var security_check = $SecurityCheck
+onready var security_text = $Frame/Security/SecurityLabel
+onready var eye_button = $Frame/Security/EyeButton
+onready var security = $Frame/Security
+onready var security_check = $Frame/SecurityCheck
 onready var time_remaining = $TimeRemaining
-onready var random_button = $Security/RandomButton
+onready var random_button = $Frame/Security/RandomButton
 onready var check_data_timer = $CheckDataTimer
+onready var openButton = $Frame/OpenButton
+onready var connect_timer = $ConnectTimer
+
+### Scenes ###
+var title_scene
 
 ### Icons ###
 var eye = load("res://visual/GUI/icons/UI/sight.png")
 var eye_dis = load("res://visual/GUI/icons/UI/sight-disabled.png")
 
-
-### Wallet ###
-onready var openButton = $OpenButton
-onready var connect_timer = $ConnectTimer
 
 ### Bools ###
 var connection = false
@@ -270,12 +273,12 @@ func stop_all():
 func custom_data_parser(): ### This should be custom to each game
 	for token in final_data:
 		if "Ergoats" in str(token):
-			Global.raw_token_data.append(str(token.keys()).get_slice("#",1).replace("]",""))	
+			Global.goats_to_load.append(str(token.keys()).get_slice("#",1).replace("]",""))	
 		
-	print(Global.raw_token_data)
 	security.hide()
 	openButton.text = "Sucessfully Bridged"
 	openButton.disabled = true
+	title_scene.load_ingame_goats()
 	Global.MAIN.remove_scene("bridge",2)
 	
 
