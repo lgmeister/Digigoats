@@ -178,6 +178,8 @@ func _ready():
 	yield(get_tree().create_timer(2),"timeout")
 	calc_max_energy()
 	
+	save_goat()
+	
 	######
 		
 
@@ -570,7 +572,6 @@ func _setGoat(newGoat : Resource):
 	goat_name = Goat.get_Name()
 	goat_image = Goat.get_Image()
 	goat_color = Goat.get_Color()
-	goat_weapon = Goat.get_Weapon()
 	goat_current_health = Goat.get_Current_Health()
 	goat_max_health = Goat.get_Max_Health()
 	goat_max_energy = Goat.get_Max_Energy()
@@ -621,10 +622,37 @@ func save_goat():
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
 	
-	print(goat_id, " saved with ", goat_exp," experience")
+#	print(goat_id, " saved with ", goat_exp," experience")
 	
 # warning-ignore:return_value_discarded
 	ResourceSaver.save("res://goats/repo/%s.tres" %goat_id,self.Goat)
+	
+	var weapon_path
+	var armor_path
+	var misc_path
+	var headgear_path
+	
+	if goat_weapon != null:
+		weapon_path = goat_weapon.get_path()
+	if goat_armor != null:
+		armor_path = goat_armor.get_path()
+	if goat_misc != null:
+		misc_path = goat_misc.get_path()
+	if goat_headgear != null:
+		headgear_path = goat_headgear.get_path()
+	
+	var player_data =\
+		{"Weapon":weapon_path, "Armor":armor_path, "Misc":misc_path,
+		"Headgear":headgear_path,"Energy":goat_current_energy,
+		"Happiness":goat_current_happiness, "Health":goat_current_health,
+		"Str":goat_str, "Dex":goat_dex, "Wis": goat_wis, 
+		"Exp": goat_exp, "Next_Exp":goat_next_exp, "Level":goat_level}
+		
+		
+	SilentWolf.Players.post_player_data(goat_id, player_data)
+	
+	
+	
 	### This will need to be set to user:// eventually, and same with loading said goat. or just 
 	### put on server (which is better)
 
@@ -692,6 +720,7 @@ func weapon_hit_player(damage):
 
 	if goat_current_health <= 0 and alive:
 		death()
+		save_goat()
 
 
 func death():
@@ -706,6 +735,9 @@ func death():
 	
 	animation.play("death")
 	HUD.announcement("Defeat","long")
+	AUDIO.stop("game_music")
+	AUDIO.play("goat_death")
+	AUDIO.play("defeat_music")
 	yield(HUD.animation,"animation_finished")
 	get_tree().call_group("attack","queue_free")
 	Global.MAIN.remove_scene("battle",4)
@@ -716,6 +748,8 @@ func death():
 	HUD.set_cursor("normal")
 	GlobalCamera.smoothing_enabled = true
 	HUD.remove_health_bar()
+	HUD.show_HUD_elements(true)
+	AUDIO.resume("music")
 	
 	Global.in_battle = false
 	Global.active_goat.input_allowed = true
@@ -896,10 +930,10 @@ func check_energy_add():
 		time_minute += 60
 
 	
-	print("----------------------------------------")
-	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
-	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
-	print("Remaining Date/Time is: ", "Hour:", time_hour, " Minute:", time_minute, " Second:", time_second )
+#	print("----------------------------------------")
+#	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
+#	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
+#	print("Remaining Date/Time is: ", "Hour:", time_hour, " Minute:", time_minute, " Second:", time_second )
 
 
 	var local_time_left = (time_hour*60) + time_minute + (time_second/float(60))
@@ -915,7 +949,7 @@ func check_energy_add():
 		
 	
 #	print(energy_rate, "/" , local_time_left)
-	print("current energy ", goat_current_energy)
+#	print("current energy ", goat_current_energy)
 #	print("next energy in: ", next_energy_time)
 	
 
@@ -933,5 +967,6 @@ func happiness_factor():
 	if goat_current_happiness < 70:
 		happiness = goat_current_happiness/float(70)
 		if happiness <= .3: happiness = .3	
-		return happiness
+	
+	return happiness
 
