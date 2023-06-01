@@ -608,6 +608,7 @@ func _setGoat(newGoat : Resource):
 	
 
 func save_goat():
+	print("Saving goat ", goat_id)
 	Goat.goat_weapon = goat_weapon
 	Goat.goat_armor = goat_armor
 	Goat.goat_misc = goat_misc
@@ -623,7 +624,8 @@ func save_goat():
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
 	
-#	print(goat_id, " saved with ", goat_exp," experience")
+	print("SAVING GOAT LEVEL ", goat_level)
+	
 	
 # warning-ignore:return_value_discarded
 	ResourceSaver.save("res://goats/repo/%s.tres" %goat_id,self.Goat)
@@ -672,8 +674,39 @@ func load_goat():
 		}
 	sprite.self_modulate = Color(goat_color)
 	
+	
+	yield(SilentWolf.Players.get_player_data(goat_id), "sw_player_data_received")
+	print("Player data: " + str(SilentWolf.Players.player_data))
+	
+	
+	var data = SilentWolf.Players.player_data
+	
+	var weapon_path
+	var armor_path
+	var misc_path
+	var headgear_path
+	
+
+	weapon_path = data["Weapon"]
+	armor_path = data["Armor"]
+	misc_path = data["Misc"]
+	headgear_path = data["Headgear"]
+	
+	goat_current_energy = data["Energy"]
+	goat_current_happiness = data["Happiness"]
+	goat_current_health = data["Health"]
+	goat_str = data["Str"]
+	goat_dex = data["Dex"]
+	goat_wis = data["Wis"]
+	goat_exp = data["Exp"]
+	goat_next_exp = data["Next_Exp"]
+	goat_level = data["Level"]
+		
+
+	
 	if not in_fight and not in_training:
 		HUD.goat_nodes.append(self)
+		
 	
 func load_headgear():
 	if goat_headgear == null:
