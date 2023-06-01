@@ -163,6 +163,7 @@ func _ready():
 
 	
 	if in_fight:
+		print("GOAT HEALTH IS: ", goat_current_health)
 		HUD.add_health_bar(goat_max_health,goat_current_health)
 		if goat_armor != null: HUD.add_armor_bar(int(goat_armor.armor_class))
 		
@@ -671,8 +672,8 @@ func load_goat():
 		}
 	sprite.self_modulate = Color(goat_color)
 	
-	HUD.goat_nodes.append(self)
-	
+	if not in_fight and not in_training:
+		HUD.goat_nodes.append(self)
 	
 func load_headgear():
 	if goat_headgear == null:
@@ -720,6 +721,7 @@ func weapon_hit_player(damage):
 
 	if goat_current_health <= 0 and alive:
 		death()
+		goat_current_health = 1
 		save_goat()
 
 
