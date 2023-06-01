@@ -50,6 +50,7 @@ var music_volume
 var sfx_volume
 
 ### Goat Attributes ###
+var goat_raw = {} ### All data
 var goat_body = {}
 
 #########################
@@ -63,11 +64,11 @@ func load_goat_data():
 
 	for data in gen0.records:
 		goat_body[str(int(data["ID"]))] = data["Body"]
+		goat_raw[str(int(data["ID"]))] = data
 	for data in gen1.records:
 		goat_body[str(int(data["ID"]))] = data["Body"]
-		
-		
 
+	
 func load_settings():
 	var file = File.new()
 	if file.file_exists("user://settings.save"):
@@ -80,6 +81,7 @@ func load_settings():
 		music_volume = -15
 		sfx_volume = -15
 		save_settings()
+		
 		
 func save_settings():
 	var file = File.new()
@@ -111,7 +113,7 @@ func new_goat_resource():
 			if SilentWolf.Players.player_data["Misc"] != null:
 				new_goat.goat_armor = load(SilentWolf.Players.player_data["Misc"])
 				
-		new_goat.image = load("res://goats/images/00576.png")
+		new_goat.image = load("res://goats/images/%s.png" %str(goatID))
 		new_goat.goat_color = goat_color(goat_body[str(int(goatID))])
 
 		# warning-ignore:return_value_discarded
@@ -140,7 +142,7 @@ func goat_color(type):
 	elif type == "Anime Blue": return Color.lightblue
 	elif type == "Barney": return Color.darkmagenta
 	elif type == "Blue Surfer": return Color.darkcyan
-	elif type == "Burgundy": return Color.brown
+	elif type == "Burgundy": return Color.maroon
 	elif type == "Burning Red": return Color.crimson
 	elif type == "Camo Blue": return Color.cornflower
 	elif type == "Dark": return Color.dimgray

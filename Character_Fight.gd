@@ -163,7 +163,6 @@ func _ready():
 
 	
 	if in_fight:
-		print("GOAT HEALTH IS: ", goat_current_health)
 		HUD.add_health_bar(goat_max_health,goat_current_health)
 		if goat_armor != null: HUD.add_armor_bar(int(goat_armor.armor_class))
 		
@@ -211,8 +210,6 @@ func get_input():
 		sprite.playing = false
 		particle_walk_l.emitting = false
 		particle_walk_r.emitting = false
-#		particle_walk_r.hide()
-#		particle_walk_l.hide()
 		
 	if Input.is_action_pressed("left_click") and attack_ready:
 		attack()
@@ -634,6 +631,7 @@ func save_goat():
 	var armor_path
 	var misc_path
 	var headgear_path
+	var inventory_paths = []
 	
 	if goat_weapon != null:
 		weapon_path = goat_weapon.get_path()
@@ -643,13 +641,17 @@ func save_goat():
 		misc_path = goat_misc.get_path()
 	if goat_headgear != null:
 		headgear_path = goat_headgear.get_path()
+	if goat_inventory.size() != 0:
+		for item in goat_inventory:
+			inventory_paths.append(item.get_path())
 	
 	var player_data =\
 		{"Weapon":weapon_path, "Armor":armor_path, "Misc":misc_path,
 		"Headgear":headgear_path,"Energy":goat_current_energy,
 		"Happiness":goat_current_happiness, "Health":goat_current_health,
 		"Str":goat_str, "Dex":goat_dex, "Wis": goat_wis, 
-		"Exp": goat_exp, "Next_Exp":goat_next_exp, "Level":goat_level}
+		"Exp": goat_exp, "Next_Exp":goat_next_exp, "Level":goat_level,
+		"Inventory":inventory_paths}
 		
 		
 	SilentWolf.Players.post_player_data(goat_id, player_data)
@@ -664,7 +666,7 @@ func load_fuel_bar():
 	fuel_bar.value = 0
 		
 	
-func load_goat():
+func load_goat(): ### Find this in Global
 	Global.loaded_goats[goat_id] = {
 		"id":goat_id,
 		"name":goat_name,
@@ -678,19 +680,23 @@ func load_goat():
 	yield(SilentWolf.Players.get_player_data(goat_id), "sw_player_data_received")
 	print("Player data: " + str(SilentWolf.Players.player_data))
 	
-	
 	var data = SilentWolf.Players.player_data
+	
+	if data.size() == 0:
+		print("Nada")
+		return
 	
 	var weapon_path
 	var armor_path
 	var misc_path
 	var headgear_path
+	var inventory_paths
 	
-
-	weapon_path = data["Weapon"]
-	armor_path = data["Armor"]
-	misc_path = data["Misc"]
-	headgear_path = data["Headgear"]
+	if "Weapon" in data: weapon_path = data["Weapon"]
+	if "Armor" in data: armor_path = data["Armor"]
+	if "Misc" in data: misc_path = data["Misc"]
+	if "Headgear" in data: headgear_path = data["Headgear"]
+	if "Inventory" in data: inventory_paths = data["Inventory"]
 	
 	goat_current_energy = data["Energy"]
 	goat_current_happiness = data["Happiness"]
@@ -702,7 +708,14 @@ func load_goat():
 	goat_next_exp = data["Next_Exp"]
 	goat_level = data["Level"]
 		
-
+	if weapon_path != null: goat_weapon = load(weapon_path)
+	if armor_path != null: goat_armor = load(armor_path)
+	if misc_path != null: goat_misc = load(misc_path)
+	if headgear_path != null: goat_headgear = load(headgear_path)
+	
+	if inventory_paths.size() != 0:
+		for item in inventory_paths:
+			goat_inventory.append(load(item))
 	
 	if not in_fight and not in_training:
 		HUD.goat_nodes.append(self)
@@ -944,7 +957,7 @@ func calc_max_energy():
 	check_energy_add()
 	
 func check_energy_add():
-	if max_energy_time == {}: 
+	if max_energy_time.size() == 0: 
 		push_error("Check_energy_add went wrong in character_fight.gd")
 		return
 	
