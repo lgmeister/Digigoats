@@ -3,11 +3,11 @@ extends KinematicBody2D
 export(Resource) var Goat setget _setGoat
 export (PackedScene) var weapon = preload("res://scenes/battles/attack.tscn")
 
-
 ### Scenes ###
 var goat_profile ## actual profile scene
 var fight_scene
 var dirt_particle_scene = load("res://scenes/particles/dirt.tscn")
+var prize_scene = load("res://scenes/main/FloatingPrize.tscn")
 var main
 
 ### Nodes ###
@@ -129,8 +129,13 @@ onready var network_tween = $NetworkTween
 var energy_rate = 720 ### 720 IN MINUTES to get to full 100 energy (12 hours)
 var next_energy_time = 432 ### 720/100*60 IN SECONDS
 
+### Reward ###
+var previous_reward_time = {"year":0,"day":0}
+
 
 func _ready():
+
+	
 	passive_movement_timer.start(rand_range(0,4))
 	add_to_group("player")
 
@@ -157,6 +162,7 @@ func _ready():
 	load_fuel_bar()
 	load_headgear()
 	load_weapon()
+
 	
 	if in_fight:
 		HUD.add_health_bar(goat_max_health,goat_current_health)
@@ -651,9 +657,9 @@ func save_goat():
 		"Str":goat_str, "Dex":goat_dex, "Wis": goat_wis, 
 		"Exp": goat_exp, "Next_Exp":goat_next_exp, "Level":goat_level,
 		"Inventory":inventory_paths,
-		"Time_Saved":time_saved}
+		"Time_Saved":time_saved, "Previous_Reward":previous_reward_time}
 		
-		
+	print("saving previous reward ", previous_reward_time)	
 	SilentWolf.Players.post_player_data(goat_id, player_data)
 	
 	
@@ -683,7 +689,7 @@ func load_goat(): ### Find this in Global
 		"minute":HUD.minute,
 		"second":HUD.second
 	}
-	print("Goat initialized at: ", goat_initial_login)
+#	print("Goat initialized at: ", goat_initial_login)
 	
 	yield(SilentWolf.Players.get_player_data(goat_id), "sw_player_data_received")
 #	print("Player data: " + str(SilentWolf.Players.player_data))
@@ -693,6 +699,9 @@ func load_goat(): ### Find this in Global
 	if data.size() == 0:
 		print("Nada")
 		return
+		
+	if "Previous_Reward" in data:
+		previous_reward_time = data["Previous_Reward"]
 	
 	if "Time_Saved" in data:
 		goat_last_login = data["Time_Saved"]
@@ -733,14 +742,17 @@ func load_goat(): ### Find this in Global
 
 		total_min_diff = (sec_diff/60) + min_diff + (hour_diff*60) + (day_diff*1440)
 		
-#		print("Time Passed in Minutes: ", total_min_diff)
+		print("Time Passed in Minutes: ", total_min_diff)
 #		print("Time passed -",
 #		" Days: ", day_diff,
 #		" Hours: ", hour_diff,
 #		" Minutes: ", min_diff,
 #		" Seconds: ", sec_diff)
 		
+		
+		
 		load_energy(total_min_diff)
+		check_prize(HUD.year,HUD.day_of_year)
 	
 	var weapon_path
 	var armor_path
@@ -1024,3 +1036,18 @@ func _on_EnergyTimer_timeout():
 		
 	if next_energy_time > energy_rate:
 		next_energy_time = energy_rate/100.0*60.0 
+
+func check_prize(year,day_of_year):
+	var day = day_of_year
+	if int(year) > int(previous_reward_time["year"]): ### New year
+		day = day_of_year + 365
+	if int(day) > int(previous_reward_time["day"]):
+		load_prize()
+
+
+func load_prize():
+	print ("loading prize")
+	var scene = prize_scene.instance()
+	scene.position = Vector2(rand_range(-300,2000),rand_range(100,-300))
+	Global.MAIN.add_child(scene)
+	previous_reward_time = {"year":HUD.year,"day":HUD.day_of_year}
