@@ -22,10 +22,15 @@ onready var tween = $Tween
 onready var goat_light = $Light2D
 
 onready var passive_movement_timer = $PassiveMovementTimer
+onready var energy_timer = $EnergyTimer
+
 
 ### Goat info###
 var goat_id
 var goat_name
+
+var goat_initial_login = {}
+var goat_last_login = {}
 
 var goat_current_health
 var goat_max_health
@@ -102,8 +107,6 @@ onready var boost_particles = $GoatSprite/BoostParticles
 onready var particle_walk_r = $goat_particles/ParticleWalkR
 onready var particle_walk_l = $goat_particles/ParticleWalkL
 
-
-
 var goat_particles
 var goat_horns
 var goat_image
@@ -123,16 +126,13 @@ puppet var puppet_velocity = Vector2.ZERO
 onready var network_tween = $NetworkTween
 
 ### Energy ###
-var energy_rate = 720 ### 720 min to get to full 100 energy (12 hours)
-var next_energy_time = 0
-var max_energy_time = {}
-
+var energy_rate = 720 ### 720 IN MINUTES to get to full 100 energy (12 hours)
+var next_energy_time = 432 ### 720/100*60 IN SECONDS
 
 
 func _ready():
 	passive_movement_timer.start(rand_range(0,4))
 	add_to_group("player")
-
 
 	if in_fight or in_training:
 		set_collision_layer_bit(0,false)
@@ -143,24 +143,20 @@ func _ready():
 	else:
 		set_collision_layer_bit(0,true)
 		
-	
 	if in_training:
 		goat_id = Global.training_goat.goat_id
 		input_allowed = true
 	else:
 		if Global.active_goat != null:
 			goat_id = Global.active_goat.goat_id
-			
 
 	self.name = "goat" + goat_id
 	self.Goat = load("res://goats/repo/%s.tres" %goat_id)
 	
 	load_goat()
-	
 	load_fuel_bar()
 	load_headgear()
 	load_weapon()
-
 	
 	if in_fight:
 		HUD.add_health_bar(goat_max_health,goat_current_health)
@@ -176,12 +172,10 @@ func _ready():
 	
 	### TEST ONLY ####
 	yield(get_tree().create_timer(2),"timeout")
-	calc_max_energy()
-	
 	save_goat()
 	
 	######
-		
+	
 
 func get_input():
 	if not input_allowed: return
@@ -605,7 +599,7 @@ func _setGoat(newGoat : Resource):
 	
 
 func save_goat():
-	print("Saving goat ", goat_id)
+	print("Saving goat ", goat_id, " Level: ", goat_level)
 	Goat.goat_weapon = goat_weapon
 	Goat.goat_armor = goat_armor
 	Goat.goat_misc = goat_misc
@@ -620,8 +614,6 @@ func save_goat():
 	Goat.goat_exp = goat_exp
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
-	
-	print("SAVING GOAT LEVEL ", goat_level)
 	
 	
 # warning-ignore:return_value_discarded
@@ -644,6 +636,13 @@ func save_goat():
 	if goat_inventory.size() != 0:
 		for item in goat_inventory:
 			inventory_paths.append(item.get_path())
+			
+	var time_saved = {
+		"day": HUD.day_of_year,
+		"hour": HUD.hour,
+		"minute":HUD.minute,
+		"second":HUD.second
+	}
 	
 	var player_data =\
 		{"Weapon":weapon_path, "Armor":armor_path, "Misc":misc_path,
@@ -651,7 +650,8 @@ func save_goat():
 		"Happiness":goat_current_happiness, "Health":goat_current_health,
 		"Str":goat_str, "Dex":goat_dex, "Wis": goat_wis, 
 		"Exp": goat_exp, "Next_Exp":goat_next_exp, "Level":goat_level,
-		"Inventory":inventory_paths}
+		"Inventory":inventory_paths,
+		"Time_Saved":time_saved}
 		
 		
 	SilentWolf.Players.post_player_data(goat_id, player_data)
@@ -674,17 +674,73 @@ func load_goat(): ### Find this in Global
 		"color":goat_color,
 		"node":self
 		}
+		
 	sprite.self_modulate = Color(goat_color)
 	
+	goat_initial_login = {
+		"day":HUD.day_of_year,
+		"hour":HUD.hour,
+		"minute":HUD.minute,
+		"second":HUD.second
+	}
+	print("Goat initialized at: ", goat_initial_login)
 	
 	yield(SilentWolf.Players.get_player_data(goat_id), "sw_player_data_received")
-	print("Player data: " + str(SilentWolf.Players.player_data))
+#	print("Player data: " + str(SilentWolf.Players.player_data))
 	
 	var data = SilentWolf.Players.player_data
 	
 	if data.size() == 0:
 		print("Nada")
 		return
+	
+	if "Time_Saved" in data:
+		goat_last_login = data["Time_Saved"]
+#		print("Goat last login was: ", goat_last_login)
+		
+		var _year_diff = 0
+		var day_diff = 0
+		var hour_diff = 0
+		var min_diff = 0
+		var sec_diff = 0
+		
+		var total_min_diff ### adding seconds, hours, days, etc
+		
+		if goat_initial_login["day"] - goat_last_login["day"] < 0:
+			day_diff = goat_initial_login["day"] + 365 - goat_last_login["day"]
+			_year_diff -= 1 ### This is never really used
+			push_warning("NEW YEAR")
+		else:
+			day_diff = goat_initial_login["day"] - goat_last_login["day"]
+		
+		if goat_initial_login["hour"] - goat_last_login["hour"] < 0:
+			hour_diff = goat_initial_login["hour"] + 24 - goat_last_login["hour"]
+			day_diff -= 1
+		else:
+			hour_diff = goat_initial_login["hour"] - goat_last_login["hour"]
+		
+		if goat_initial_login["minute"] - goat_last_login["minute"] < 0:
+			min_diff = goat_initial_login["minute"] + 60 - goat_last_login["minute"]
+			hour_diff -= 1
+		else:
+			min_diff = goat_initial_login["minute"] - goat_last_login["minute"]
+		
+		if goat_initial_login["second"] - goat_last_login["second"] < 0:
+			sec_diff = goat_initial_login["second"] + 60 - goat_last_login["second"]
+			min_diff -= 1
+		else:
+			sec_diff = goat_initial_login["second"] - goat_last_login["second"]
+
+		total_min_diff = (sec_diff/60) + min_diff + (hour_diff*60) + (day_diff*1440)
+		
+#		print("Time Passed in Minutes: ", total_min_diff)
+#		print("Time passed -",
+#		" Days: ", day_diff,
+#		" Hours: ", hour_diff,
+#		" Minutes: ", min_diff,
+#		" Seconds: ", sec_diff)
+		
+		load_energy(total_min_diff)
 	
 	var weapon_path
 	var armor_path
@@ -713,7 +769,7 @@ func load_goat(): ### Find this in Global
 	if misc_path != null: goat_misc = load(misc_path)
 	if headgear_path != null: goat_headgear = load(headgear_path)
 	
-	if inventory_paths.size() != 0:
+	if inventory_paths != null:
 		for item in inventory_paths:
 			goat_inventory.append(load(item))
 	
@@ -737,7 +793,22 @@ func load_weapon(): ### aesthtic only
 	else:
 		aesthetic_weapon.texture = goat_weapon.Item_Icon
 		weapon_strap.show()	
-	
+		
+func load_energy(ElapsedMinutes):
+	if ElapsedMinutes > energy_rate:
+		goat_current_energy = goat_max_energy
+		next_energy_time = energy_rate/100.0*60.0 ### /100 energy * 60 seconds per min
+		energy_timer.start(1) 
+	else:
+		var energy_add = stepify(ElapsedMinutes / (energy_rate/100.0), 0.1)
+		goat_current_energy += energy_add
+		print("Adding ", energy_add, " Energy")
+
+		next_energy_time = (energy_rate/100.0*60.0) - (ElapsedMinutes*60.0)
+		
+		energy_timer.start(1)
+#		print("Next energy in: ", next_energy_time/60," minutes")
+		
 func attack():
 	if not in_fight and not in_training: return
 	
@@ -924,86 +995,6 @@ func _on_PassiveMovementTimer_timeout():
 		hold_movement = 0
 	passive_movement_timer.start(rand_range(1,5))
 
-
-func calc_max_energy():
-	if not HUD.clock_running: return
-	
-	var energy_percent = float(goat_current_energy)/float(goat_max_energy)
-	var time_left = energy_rate-energy_percent*energy_rate
-	var hours = floor(time_left/60)
-	var minutes = floor(time_left - (hours * 60))
-	var seconds = (time_left - (hours * 60) - minutes) * 60
-	 
-	
-	var time_second = HUD.second + seconds
-	var time_minute = HUD.minute + minutes
-	var time_hour = HUD.hour + hours
-	var time_day = HUD.day_of_year
-	
-
-	if time_second >= 60:
-		time_second -= 60
-		time_minute += 1
-	if time_minute >= 60:
-		time_minute -= 60
-		time_hour += 1
-	if time_hour >= 24:
-		time_hour -= 24
-		time_day += 1
-	
-	### Take this out later ###
-	max_energy_time = {"day":time_day,"hour":time_hour,"minute":time_minute,"second":time_second}	
-
-	check_energy_add()
-	
-func check_energy_add():
-	if max_energy_time.size() == 0: 
-		push_error("Check_energy_add went wrong in character_fight.gd")
-		return
-	
-	var time_second = max_energy_time["second"] - HUD.second
-	var time_minute = max_energy_time["minute"] - HUD.minute
-	var time_hour = max_energy_time["hour"] - HUD.hour
-	var time_day = max_energy_time["day"] - HUD.day_of_year
-	
-
-	if time_day > 0:
-		time_day -= 1
-		time_hour += 24
-	if time_second < 0:
-		time_minute -=1
-		time_second += 60
-	if time_minute < 0:
-		time_hour -= 1
-		time_minute += 60
-
-	
-#	print("----------------------------------------")
-#	print("Current Date/Time is: ",  "Day:", HUD.day_of_year, " Hour:", HUD.hour, " Minute:",HUD.minute, " Second:", HUD.second )
-#	print("Ending Date/Time is: Day:", max_energy_time["day"], " Hour:", max_energy_time["hour"], " Minute:",max_energy_time["minute"]," Second:", max_energy_time["second"])
-#	print("Remaining Date/Time is: ", "Hour:", time_hour, " Minute:", time_minute, " Second:", time_second )
-
-
-	var local_time_left = (time_hour*60) + time_minute + (time_second/float(60))
-	if local_time_left < 0: local_time_left = 0
-	
-#	goat_current_energy = floor(100-(local_time_left/energy_rate*100))
-#	var next_energy_percent = 100-(local_time_left/energy_rate*100) - floor(100-(local_time_left/energy_rate*100))
-#	print(next_energy_percent, " ", energy_rate )
-#	next_energy_time = next_energy_percent * energy_rate
-	
-	if goat_current_energy > goat_max_energy:
-		goat_current_energy = goat_max_energy
-		
-	
-#	print(energy_rate, "/" , local_time_left)
-#	print("current energy ", goat_current_energy)
-#	print("next energy in: ", next_energy_time)
-	
-
-func _on_energy_timer_finishsed():
-	print("timer is done")
-	goat_current_energy += 1
 	
 func warp_out():
 	animation.play("warp_out")
@@ -1018,3 +1009,18 @@ func happiness_factor():
 	
 	return happiness
 
+func _on_EnergyTimer_timeout():
+	next_energy_time -= 1
+	
+	if next_energy_time <= 0:
+		goat_current_energy += 1
+		if is_instance_valid(Global.MAIN.loaded_scenes["profile"]):
+			Global.MAIN.loaded_scenes["profile"].update_bars("instant")
+		next_energy_time = energy_rate/100.0*60.0 
+		
+		
+	if goat_current_energy > goat_max_energy:
+		goat_current_energy = goat_max_energy
+		
+	if next_energy_time > energy_rate:
+		next_energy_time = energy_rate/100.0*60.0 
