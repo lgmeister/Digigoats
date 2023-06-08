@@ -23,13 +23,13 @@ var game_started = false ## Are we actually in the game?
 ### In Game Misc ###
 var battle_scene = false ### Has the battle scene been instanced? IS THIS NEEDED?
 
-
 var currancy_1 = 999
 var goats_to_load = []
 var NPCs_to_load = ["blacksmith","redhead","rat","brindle","cinder","trainer"]
 var loaded_goats = {}
 
 ### Fights ###
+var wave_loss = 1 ### Which wave did you lose on?
 var minion_deaths = 0
 var armor = 0 
 

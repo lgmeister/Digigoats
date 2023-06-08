@@ -76,7 +76,8 @@ func _input(event):
 			Global.active_goat.goat_light.hide()
 			Global.active_goat.in_underground_area = false
 			AUDIO.change_bus("Master")
-		elif portal_open:
+		elif portal_open: ## battle portal
+			Global.active_goat.action_sprite_func("hide")
 			AUDIO.change_bus("Master")
 			portal_open = false
 			var scene = Global.MAIN.load_scene("battle")
@@ -172,6 +173,8 @@ func open_fight_portal():
 	
 
 func _on_fight_portal_body_entered(body):
+	if Global.in_battle: return
+	AUDIO.play("warp_touch")
 	portal_open = true
 	if "goat" in str(body):
 		Global.active_goat.action_sprite_func("show")		
@@ -180,6 +183,7 @@ func _on_fight_portal_body_entered(body):
 		
 		
 func _on_fight_portal_body_exited(_body):
+	if Global.in_battle: return
 	HUD.tooltip_bot("hide",null)
 	Global.active_goat.action_sprite_func("hide")
 	portal_open = false

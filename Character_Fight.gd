@@ -775,6 +775,7 @@ func load_goat(): ### Find this in Global
 	goat_exp = data["Exp"]
 	goat_next_exp = data["Next_Exp"]
 	goat_level = data["Level"]
+	
 		
 	if weapon_path != null: goat_weapon = load(weapon_path)
 	if armor_path != null: goat_armor = load(armor_path)
@@ -783,6 +784,7 @@ func load_goat(): ### Find this in Global
 	
 	if inventory_paths != null:
 		for item in inventory_paths:
+#			if "fist" in str(inventory_paths): continue
 			goat_inventory.append(load(item))
 	
 	if not in_fight and not in_training:
@@ -884,7 +886,9 @@ func death():
 	
 	Global.in_battle = false
 	Global.active_goat.input_allowed = true
+	Global.input_allowed = true
 	Global.active_goat.global_position = Vector2(rand_range(200,600),300)
+
 	
 	
 func check_collision():
