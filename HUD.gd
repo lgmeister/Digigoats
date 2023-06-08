@@ -2,7 +2,7 @@ extends CanvasLayer
 
 var heart_scene = preload("res://scenes/battles/health_heart.tscn")
 var goat_grid_button = preload("res://scenes/UIUX/GoatButtonHUD.tscn")
-var main
+#var world ### world screen
 
 onready var animation = $AnimationPlayer
 onready var boss_animation = $BossAnimation
@@ -19,6 +19,7 @@ onready var general_pop = $GenPop/GeneralPopupMenu ### used for whatever. Item r
 onready var tween = $Tween
 
 onready var idle_timer = $IdleTimer
+onready var cursor_timer = $CursorTimer
 
 
 ### Tips ###
@@ -37,6 +38,7 @@ var chat_scene = load("res://scenes/network/chat.tscn")
 var clock_running = false
 var stopwatch = 0
 
+var year = 0
 var day_of_year = 0
 var hour = 0
 var minute = 0
@@ -47,15 +49,18 @@ var tooltip_active = false ### Bottom only
 var boss_bar_active = false ## health bar in?
 var bottom_HUD = false
 var menu_open = false
+var escape_menu_open = false
 var middle_button = false
 
 ### Scenes ###
 var chat
+var music_player
 
 ### Nodes ###
 var goat_nodes = [] ### All the local player's goats' nodes 
 
-
+### Misc ###
+var cursor_timeout = 3
 
 func _ready():
 	Http_Request.request("time")
@@ -72,13 +77,18 @@ func _process(delta):
 		second = 0
 		minute += 1
 		stopwatch = -1 
+		get_tree().call_group("player","check_prize",day_of_year,hour,minute,second)
 #		Http_Request.request("time") ## Check every min if clock is accurate (too much??)
-		get_tree().call_group("player","check_energy_add")
 	if minute > 59:
 		minute = 0
 		hour += 1
 	if hour > 23:
 		hour = 0
+		if day_of_year == 365:
+			day_of_year = 1
+			year += 1
+		else: 
+			day_of_year += 1
 	else:
 		second += 1
 		time_label.text = "%02d:%02d:%02d"  % [hour,minute,second]
@@ -86,11 +96,17 @@ func _process(delta):
 
 func _input(event):
 	if event is InputEventKey:
-		if event.is_action_pressed("escape") and tooltip_active:
-			tooltip_bot("hide",null)
+		if event.is_action_released("escape"):
+			if tooltip_active:
+				tooltip_bot("hide",null)
+			elif not escape_menu_open:
+				escape_menu_open = true
+				var scene = Global.MAIN.load_scene("escape_menu")
+				Global.MAIN.add_scene(scene,true)
+		
 			
 	## Quick Choose Goat ##
-	if not Global.in_battle and not Global.goat_in_training and Global.title_finished:
+	if not Global.in_battle and not Global.goat_in_training and Global.game_started:
 		if event.is_action_pressed("quick_1"): 
 			if goat_nodes.size() >= 1:goat_nodes[0].select_goat()
 		elif event.is_action_pressed("quick_2"): 
@@ -111,12 +127,28 @@ func _input(event):
 			if goat_nodes.size() >= 9: goat_nodes[8].select_goat()
 		elif event.is_action_pressed("quick_0"): 
 			if goat_nodes.size() >= 10: goat_nodes[9].select_goat()
+	
+	if event is InputEventMouseButton:
+		set_cursor("normal")
 		
-#	if event is InputEventMouseMotion:	
-#		if event.position.y >= pop_bounds and not bottom_HUD and not middle_button and not Global.in_battle:
-#			slide_in()
-#		if event.position.y < pop_bounds and bottom_HUD:
-#			slide_out()
+		if event.is_action_pressed("left_click"):
+			AUDIO.play("click")
+	
+	if event is InputEventMouse:
+		if Input.mouse_mode == Input.MOUSE_MODE_HIDDEN:
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			cursor_timer.start(cursor_timeout)
+
+
+func load_music():
+	if is_instance_valid(music_player): music_player.queue_free()
+	
+	var scene = Global.MAIN.load_scene("music_player")
+	music_player = scene
+	Global.MAIN.add_scene(scene,true)
+	
+func hide_music_player():
+	if is_instance_valid(music_player): music_player.queue_free()
 
 func load_chat():
 	var scene_instance = chat_scene.instance()
@@ -129,9 +161,9 @@ func load_goat_grid(node):
 	scene.goat_number = goat_grid.get_child_count() + 1
 	goat_grid.add_child(scene)
 	
-func show_goat_grid(choice):
-	if choice: goat_grid.show()
-	else: goat_grid.hide()
+#func show_goat_grid(choice):
+#	if choice: goat_grid.show()
+#	else: goat_grid.hide()
 
 func update_network_info():
 	if Global.multiplayer_active:
@@ -168,7 +200,7 @@ func chat_announcement(message):
 		
 func add_health_bar(max_health,health):
 	var odd = true
-	if health % 2 == 0: odd = false
+	if int(health) % 2 == 0: odd = false
 	var health_range = ceil(float(health)/2)
 
 	for number in range(health_range):
@@ -248,4 +280,22 @@ func set_cursor(type):
 	var cross_cursor = load("res://visual/character/crosshair/convergence-target.png")
 	if type == "normal": Input.set_custom_mouse_cursor(normal_cursor)
 	elif type == "crosshair": Input.set_custom_mouse_cursor(cross_cursor)
+	elif type == "none": Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	
+func show_HUD_elements(status):
+	if not status:
+		tooltip_top("hide",null)
+		time_label.hide()
+		goat_grid.hide()
+		if is_instance_valid(music_player):
+			music_player.hide()
+	else:
+		tooltip_top("currancy",Global.currancy_1)
+		time_label.show()
+		goat_grid.show()
+		if is_instance_valid(music_player):
+			music_player.show()
+	
+
+func _on_CursorTimer_timeout():
+	set_cursor("none")
