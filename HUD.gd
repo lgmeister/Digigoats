@@ -299,4 +299,6 @@ func show_HUD_elements(status):
 	
 
 func _on_CursorTimer_timeout():
+	if Global.in_battle or Global.goat_in_training: return 
+	
 	set_cursor("none")
