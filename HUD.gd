@@ -64,6 +64,7 @@ var cursor_timeout = 3
 
 func _ready():
 	Http_Request.request("time")
+	cursor_timer.start(cursor_timeout)
 	
 func _process(delta):
 	if not clock_running:
