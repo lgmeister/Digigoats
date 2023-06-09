@@ -49,13 +49,7 @@ func _process(_delta):
 			expanded = true
 			
 	if music_playing:
-		var position = AUDIO.music.get_playback_position()
-		song_progress.value = position
-		var minutes = floor(song_progress.value/60)
-		var seconds = (song_progress.value/60 - minutes) * 60
-	
-		song_time.text = str("%01d:%02d") %[minutes,floor(seconds)]
-	
+		update_labels()
 	
 func _input(event):
 	if event.is_action_pressed("left_click") and mouse_in_seek:
@@ -88,14 +82,30 @@ func reset_labels():
 	
 	
 func update_labels():
-	song_progress.value = 0
-	var length = AUDIO.music.stream.get_length()
+	var position = AUDIO.music.get_playback_position()
+	var length = AUDIO.music.get_stream().get_length()
+	
+	song_progress.value = position
 	song_progress.max_value = length
 	
-	var minutes = floor(length/60)
-	var seconds = (length/60 - minutes) * 60
+	var minutes = floor(song_progress.value/60)
+	var seconds = (song_progress.value/60 - minutes) * 60
+
+	song_time.text = str("%01d:%02d") %[minutes,floor(seconds)]
 	
-	song_length.text = str("%01d:%02d") %[minutes,floor(seconds)]
+	var minutes_long = floor(length/60)
+	var seconds_long = (length/60 - minutes_long) * 60
+
+	song_length.text = str("%01d:%02d") %[minutes_long,(seconds_long)]
+	
+#	song_progress.value = 0
+
+	song_progress.max_value = length
+	
+#
+#
+
+	
 
 
 func _on_NextSongButton_pressed():
