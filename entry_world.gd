@@ -94,8 +94,15 @@ func _input(event):
 func title():
 	if Global.title_finished:
 		HUD.animation.play_backwards("black_screen")
+		print("here")
 		return
+	
+	Global.active_goat = null
+	HUD.reset_goat_grid()
+	
+	get_tree().call_group("player", "remove_goat")
 	var scene = Global.MAIN.load_scene("title")
+	print(Global.goats_to_load)
 	Global.MAIN.add_scene(scene,true)
 	Global.title_finished = true
 	animation.play("fog_out")

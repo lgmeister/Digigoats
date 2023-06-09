@@ -156,6 +156,11 @@ func load_chat():
 	chat = scene_instance
 	add_child(scene_instance)
 	
+func reset_goat_grid():
+	goat_nodes = []
+	for node in goat_grid.get_children():
+		node.queue_free()
+	
 func load_goat_grid(node):
 	var scene = goat_grid_button.instance()
 	scene.goat_node = node
