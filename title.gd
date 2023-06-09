@@ -2,12 +2,23 @@ extends Control
 
 onready var animation = $AnimationPlayer
 onready var start_button = $Buttons/Start_Button
+onready var multi_button = $Buttons/Multi_Button
+onready var wallet_button = $Buttons/Wallet_Button
+onready var buttons = $Buttons
+onready var update = $Update
 
+
+var headers = ["X-Master-Key:$2b$10$PpCK9hebSlugKnT4JXEps.4g6t79anBTAEbPB66L0GnsiSzKuGww.","Content-Type:application/json"]
 
 signal start_game
 
 func _ready():
+	buttons.hide()
 	HUD.show_HUD_elements(false)
+	
+	if not check_update(): return
+	
+	
 # warning-ignore:return_value_discarded
 	connect("start_game",GlobalCamera,"_start_game")
 	
@@ -17,7 +28,6 @@ func _ready():
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 # warning-ignore:return_value_discarded
 	get_tree().connect("connected_to_server", self, "_connected_to_server")
-	
 	
 	AUDIO.play("title")
 	
@@ -61,4 +71,34 @@ func _on_Settings_Button_pressed():
 
 func _on_Wallet_Button_pressed():
 	var scene = Global.MAIN.load_scene("bridge")
+	scene.title_scene = self
 	Global.MAIN.add_scene(scene,true)
+	
+func load_ingame_goats(): ### After goats are loaded from wallet
+	Global.new_goat_resource()
+	
+	start_button.show()
+	multi_button.show()
+	wallet_button.hide()
+	
+func check_update():
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.connect("request_completed",self,"_version_check_completed")
+	http_request.request("https://api.jsonbin.io/v3/b/648398b6b89b1e2299ac82e4/latest",headers)
+	
+	
+func _version_check_completed(_result, _response_code, _headers, body):
+	var json = JSON.parse(body.get_string_from_utf8())
+	var version = (json.result["record"]["version"])
+	if version == Global.version:
+		buttons.show()
+		return true
+	else:
+		update.show()
+		return false
+
+
+func _on_updateButton_pressed():
+	OS.shell_open("https://ergoat.com/digigoat")
+
