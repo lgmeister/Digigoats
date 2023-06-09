@@ -16,7 +16,7 @@ func _ready():
 	buttons.hide()
 	HUD.show_HUD_elements(false)
 	
-	if not check_update(): return
+	check_update()
 	
 	
 # warning-ignore:return_value_discarded
@@ -93,12 +93,16 @@ func _version_check_completed(_result, _response_code, _headers, body):
 	var version = (json.result["record"]["version"])
 	if version == Global.version:
 		buttons.show()
-		return true
+		animation.play("goat_up")
+		yield(animation,"animation_finished")
+		animation.play("goat_passive")
 	else:
 		update.show()
-		return false
+
 
 
 func _on_updateButton_pressed():
+# warning-ignore:return_value_discarded
 	OS.shell_open("https://ergoat.com/digigoat")
+	get_tree().quit()
 

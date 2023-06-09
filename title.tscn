@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://scripts/title.gd" type="Script" id=1]
 [ext_resource path="res://fonts/themes/XL_Title.tres" type="Theme" id=2]
@@ -17,6 +17,9 @@
 [ext_resource path="res://visual/GUI/buttons/goat.png" type="Texture" id=15]
 [ext_resource path="res://addons/custom_texture_button/sound_texture_button.gd" type="Script" id=16]
 [ext_resource path="res://visual/GUI/buttons/wallet.png" type="Texture" id=17]
+[ext_resource path="res://addons/my_custom_node/sound_button.gd" type="Script" id=18]
+[ext_resource path="res://visual/GUI/other/redone.png" type="Texture" id=19]
+[ext_resource path="res://visual/GUI/other/blueone.png" type="Texture" id=20]
 
 [sub_resource type="DynamicFont" id=1]
 size = 35
@@ -43,10 +46,103 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "goat_passive"
+length = 8.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("All_Titles/RedGoat:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.7, 4, 6, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 229 ), Vector2( 0, 240 ), Vector2( 0, 229 ), Vector2( 0, 240 ), Vector2( 0, 229 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("All_Titles/BlueGoat:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2.4, 4.5, 6.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 652, 229 ), Vector2( 652, 233 ), Vector2( 652, 229 ), Vector2( 652, 240 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "goat_up"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("All_Titles/RedGoat:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 581 ), Vector2( 0, 229 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("All_Titles/BlueGoat:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 652, 581 ), Vector2( 652, 229 ) ]
+}
+
 [node name="Title" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
+
+[node name="Update" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="update_label" type="Label" parent="Update"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -392.5
+margin_top = -2.0
+margin_right = 392.5
+margin_bottom = 34.0
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.639216, 0.929412, 0.560784, 1 )
+text = "App is out of date. Please download newest version"
+align = 1
+
+[node name="updateButton" type="Button" parent="Update"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -392.5
+margin_top = 38.0
+margin_right = 392.5
+margin_bottom = 74.0
+focus_mode = 0
+theme = SubResource( 2 )
+custom_colors/font_color = Color( 0.639216, 0.929412, 0.560784, 1 )
+text = "https://ergoat.com/digigoat"
+flat = true
+script = ExtResource( 18 )
 
 [node name="All_Titles" type="Control" parent="."]
 anchor_right = 1.0
@@ -107,10 +203,28 @@ theme = SubResource( 2 )
 custom_colors/font_color = Color( 0.929412, 0.560784, 0.560784, 1 )
 text = "V3"
 
+[node name="RedGoat" type="TextureRect" parent="All_Titles"]
+margin_top = 581.0
+margin_right = 371.0
+margin_bottom = 955.0
+texture = ExtResource( 19 )
+expand = true
+stretch_mode = 6
+
+[node name="BlueGoat" type="TextureRect" parent="All_Titles"]
+margin_left = 652.0
+margin_top = 581.0
+margin_right = 1023.0
+margin_bottom = 955.008
+texture = ExtResource( 20 )
+expand = true
+stretch_mode = 6
+
 [node name="Buttons" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -1.0
+mouse_filter = 2
 
 [node name="Start_Button" type="TextureButton" parent="Buttons"]
 visible = false
@@ -252,7 +366,10 @@ script = ExtResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Fade_Title = SubResource( 3 )
+anims/goat_passive = SubResource( 4 )
+anims/goat_up = SubResource( 5 )
 
+[connection signal="pressed" from="Update/updateButton" to="." method="_on_updateButton_pressed"]
 [connection signal="pressed" from="Buttons/Start_Button" to="." method="_on_Start_Button_pressed"]
 [connection signal="pressed" from="Buttons/Wallet_Button" to="." method="_on_Wallet_Button_pressed"]
 [connection signal="pressed" from="Buttons/Multi_Button" to="." method="_on_Multi_Button_pressed"]
