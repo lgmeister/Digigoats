@@ -54,6 +54,7 @@ var goat_headgear
 var goat_misc
 
 var goat_inventory
+var goat_gold
 
 ### Movement ###
 var gravity = 2000
@@ -133,9 +134,7 @@ var next_energy_time = 432 ### 720/100*60 IN SECONDS
 var previous_reward_time = {"year":0,"day":0}
 
 
-func _ready():
-
-	
+func _ready():	
 	passive_movement_timer.start(rand_range(0,4))
 	add_to_group("player")
 
@@ -176,10 +175,16 @@ func _ready():
 		cursor.hide()
 		
 	
+	
+	### REMOVE THIS ###
+	load_prize()
+	load_prize()
+	load_prize()
+	###################
+	
 	### TEST ONLY ####
 	yield(get_tree().create_timer(2),"timeout")
-	save_goat()
-	
+	save_goat()	
 	######
 	
 
@@ -602,6 +607,7 @@ func _setGoat(newGoat : Resource):
 	goat_horns = Goat.get_Horns()
 	
 	goat_inventory = Goat.get_Inventory()
+	goat_gold = Goat.get_Gold()
 	
 
 func save_goat():
@@ -620,6 +626,9 @@ func save_goat():
 	Goat.goat_exp = goat_exp
 	Goat.goat_next_exp = goat_next_exp
 	Goat.goat_level = goat_level
+	
+	Goat.goat_gold = goat_gold
+	print ("saving with ", goat_gold, " goat gold")
 	
 	
 # warning-ignore:return_value_discarded
@@ -657,7 +666,8 @@ func save_goat():
 		"Str":goat_str, "Dex":goat_dex, "Wis": goat_wis, 
 		"Exp": goat_exp, "Next_Exp":goat_next_exp, "Level":goat_level,
 		"Inventory":inventory_paths,
-		"Time_Saved":time_saved, "Previous_Reward":previous_reward_time}
+		"Time_Saved":time_saved, "Previous_Reward":previous_reward_time,
+		"Gold":goat_gold}
 		
 	print("saving previous reward ", previous_reward_time)	
 	SilentWolf.Players.post_player_data(goat_id, player_data)
@@ -775,7 +785,12 @@ func load_goat(): ### Find this in Global
 	goat_exp = data["Exp"]
 	goat_next_exp = data["Next_Exp"]
 	goat_level = data["Level"]
+	goat_gold = data["Gold"]
 	
+	### Add gold to global gold pile ###
+	Global.currancy_1 += goat_gold	
+	print("adding gold " , goat_gold)
+	HUD.tooltip_top("currancy",Global.currancy_1)
 		
 	if weapon_path != null: goat_weapon = load(weapon_path)
 	if armor_path != null: goat_armor = load(armor_path)
@@ -1050,8 +1065,16 @@ func check_prize(year,day_of_year):
 
 
 func load_prize():
-	print ("loading prize")
 	var scene = prize_scene.instance()
+	scene.goat_node = self
 	scene.position = Vector2(rand_range(-300,2000),rand_range(100,-300))
 	Global.MAIN.add_child(scene)
 	previous_reward_time = {"year":HUD.year,"day":HUD.day_of_year}
+	
+func remove_goat():
+	if network_active:
+		if not Network.is_network_master(): return
+		
+	Global.goats_to_load.erase(goat_id)
+	print(goat_id, "   ---   ", Global.goats_to_load)
+	self.queue_free()
