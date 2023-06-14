@@ -117,6 +117,15 @@ func _physics_process(delta):
 		else:
 			sprite.animation = "idle"
 			
+		if raycast_left.is_colliding():
+			if "Dirt" or "Ground" in str(raycast_left.get_collider()):
+				velocity.x = speed
+		elif raycast_right.is_colliding():
+			print(raycast_right.get_collider())
+			if "Dirt" or "Ground" in str(raycast_right.get_collider()):
+				velocity.x = -speed
+				print(raycast_right.get_collider())
+			
 		
 
 func _input(event):
@@ -172,12 +181,7 @@ func _on_emote_area_body_exited(body):
 		if body:
 			pass
 	
-	if raycast_left.is_colliding():
-		if "Dirt" or "Ground" in str(raycast_left.get_collider()):
-			velocity.x = speed
-	elif raycast_right.is_colliding():
-		if "Dirt" or "Ground" in str(raycast_right.get_collider()):
-			velocity.x = -speed
+
 
 
 func _on_DialogButton_pressed():
