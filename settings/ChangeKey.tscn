@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://addons/my_custom_node/sound_button.gd" type="Script" id=1]
+[ext_resource path="res://scripts/settings/ChangeKey.gd" type="Script" id=2]
+[ext_resource path="res://addons/dialogue_manager/example_balloon/Open_Sans/OpenSans-Bold.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=2]
+default_font = SubResource( 1 )
+
+[node name="ChangeKey" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -848.0
+margin_bottom = -578.0
+rect_min_size = Vector2( 176, 22 )
+script = ExtResource( 2 )
+
+[node name="bindingButton" type="Button" parent="."]
+margin_left = 105.0
+margin_right = 167.0
+margin_bottom = 20.0
+focus_mode = 0
+enabled_focus_mode = 0
+script = ExtResource( 1 )
+
+[node name="keyLabel" type="Label" parent="."]
+margin_right = 98.0
+margin_bottom = 21.0
+text = "Move Left:"
+align = 2
+valign = 1
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="."]
+margin_right = 300.0
+margin_bottom = 107.0
+rect_min_size = Vector2( 300, 105 )
+theme = SubResource( 2 )
+popup_exclusive = true
+window_title = ""
+
+[node name="ChangeLetterLabel" type="Label" parent="ConfirmationDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -142.0
+margin_top = -45.5
+margin_right = 142.0
+margin_bottom = 8.5
+text = "A"
+align = 1
+valign = 1
+
+[connection signal="pressed" from="bindingButton" to="." method="_on_bindingButton_pressed"]
+[connection signal="confirmed" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_confirmed"]
+[connection signal="popup_hide" from="ConfirmationDialog" to="." method="_on_ConfirmationDialog_popup_hide"]
